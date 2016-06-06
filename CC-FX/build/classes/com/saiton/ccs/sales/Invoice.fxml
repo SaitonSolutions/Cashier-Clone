@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../res/JMetroLightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.sales.InvoiceController">
+   <children>
+      <StackPane prefHeight="1200.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="900.0" prefWidth="1000.0">
+               <children>
+                  <GridPane prefWidth="1000.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="20.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="80.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="30.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="20.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="29.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="32.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="40.0" minHeight="0.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="5.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="26.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="1145.0" styleClass="header-label" text="Item Details" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.rowIndex="10">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="33.0" prefWidth="962.0" styleClass="header-label" text="Customer Details" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="1132.0" styleClass="header-label" text="Tax Invoice" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="3">
+                           <children>
+                              <Label fx:id="lblInvoiceNo" prefHeight="20.0" prefWidth="73.0" text="Invoice " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <RadioButton fx:id="radioTax" mnemonicParsing="false" onAction="#radioTaxOnAction" prefHeight="22.0" prefWidth="75.0" selected="true" text="Tax">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tax" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="radioNonTax" mnemonicParsing="false" onAction="#radioNonTaxOnAction" prefHeight="22.0" prefWidth="103.0" text="Non Tax" toggleGroup="$tax">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin></RadioButton>
+                              <TextField fx:id="txtInvoiceNo" onKeyReleased="#txtInvoiceNoOnKeyReleased" prefHeight="25.0" prefWidth="120.0" promptText="Invoice No" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="btnInvoiceNoSearch" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnInvoiceSearchOnAction" prefHeight="24.0" prefWidth="24.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnRefresh" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnRefreshOnAction" prefHeight="24.0" prefWidth="24.0">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-refreshNew.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                           <children>
+                              <Label contentDisplay="RIGHT" prefWidth="40.0" text="Date" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></Label>
+                              <TextField fx:id="txtDate" editable="false" prefHeight="25.0" prefWidth="120.0" promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="80.0" text="PO Number" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtPONumber" onKeyReleased="#txtPONumberOnKeyReleased" prefHeight="25.0" prefWidth="112.0" promptText="PO Number" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="120.0" text="PO Date" GridPane.columnIndex="11" GridPane.rowIndex="3">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="dtpPODate" prefWidth="190.0" GridPane.columnIndex="12" GridPane.rowIndex="3" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7">
+                           <children>
+                              <Label prefWidth="70.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="txtCustomerName" onKeyReleased="#txtCustomerNameOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="Name" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="btnNameSearch" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnNameSearchOnAction" prefHeight="24.0" prefWidth="24.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="8">
+                           <children>
+                              <Label prefWidth="70.0" text="Address" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="txtAddress" editable="false" onKeyReleased="#txtAddressOnKeyRelesed" prefWidth="565.0" promptText="Customer Address" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="7">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="100.0" text="Sales Executive" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin></Label>
+                              <TextField fx:id="txtSalesExecutive" editable="false" onKeyReleased="#txtSalesExecutiveOnKeyReleased" prefWidth="210.0" promptText="Sales Executive" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="9" GridPane.columnSpan="5" GridPane.rowIndex="7">
+                           <children>
+                              <Label prefWidth="100.0" text="Warrenty Period" GridPane.columnIndex="10" GridPane.rowIndex="7" />
+                              <TextField fx:id="txtWarrentyPeriod" onKeyReleased="#txtWarrentyCertificateNoOnKeyReleased" prefHeight="25.0" prefWidth="65.0" promptText="Period" GridPane.columnIndex="11" GridPane.rowIndex="7">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <ComboBox fx:id="cmbWarrentyPeriods" prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="12" GridPane.rowIndex="7">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </ComboBox>
+                           </children>
+                           <GridPane.margin>
+                              <Insets left="20.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="9" GridPane.columnSpan="5" GridPane.rowIndex="8">
+                           <children>
+                              <Label prefWidth="100.0" text="Payment Terms" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="cmbPaymentType" maxHeight="-Infinity" prefWidth="230.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets left="20.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="13">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="120.0" text="Item Code" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                              <TextField fx:id="txtItemCode" editable="false" onKeyReleased="#txtItemCodeOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="Item Code" GridPane.columnIndex="2" GridPane.rowIndex="13">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="12">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="120.0" text="Description" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="12" />
+                              <TextField fx:id="txtDescription" onKeyReleased="#txtDescriptionOnKeyReleased" prefHeight="25.0" prefWidth="181.0" promptText="Description" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+                              <Button fx:id="btnItemCodeSearch" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnItemSearchOnAction" prefHeight="24.0" prefWidth="24.0" GridPane.columnIndex="8" GridPane.rowIndex="12">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <GridPane.margin>
+                                    <Insets left="5.0" />
+                                 </GridPane.margin>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="205.0" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="13">
+                           <children>
+                              <CheckBox fx:id="chkUnitPrice" mnemonicParsing="false" onAction="#chkUnitPriceOnAction" prefHeight="25.0" prefWidth="120.0" text="Unit Price">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <TextField fx:id="txtUnitPrice" onKeyReleased="#txtUnitPriceOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="Unit Price" GridPane.columnIndex="6" GridPane.rowIndex="13">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin></TextField>
+                           </children>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="12">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="120.0" text="Discount %" GridPane.columnIndex="10" GridPane.rowIndex="12" />
+                              <TextField fx:id="txtItemDiscount" onKeyReleased="#txtItemDiscountOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="0.0%" GridPane.columnIndex="11" GridPane.rowIndex="12" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="13">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="120.0" text="Quantity" GridPane.columnIndex="5" GridPane.rowIndex="16">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtQuantity" onKeyReleased="#txtQuantityOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="Quantity" GridPane.columnIndex="6" GridPane.rowIndex="16" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </HBox>
+                        <TableView fx:id="tableInvoice" onMouseClicked="#tblItemsOnMouseClicked" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.rowIndex="16" GridPane.rowSpan="5">
+                          <columns>
+                            <TableColumn fx:id="tcItemCode" prefWidth="100.0" text="Item Code" />
+                            <TableColumn fx:id="tcDescription" prefWidth="200.0" text="Description" />
+                              <TableColumn fx:id="tcBatchNo" minWidth="0.0" prefWidth="100.0" text="Batch No" />
+                              <TableColumn fx:id="tcQuantity" prefWidth="100.0" text="Quantity" />
+                              <TableColumn fx:id="tcDiscountPercentage" prefWidth="100.0" text="Discount%" />
+                              <TableColumn fx:id="tcDiscountAmount" minWidth="0.0" prefWidth="150.0" text="Discount Amount" />
+                              <TableColumn fx:id="tcUnitPrice" prefWidth="100.0" text="Unit Price" />
+                              <TableColumn fx:id="tcValue" prefWidth="114.0" text="Value" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="txtTotalAmount" editable="false" promptText="Total Gross Amount" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="22" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <TextField fx:id="txtValueNBT" editable="false" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowIndex="23" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <TextField fx:id="txtValueVAT" editable="false" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowIndex="24" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Label prefHeight="30.0" text="Amount in Words:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="25" />
+                        <TextField fx:id="txtDiscount" editable="false" onKeyReleased="#txtDiscountOnKeyReleased" promptText="0.0%" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowIndex="25" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <TextArea fx:id="txtAreaAmountInWrds" editable="false" prefColumnCount="1" prefHeight="30.0" prefRowCount="1" prefWidth="618.0" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="26" />
+                        <TextField fx:id="txtNetTotal" editable="false" promptText="Total Net Amount" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowIndex="26">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Label text="Total Discount %" GridPane.columnIndex="9" GridPane.columnSpan="3" GridPane.rowIndex="25">
+                           <GridPane.margin>
+                              <Insets left="20.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="30.0" prefWidth="120.0" text="Cancel" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="28">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/img-cancel.png" />
+                                 </image>
+                                 <effect>
+                                    <Lighting>
+                                       <bumpInput>
+                                          <Shadow />
+                                       </bumpInput>
+                                      
+                                    </Lighting>
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <HBox alignment="CENTER_RIGHT" maxHeight="30.0" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="28" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="btnSave" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnActionEvent" prefHeight="30.0" prefWidth="120.0" text="Save" GridPane.columnIndex="5" GridPane.rowIndex="24" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-OK.png" />
+                                       </image>
+                                       <effect>
+                                          <Lighting>
+                                             <bumpInput>
+                                                <Shadow />
+                                             </bumpInput>
+                                             
+                                          </Lighting>
+                                       </effect>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="30.0" prefWidth="120.0" text="Close" GridPane.columnIndex="6" GridPane.rowIndex="24" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../res/img-close.png" />
+                                       </image>
+                                       <effect>
+                                          <Lighting>
+                                             <bumpInput>
+                                                <Shadow />
+                                             </bumpInput>
+                                             
+                                          </Lighting>
+                                       </effect>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="12">
+                           <children>
+                              <Label fx:id="lblBachNo" prefHeight="25.0" prefWidth="120.0" text="Batch No" GridPane.columnIndex="5" GridPane.rowIndex="12" />
+                              <TextField fx:id="txtBatchNo" editable="false" onKeyReleased="#txtBatchNoOnKeyReleased" prefHeight="25.0" prefWidth="210.0" promptText="Batch No" GridPane.columnIndex="6" GridPane.rowIndex="12">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin></TextField>
+                           </children>
+                        </HBox>
+                        <CheckBox fx:id="chkPODetails" alignment="CENTER_RIGHT" maxHeight="24.0" maxWidth="24.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#chkPODetailsOnAction" prefHeight="24.0" prefWidth="24.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets left="30.0" />
+                           </GridPane.margin>
+                        </CheckBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="23">
+                           <children>
+                              <Label prefWidth="60.0" text="NBT">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtNBT" alignment="CENTER_RIGHT" disable="true" prefWidth="100.0" text="2.00" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                           <children>
+                              <Label prefWidth="60.0" text="VAT">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Label>
+      
+                              <TextField fx:id="txtVAT" alignment="CENTER_RIGHT" disable="true" prefWidth="100.0" text="11.00" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
