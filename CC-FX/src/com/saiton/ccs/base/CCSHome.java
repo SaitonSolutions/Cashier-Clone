@@ -32,7 +32,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
-public class IICSHome extends Application implements HomeCallback {
+public class CCSHome extends Application implements HomeCallback {
 
     private final Logger log = Logger.getLogger(this.getClass());
 
@@ -387,33 +387,7 @@ public class IICSHome extends Application implements HomeCallback {
          //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Stock">
 
-//         home.createTileButton("Request \nNote",
-//         TileColors.TILE_COLOR_AQUAMARINE,
-//         "/com/saiton/ihm/res/img-request-note.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/RequestNote.fxml", "Request Note"));
-//         home.createTileButton("Request \nnote \noverview",
-//         TileColors.TILE_COLOR_BLUEVIOLET,
-//         "/com/saiton/ihm/res/img-request-note-overview.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/RequestNoteOverView.fxml",
-//         "Request Note Overview"));
-//       
-//         home.createTileButton("Issue Note",
-//         TileColors.TILE_COLOR_CORAL,
-//         "/com/saiton/ihm/res/img-issue-note.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/IssueNote.fxml", "Issue Note"));
-//         home.createTileButton("Issue Note \nOverview",
-//         TileColors.TILE_COLOR_CYAN,
-//         "/com/saiton/ihm/res/issue-note-overview.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/IssueNoteOverView.fxml",
-//         "Issue Note Overview"));
+
         home.createTileButton("Item \nRegistration",
                 TileColors.TILE_COLOR_DARKCYAN,
                 "/com/saiton/ccs/res/img-item.png",
@@ -421,20 +395,7 @@ public class IICSHome extends Application implements HomeCallback {
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/stock/Items.fxml", "Item Registration"));
 
-//         home.createTileButton("Internal \nGRN",
-//         TileColors.TILE_COLOR_DARKORANGE,
-//         "/com/saiton/ihm/res/img-internal-grn.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/GRNInternal.fxml",
-//         "Internal GRN"));
-//         home.createTileButton("Internal \nGRN \nOverview",
-//         TileColors.TILE_COLOR_DEEPPINK,
-//         "/com/saiton/ihm/res/img-internal-grn-over-view.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/GRNInternalOverView.fxml",
-//         "Internal GRN Overview"));
+
         home.createTileButton("Supplier\nRegistration",
                 TileColors.TILE_COLOR_DODGERBLUE,
                 "/com/saiton/ccs/res/img-supplier-registration.png",
@@ -442,14 +403,6 @@ public class IICSHome extends Application implements HomeCallback {
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/stock/SupplierRegistration.fxml",
                         "Supplier Registration"));
-//
-//         home.createTileButton("Internal \nReturn Note",
-//         TileColors.TILE_COLOR_GOLD,
-//         "/com/saiton/ccs/res/img-internal-return-note.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ccs/stock/InternalReturnNote.fxml",
-//         "Internal Return Note"));
 
          home.createTileButton("Purchase \nOrder \nOverview",
          TileColors.TILE_COLOR_LAWNGREEN,
@@ -499,28 +452,7 @@ public class IICSHome extends Application implements HomeCallback {
          "/com/saiton/ccs/stock/ExternalReturnNoteOverView.fxml",
          "External Return Note Overview"));
 
-//         home.createTileButton("Return \nOverview",
-//         TileColors.TILE_COLOR_TURQUOISE,
-//         "/com/saiton/ihm/res/img-return-overview.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/ReturnOverView.fxml",
-//         "Return Overview"));
-//         home.createTileButton("Stock \nManager",
-//         TileColors.TILE_COLOR_YELLOW,
-//         "/com/saiton/ihm/res/img-stock-manager.png",
-//         FxHome.STOCK_PAGE,
-//         e -> FxmlUiLauncher.launchOnNewStage(
-//         "/com/saiton/ihm/stock/StockManager.fxml",
-//         "Stock Manager"));
-        //            [used]home.createTileButton("UI Title Here", TileColors.TILE_COLOR_LAWNGREEN, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_MAGENTA, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_SPRINGGREEN, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_YELLOW, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_PLUM, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_TURQUOISE, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_PALETURQUOISE, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
-        //            home.createTileButton("UI Title Here", TileColors.TILE_COLOR_PALEGREEN, "/com/saiton/ihm/res/img-hall.png", FxHome.STOCK_PAGE, null);
+
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Left Bar">
         UiPageManager manager = home.getPageManager();
