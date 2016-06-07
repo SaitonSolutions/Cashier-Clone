@@ -103,7 +103,7 @@ private final TilePane settingsTilePane;
         //add title
         leftContentPane.getChildren().add(title.getUiTitle());
 
-        leftPane.getStyleClass().add("dark-blue-background");
+        leftPane.getStyleClass().add("dark-grey-background");
         Image img = new Image(this.getClass().getResourceAsStream(
                 "/com/saiton/ccs/res/img-left-style-top.png"));
         ImageView imgV = new ImageView(img);

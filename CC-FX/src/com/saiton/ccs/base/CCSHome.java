@@ -89,8 +89,8 @@ public class CCSHome extends Application implements HomeCallback {
             System.exit(0);
         }
 
-        log.info("CCS Initiated. " + (ApplicationProperties.getInstance().
-                isFingerAvailable() ? "Finger Print Present" : "No Finger Print"));
+//        log.info("CCS Initiated. " + (ApplicationProperties.getInstance().
+//                isFingerAvailable() ? "Finger Print Present" : "No Finger Print"));
 
         try {
 

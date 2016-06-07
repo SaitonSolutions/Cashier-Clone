@@ -66,6 +66,10 @@
 .dark-blue-background{
     -fx-background-color:#005795;
 }
+
+.dark-grey-background{
+    -fx-background-color:#444444;
+}
 .color-label {
     -fx-padding:5px;
     -fx-border-style: null; 

@@ -20,8 +20,10 @@ public class ConcreteUiTitle extends HBox implements UiTitle{
         setMinSize(FxHome.LEFT_MIN_WIDTH, 90.0);
         setAlignment(Pos.CENTER);
         Image img = new Image(this.getClass().getResourceAsStream("/com/saiton/ccs/res/img-kasper-a.png"));
+//        Image img = new Image(this.getClass().getResourceAsStream("/com/saiton/ccs/res/saiton_Logo.png"));
         imgA = new ImageView(img);
-        img = new Image(this.getClass().getResourceAsStream("/com/saiton/ccs/res/logoKasperTitleNew.png"));
+//        img = new Image(this.getClass().getResourceAsStream("/com/saiton/ccs/res/logoKasperTitleNew.png"));
+        img = new Image(this.getClass().getResourceAsStream("/com/saiton/ccs/res/SaitonlogoTitleNew.png"));
         ImageView imgV = new ImageView(img);
         getChildren().addAll(imgA,imgV);
     }
