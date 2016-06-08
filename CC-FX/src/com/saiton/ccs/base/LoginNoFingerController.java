@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 /**
  * Login Controller
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class LoginNoFingerController extends AnchorPane implements
         StagePassable, LoginAccess {

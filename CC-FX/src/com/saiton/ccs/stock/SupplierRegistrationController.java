@@ -42,7 +42,7 @@ import org.controlsfx.validation.Validator;
 /**
  * FXML Controller class
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class SupplierRegistrationController implements Initializable,
         StagePassable {

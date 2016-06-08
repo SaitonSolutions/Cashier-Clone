@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 /**
  * Common UI Validations
  *
- * @author Bhathi
+ * @author Saiton
  */
 public final class CommonUIValidations {
 

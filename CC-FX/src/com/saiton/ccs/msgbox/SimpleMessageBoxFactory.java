@@ -2,7 +2,7 @@ package com.saiton.ccs.msgbox;
 
 /**
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class SimpleMessageBoxFactory {
 

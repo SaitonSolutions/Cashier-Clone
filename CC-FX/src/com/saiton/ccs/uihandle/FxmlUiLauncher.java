@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 /**
  * simplify UI launching (to be used with Un-decorator)
  *
- * @author Bhathiya Perera
+ * @author Saitonya Perera
  */
 public class FxmlUiLauncher {
 

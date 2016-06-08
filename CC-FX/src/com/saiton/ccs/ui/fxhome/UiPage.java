@@ -5,7 +5,7 @@ import javafx.scene.Node;
 /**
  * An UI Page
  *
- * @author Bhathi
+ * @author Saiton
  */
 public interface UiPage {
 

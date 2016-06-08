@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class TileDescription {
 

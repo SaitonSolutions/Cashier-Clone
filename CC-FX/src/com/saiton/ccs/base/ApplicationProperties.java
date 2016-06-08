@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public final class ApplicationProperties {
 

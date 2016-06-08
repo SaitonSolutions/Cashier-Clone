@@ -5,7 +5,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Page Manager Interface, register and navigate to pages
  *
- * @author Bhathi
+ * @author Saiton
  */
 public interface UiPageManager {
     

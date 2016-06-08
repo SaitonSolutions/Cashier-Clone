@@ -21,7 +21,7 @@ import javafx.util.Duration;
 /**
  * A home UI for JavaFX (handwritten !)
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class FxHome extends AnchorPane {
 

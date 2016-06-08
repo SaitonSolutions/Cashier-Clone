@@ -31,7 +31,7 @@ import org.controlsfx.validation.Validator;
 /**
  * FXML Controller class
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class PrinterRegistrationController extends AnchorPane implements
         Initializable, StagePassable {

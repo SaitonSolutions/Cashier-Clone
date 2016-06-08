@@ -11,7 +11,7 @@ import javafx.stage.StageStyle;
 
 /**
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class GRNExternalOverViewLauncher extends Application {
 
