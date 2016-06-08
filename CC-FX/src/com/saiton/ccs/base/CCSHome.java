@@ -27,6 +27,8 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import org.w3c.dom.NodeList;
 import java.io.File;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -68,6 +70,7 @@ public class CCSHome extends Application implements HomeCallback {
 //</editor-fold>
         stage.setResizable(false);
         stage.initStyle(StageStyle.TRANSPARENT);
+        
         this.stage = stage;
 
         if (ApplicationProperties.getInstance().isInvalid()) {
@@ -513,10 +516,10 @@ public class CCSHome extends Application implements HomeCallback {
     @Override
     public void startHomeUi() {
         FxmlUiLauncher.launchContentReplacement(home,
-                "Avenra: IHMS Dashboard", stage, null,
+                "CCS: Dashboard", stage, null,
                 scene -> {
             scene.lookup("#StageMenu").setVisible(false); // no icon on left
-            scene.lookup("#TitleLabel").setVisible(false); // no title           
+            scene.lookup("#TitleLabel").setVisible(false); // no title                
         });
 
         stage.centerOnScreen();

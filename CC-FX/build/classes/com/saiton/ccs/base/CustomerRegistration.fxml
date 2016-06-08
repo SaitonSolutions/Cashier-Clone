@@ -10,7 +10,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="577.0" maxWidth="907.0" minHeight="510.0" minWidth="830.0" prefHeight="577.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.base.CustomerRegistrationController">
+<AnchorPane id="AnchorPane" maxHeight="577.0" maxWidth="907.0" minHeight="510.0" minWidth="830.0" prefHeight="577.0" prefWidth="907.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.base.CustomerRegistrationController">
   <children>
     <StackPane id="StackPane" prefHeight="577.0" prefWidth="830.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>

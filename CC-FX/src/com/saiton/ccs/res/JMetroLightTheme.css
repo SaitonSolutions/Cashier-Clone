@@ -4,7 +4,8 @@
 */
 
 .background{
-    -fx-background-image:url('img-back.png');
+    /*-fx-background-image:url('img-left-style-top.png');*/
+    -fx-background-color:#ebeded;
 }
 
 .header{

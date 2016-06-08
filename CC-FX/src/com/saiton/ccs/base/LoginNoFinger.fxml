@@ -9,7 +9,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="249.0" minWidth="360.0" prefHeight="249.0" prefWidth="360.0" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.base.LoginNoFingerController">
+<AnchorPane id="AnchorPane" minHeight="249.0" minWidth="360.0" prefHeight="249.0" prefWidth="360.0" snapToPixel="true" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.base.LoginNoFingerController">
     <children>
         <StackPane id="StackPane" maxWidth="350.0" minWidth="350.0" prefHeight="450.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
