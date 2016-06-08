@@ -11,16 +11,33 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-CC-FX/iics.properties
-CC-FX/dist
+/CC-FX/build/
+/CC-FX/dist/
 
-CC-FX/dist/CC-FX.html
+/CC-FX/nbproject/
 
-CC-FX/dist/CC-FX.jnlp
+/CC-FX/nbproject/project.properties
 
-CC-FX/iics.properties
+/CC-FX/nbproject/private/private.xml
+/CC-FX/nbproject/private/private.properties
+/CC-FX/Logs/logger.log
 
-CC-FX/dist/logs
+*.log
 
-CC-FX/Logs/logger.log
+Logs/logger.log
 
+/CC-FX/iics.properties
+/CC-FX/dist
+
+/CC-FX/dist/CC-FX.html
+
+/CC-FX/dist/CC-FX.jnlp
+
+/CC-FX/iics.properties
+
+/CC-FX/dist/logs
+
+/CC-FX/Logs/logger.log
+
+
+/CC-FX/build/built-jar.properties
