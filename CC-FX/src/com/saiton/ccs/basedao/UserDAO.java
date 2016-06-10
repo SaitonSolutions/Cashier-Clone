@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class UserDAO {
 

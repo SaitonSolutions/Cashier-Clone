@@ -2,7 +2,7 @@ package com.saiton.ccs.validations;
 
 /**
  * This interface will be implemented on a validated UI
- * @author Bhathi
+ * @author Saiton
  */
 public interface Validatable {
     /**

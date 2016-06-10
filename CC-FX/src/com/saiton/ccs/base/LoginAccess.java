@@ -2,7 +2,7 @@ package com.saiton.ccs.base;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public interface LoginAccess {
     public void init();

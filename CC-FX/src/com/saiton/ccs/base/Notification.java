@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class Notification {
 

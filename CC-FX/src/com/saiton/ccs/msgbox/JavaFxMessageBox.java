@@ -20,7 +20,7 @@ import org.controlsfx.dialog.Dialogs;
 
 /**
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class JavaFxMessageBox implements MessageBox {
 

@@ -5,7 +5,7 @@ import org.controlsfx.dialog.Dialogs;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class InputDialog {
 

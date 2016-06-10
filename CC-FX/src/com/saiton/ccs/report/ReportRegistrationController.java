@@ -29,7 +29,7 @@ import org.controlsfx.validation.Validator;
 /**
  * FXML Controller class
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class ReportRegistrationController extends AnchorPane implements
         Initializable, StagePassable {

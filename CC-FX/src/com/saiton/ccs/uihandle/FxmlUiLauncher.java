@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 /**
  * simplify UI launching (to be used with Un-decorator)
  *
- * @author Bhathiya Perera
+ * @author Saitonya Perera
  */
 public class FxmlUiLauncher {
 
@@ -292,10 +292,11 @@ public class FxmlUiLauncher {
 
                 Undecorator u = new Undecorator(stage, (Region) Ui);
                 u.getStylesheets().add("skin/undecorator.css");
-
                 Scene scene = new Scene(u);
                 scene.lookup("#StageMenu").setVisible(false);
                 scene.setFill(Color.TRANSPARENT);
+//                Ui.setStyle("-fx-background-color: #cccccc ");
+                
 
                 if (asm != null) {
                     asm.modifyScene(scene);

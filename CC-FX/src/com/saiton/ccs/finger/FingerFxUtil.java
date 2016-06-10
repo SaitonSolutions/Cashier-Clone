@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * Utilities for JavaFX for Finger Print
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class FingerFxUtil {
 

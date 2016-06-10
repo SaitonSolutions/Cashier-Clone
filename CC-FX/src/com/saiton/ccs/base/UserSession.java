@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * User Session : singleton
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public final class UserSession {
 

@@ -6,7 +6,7 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * Page Manager
- * @author Bhathi
+ * @author Saiton
  */
 public class ConcreteUiPageManager implements UiPageManager {
 

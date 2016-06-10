@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Bhathi
+ * @author Saiton
  */
 public interface StagePassable {
     /**

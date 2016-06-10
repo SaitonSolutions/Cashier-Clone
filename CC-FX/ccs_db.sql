@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `ccs_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `ccs_db`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
 --
 -- Host: localhost    Database: ccs_db
 -- ------------------------------------------------------
--- Server version	5.5.44
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -273,9 +273,9 @@ CREATE TABLE `external_return_note` (
   KEY `external_reurn_note_fk1` (`user_id`),
   KEY `external_reurn_note_fk2` (`approve_user_id`),
   KEY `external_reurn_note_fk3_idx` (`supplier_id`),
-  CONSTRAINT `external_reurn_note_fk3` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`sid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `external_reurn_note_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `external_reurn_note_fk2` FOREIGN KEY (`approve_user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `external_reurn_note_fk2` FOREIGN KEY (`approve_user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `external_reurn_note_fk3` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`sid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -442,7 +442,7 @@ CREATE TABLE `invoice_item` (
   KEY `invoice_item_fk2_idx` (`item_id`,`batch_no`),
   CONSTRAINT `invoice_item_fk1` FOREIGN KEY (`inv_no`) REFERENCES `invoice` (`inv_no`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `invoice_item_fk2` FOREIGN KEY (`item_id`, `batch_no`) REFERENCES `item_sub` (`item_id`, `batch_no`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -451,7 +451,6 @@ CREATE TABLE `invoice_item` (
 
 LOCK TABLES `invoice_item` WRITE;
 /*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
-INSERT INTO `invoice_item` VALUES (8,'INT0002','ITM0001','BAT0001','Blender-33560-Samsung-10lt',5,5000,25000,0,0);
 /*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,7 +471,7 @@ CREATE TABLE `item` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_fk2` (`user_id`),
   CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -481,7 +480,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (11,'ITM0001','dfgfdg',-23,'EM0001'),(12,'ITM0002','gfhg',-4,'EM0001');
+INSERT INTO `item` VALUES (13,'ITM0001','Gear Oil',0,'EM0004');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,7 +502,7 @@ CREATE TABLE `item_sub` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_fk1` (`item_id`),
   CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -512,7 +511,7 @@ CREATE TABLE `item_sub` (
 
 LOCK TABLES `item_sub` WRITE;
 /*!40000 ALTER TABLE `item_sub` DISABLE KEYS */;
-INSERT INTO `item_sub` VALUES (12,'ITM0001','BAT0001',-23,5000,0),(13,'ITM0002','BAT0001',-4,400,0);
+INSERT INTO `item_sub` VALUES (14,'ITM0001','BAT0001',0,420,0);
 /*!40000 ALTER TABLE `item_sub` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -538,7 +537,7 @@ CREATE TABLE `notifications` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_notify_notify_idx` (`type`),
   CONSTRAINT `fk_notify_notify` FOREIGN KEY (`type`) REFERENCES `user_notification_type` (`type`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -678,7 +677,7 @@ CREATE TABLE `purchase_order` (
   KEY `purchase_order_fk2` (`supplier_id`),
   CONSTRAINT `purchase_order_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `purchase_order_fk2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`sid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -687,7 +686,6 @@ CREATE TABLE `purchase_order` (
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES (1,'PHS0001','SUP0001','2014-09-19',0,'0','EM0001',NULL,NULL);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -834,7 +832,7 @@ CREATE TABLE `req_note` (
   KEY `req_note_fk2` (`user_id`),
   CONSTRAINT `req_note_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `req_note_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -843,7 +841,6 @@ CREATE TABLE `req_note` (
 
 LOCK TABLES `req_note` WRITE;
 /*!40000 ALTER TABLE `req_note` DISABLE KEYS */;
-INSERT INTO `req_note` VALUES (4,'RQV0001','2014-09-23','Wedding','Banquet',1,1,'EM0001','EM0001','2014-09-23'),(5,'RQV0002','2014-09-24','','Banquet',1,1,'EM0001','EM0001','2014-09-24'),(6,'RQV0003','2014-09-24','test 1','Banquet',1,1,'EM0001','EM0001','2014-09-24'),(7,'RQV0004','2014-09-24','test2','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(8,'RQV0005','2014-09-24','test','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(9,'RQV0006','2014-09-24','test4','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(10,'RQV0007','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(11,'RQV0008','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(12,'RQV0009','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(13,'RQV0010','2014-09-25','Wedding','Banquet',1,1,'EM0001','EM0001','2014-09-25');
 /*!40000 ALTER TABLE `req_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -902,7 +899,7 @@ CREATE TABLE `return_note` (
   KEY `return_note_fk2` (`approve_user_id`),
   CONSTRAINT `return_note_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `return_note_fk2` FOREIGN KEY (`approve_user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -911,7 +908,6 @@ CREATE TABLE `return_note` (
 
 LOCK TABLES `return_note` WRITE;
 /*!40000 ALTER TABLE `return_note` DISABLE KEYS */;
-INSERT INTO `return_note` VALUES (1,'IRN0001','Banquet','2014-09-24','bad goods',1,'EM0001','EM0001','2014-09-24',1),(2,'IRN0002','Banquet','2014-10-16','',0,'EM0001',NULL,NULL,0);
 /*!40000 ALTER TABLE `return_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1188,7 +1184,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'EM0001','Mr.','Kasun Dissanayake','kasun','Zmngf1gIHzA=',NULL,'Ultra User','Administrator',0),(8,'EM0004','Mr.','Kasper','saiton','3CRO+GzZlkI=',NULL,'Manager','Administrator',0);
+INSERT INTO `user` VALUES (8,'EM0004','Mr.','admin','admin','3CRO+GzZlkI=',NULL,'Manager','Administrator',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1241,6 +1237,7 @@ CREATE TABLE `user_notifications` (
 
 LOCK TABLES `user_notifications` WRITE;
 /*!40000 ALTER TABLE `user_notifications` DISABLE KEYS */;
+INSERT INTO `user_notifications` VALUES ('EM0004','Stock',0);
 /*!40000 ALTER TABLE `user_notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1359,4 +1356,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-10  0:11:42
+-- Dump completed on 2016-06-08 14:09:46

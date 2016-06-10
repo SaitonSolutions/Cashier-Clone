@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 /**
  * Batch
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class Batch {
 

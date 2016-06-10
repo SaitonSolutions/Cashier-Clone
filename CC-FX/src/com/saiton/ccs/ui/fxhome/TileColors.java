@@ -3,7 +3,7 @@ package com.saiton.ccs.ui.fxhome;
 /**
  * A utility class containing only tile colors
  *
- * @author Bhathi
+ * @author Saiton
  */
 public class TileColors {
 

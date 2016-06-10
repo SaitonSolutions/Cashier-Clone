@@ -1,13 +1,11 @@
 /* 
     Document    : JMetroLightTheme
-    Created on  : Oct 16, 2012, 6:28:59 PM
-    Author      : Pedro Duque Vieira
-    Modified by : Bhathiya Perera
     Description : Light Metro style sheet for use in JavaFX applications
 */
 
 .background{
-    -fx-background-image:url('img-back.png');
+    /*-fx-background-image:url('img-left-style-top.png');*/
+    -fx-background-color:#ebeded;
 }
 
 .header{
@@ -31,7 +29,7 @@
 
 /*******************************************************************************
  *                                                                             *
- * Custom Styles  : Bhathiya                                                   *
+ * Custom Styles  : Saiton                                                *
  *                                                                             *
  ******************************************************************************/
 .just-a-border{
@@ -75,7 +73,7 @@
     -fx-border-style: null; 
     -fx-background-radius: 0;
 
-    -fx-background-color: #dddddd;
+    -fx-background-color: #cccccc;
   
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
@@ -1063,7 +1061,7 @@
 }
 
 .scroll-bar .decrement-button:pressed .decrement-arrow {
-    -fx-background-color: white, white;
+        -fx-background-color: white, white;
 }
 
 .scroll-bar:disabled {

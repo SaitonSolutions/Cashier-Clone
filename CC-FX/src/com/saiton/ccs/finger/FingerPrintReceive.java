@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public interface FingerPrintReceive {
 

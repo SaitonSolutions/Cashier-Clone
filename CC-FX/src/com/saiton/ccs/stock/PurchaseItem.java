@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 /**
  * PurchaseItem
  *
- * @author Bhathiya
+ * @author Saitonya
  */
 public class PurchaseItem {
 
