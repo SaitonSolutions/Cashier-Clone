@@ -6,6 +6,9 @@
 .background{
     /*-fx-background-image:url('img-left-style-top.png');*/
     -fx-background-color:#ebeded;
+	-fx-border-color:#ebeded;
+	-fx-outer-border:#ebeded;
+	-fx-inner-border:#ebeded;
 }
 
 .header{
@@ -34,7 +37,7 @@
  ******************************************************************************/
 .just-a-border{
     -fx-border-width: 1px;
-    -fx-border-color: rgba(0,0,0,0.5) ;
+    -fx-border-color: rgba(0,0,0,0.5);
 }
 .error{
     -fx-background-color:#ffcccc;

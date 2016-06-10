@@ -36,6 +36,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -56,7 +57,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         Validatable, StagePassable {
 
     //<editor-fold defaultstate="collapsed" desc="initcomponents">
-    @FXML
     private TableColumn<Item, String> tcPrice;
 
     @FXML
@@ -84,7 +84,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TextField txtItemId;
 
     @FXML
-    private TextField txtItemName;
+    private TextArea txtItemName;
 
     @FXML
     private Button btnClose;
@@ -104,7 +104,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private Label lblItemId11;
 
-    @FXML
     private TextField txtPrice;
 
     @FXML
@@ -150,6 +149,61 @@ public class ItemsController extends AnchorPane implements Initializable,
             observableArrayList();
     private ItemInfoPopup itemPopup = new ItemInfoPopup();
     ObservableList<String> batchNoList;
+    @FXML
+    private TextField txtSellingPrice;
+    @FXML
+    private TableColumn<?, ?> tcPartNo;
+    @FXML
+    private TableColumn<?, ?> tcBuyingPrice;
+    @FXML
+    private TableColumn<?, ?> tcItSellingPrice;
+    @FXML
+    private TableColumn<?, ?> tcQty;
+    @FXML
+    private TableColumn<?, ?> tcMainCategory;
+    @FXML
+    private TableColumn<?, ?> tcSubCategory;
+    @FXML
+    private Label lblItemId111;
+    @FXML
+    private TextField txtPartNo;
+    @FXML
+    private Label lblItemId112;
+    @FXML
+    private TextField txtBuyingPrice;
+    @FXML
+    private Label lblItemId1111;
+    @FXML
+    private TextArea txtItemDescription;
+    @FXML
+    private Label lblItemId12;
+    @FXML
+    private ComboBox<?> cmbMainCategory;
+    @FXML
+    private Button btnMainCategory;
+    @FXML
+    private Label lblItemId121;
+    @FXML
+    private ComboBox<?> cmbSubCategory;
+    @FXML
+    private Button btnSubCategory;
+    @FXML
+    private Label lblItemId13;
+    @FXML
+    private ComboBox<?> cmbBUnit;
+    @FXML
+    private Button btnUnit;
+    @FXML
+    private Label lblItemId11211;
+    @FXML
+    private TextField txtQty;
+    @FXML
+    private Label lblItemId131;
+    @FXML
+    private ComboBox<?> cmbBUnitQty;
+    @FXML
+    private Button btnUnitQty;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -613,7 +667,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
     }
 
-    @FXML
     void txtPriceOnKeyReleased(KeyEvent event) {
         boolean validationSupportResult = false;
         boolean isAvalible = false;
@@ -754,6 +807,58 @@ public class ItemsController extends AnchorPane implements Initializable,
                         !fav.validTableView(tblItemList),
                         ErrorMessages.EmptyListView));
 
+    }
+
+    @FXML
+    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtPartNoOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtSuppliersPriceOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtItemDescriptionKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void cmbMainCategoryNoOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnMainCategoryOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void cmbSubCategoryNoOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnSubCategoryOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void cmbBUnitOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnUnitOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void txtQtyOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void cmbBUnitQtyOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnUnitQtyOnAction(ActionEvent event) {
     }
 
     public class Item {
