@@ -51,16 +51,86 @@ import org.controlsfx.validation.ValidationSupport;
 /**
  * FXML Controller class
  *
- * @author MewanZ
+ * @author
  */
 public class ItemsController extends AnchorPane implements Initializable,
         Validatable, StagePassable {
 
     //<editor-fold defaultstate="collapsed" desc="initcomponents">
-    private TableColumn<Item, String> tcPrice;
+    //<editor-fold defaultstate="collapsed" desc="TextFields">
+    @FXML
+    private TextField txtItemId;
 
     @FXML
+    private TextArea txtItemName;
+
+    @FXML
+    private TextField txtUserId;
+
+    @FXML
+    private TextField txtPartNo;
+    @FXML
+    private TextField txtBuyingPrice;
+    @FXML
+    private TextArea txtItemDescription;
+
+    @FXML
+    private TextField txtQty;
+    
+    @FXML
+    private TextField txtSellingPrice;
+
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Comboboxes">
+    @FXML
+    private ComboBox<String> cmbBatchNo;
+
+    @FXML
+    private ComboBox<?> cmbMainCategory;
+
+    @FXML
+    private ComboBox<?> cmbSubCategory;
+
+    @FXML
+    private ComboBox<?> cmbBUnit;
+    @FXML
+    private ComboBox<?> cmbBUnitQty;
+
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Labels">
+    @FXML
+    private Label lblItemId;
+    @FXML
     private Label lblItemId1;
+    @FXML
+    private Label lblItemName;
+    @FXML
+    private Label lblUserName;
+    @FXML
+    private Label lblBatchNo;
+    @FXML
+    private Label lblSellingPrice;
+    @FXML
+    private Label lblPartNo;
+    @FXML
+    private Label lblBuyingPrice;
+    @FXML
+    private Label lblItemDescription;
+    @FXML
+    private Label lblMainCategory;
+    @FXML
+    private Label lblSubCategory;
+    @FXML
+    private Label lblUnit;
+    @FXML
+    private Label lblQty;
+    @FXML
+    private Label lblUnitQty;
+
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Buttons">
+    @FXML
+    private Button btnDelete;
 
     @FXML
     private Button btnRefresh;
@@ -69,55 +139,51 @@ public class ItemsController extends AnchorPane implements Initializable,
     private Button btnItemNameSearch;
 
     @FXML
-    private TableColumn<Item, String> tcItemName;
-
-    @FXML
-    private TableView<Item> tblItemList;
-
-    @FXML
-    private Button btnDelete;
-
-    @FXML
-    private TableColumn<Item, String> tcBatchNo;
-
-    @FXML
-    private TextField txtItemId;
-
-    @FXML
-    private TextArea txtItemName;
-
-    @FXML
     private Button btnClose;
-
-    @FXML
-    private TextField txtUserId;
-
-    @FXML
-    private TableColumn<Item, String> tcItemId;
-
-    @FXML
-    private Label lblItemId;
 
     @FXML
     private Button btnSave;
 
     @FXML
-    private Label lblItemId11;
-
-    private TextField txtPrice;
-
-    @FXML
-    private Label lblRequestId;
-
-    @FXML
-    private ComboBox<String> cmbBatchNo;
-
-    @FXML
     private Button btnBatchNo;
 
     @FXML
-    private Label lblItemName;
+    private Button btnMainCategory;
 
+    @FXML
+    private Button btnSubCategory;
+
+    @FXML
+    private Button btnUnit;
+
+    @FXML
+    private Button btnUnitQty;
+
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Table Components">
+    @FXML
+    private TableColumn<Item, String> tcPartNo;
+    @FXML
+    private TableColumn<Item, String> tcItemId;
+    @FXML
+    private TableColumn<Item, String> tcItemName;
+    @FXML
+    private TableColumn<Item, String> tcBatchNo;
+    @FXML
+    private TableColumn<Item, String> tcBuyingPrice;
+    
+    @FXML
+    private TableColumn<Item, String> tcItSellingPrice;
+    @FXML
+    private TableColumn<Item, String> tcQty;
+    @FXML
+    private TableColumn<Item, String> tcMainCategory;
+    @FXML
+    private TableColumn<Item, String> tcSubCategory;
+    @FXML
+    private TableView<Item> tblItemList;
+
+//</editor-fold>
     //</editor-fold> 
     private final ValidationSupport validationSupportTableData
             = new ValidationSupport();
@@ -126,6 +192,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private final FormatAndValidate fav = new FormatAndValidate();
     private MessageBox mb;
     private Stage stageExtra;
+
     Item item = new Item();
     private ObservableList TableItemData = FXCollections.observableArrayList();
     ItemDAO itemDAO = new ItemDAO();
@@ -149,61 +216,6 @@ public class ItemsController extends AnchorPane implements Initializable,
             observableArrayList();
     private ItemInfoPopup itemPopup = new ItemInfoPopup();
     ObservableList<String> batchNoList;
-    @FXML
-    private TextField txtSellingPrice;
-    @FXML
-    private TableColumn<?, ?> tcPartNo;
-    @FXML
-    private TableColumn<?, ?> tcBuyingPrice;
-    @FXML
-    private TableColumn<?, ?> tcItSellingPrice;
-    @FXML
-    private TableColumn<?, ?> tcQty;
-    @FXML
-    private TableColumn<?, ?> tcMainCategory;
-    @FXML
-    private TableColumn<?, ?> tcSubCategory;
-    @FXML
-    private Label lblItemId111;
-    @FXML
-    private TextField txtPartNo;
-    @FXML
-    private Label lblItemId112;
-    @FXML
-    private TextField txtBuyingPrice;
-    @FXML
-    private Label lblItemId1111;
-    @FXML
-    private TextArea txtItemDescription;
-    @FXML
-    private Label lblItemId12;
-    @FXML
-    private ComboBox<?> cmbMainCategory;
-    @FXML
-    private Button btnMainCategory;
-    @FXML
-    private Label lblItemId121;
-    @FXML
-    private ComboBox<?> cmbSubCategory;
-    @FXML
-    private Button btnSubCategory;
-    @FXML
-    private Label lblItemId13;
-    @FXML
-    private ComboBox<?> cmbBUnit;
-    @FXML
-    private Button btnUnit;
-    @FXML
-    private Label lblItemId11211;
-    @FXML
-    private TextField txtQty;
-    @FXML
-    private Label lblItemId131;
-    @FXML
-    private ComboBox<?> cmbBUnitQty;
-    @FXML
-    private Button btnUnitQty;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -214,8 +226,8 @@ public class ItemsController extends AnchorPane implements Initializable,
                 "colItemName"));
         tcBatchNo.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colBatchNo"));
-        tcPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
-                "colPrice"));
+//        tcPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
+//                "colPrice"));
         tblItemList.setItems(TableItemData);
 
         mb = SimpleMessageBoxFactory.createMessageBox();
@@ -230,59 +242,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         cmbBatchNo.setItems(batchNoList);
         cmbBatchNo.getSelectionModel().selectFirst();
 //        btnDelete.setVisible(false);
-    }
-
-    private void loadBatchNoToCombobox(String keyword) {
-
-        ArrayList<ArrayList<String>> itemInfo
-                = new ArrayList<ArrayList<String>>();
-        ArrayList<ArrayList<String>> list = itemDAO.searchItemBatchDetails(
-                keyword);
-
-        if (list != null) {
-
-            for (int i = 0; i < list.size(); i++) {
-
-                itemInfo.add(list.get(i));
-            }
-
-            if (itemInfo != null && itemInfo.size() > 0) {
-                for (int i = 0; i < itemInfo.size(); i++) {
-                    batchNoList.add(itemInfo.get(i).get(0));
-                }
-            }
-            cmbBatchNo.setItems(batchNoList);
-            cmbBatchNo.getSelectionModel().selectFirst();
-
-        }
-        try {
-            if (itemDAO.getPrice(txtItemId.getText(),
-                    cmbBatchNo.getValue().toString()) != null) {
-                txtPrice.setText(itemDAO.getPrice(txtItemId.getText(),
-                        cmbBatchNo.getValue().toString()));
-            }
-        } catch (Exception e) {
-
-        }
-
-    }
-
-    private void loadBatch() {
-        boolean value = false;
-        if (isupdate == false) {
-            batchNoList.clear();
-        }
-        String batch = itemDAO.generateBatchID(txtItemId.getText());
-        for (int i = 0; i < batchNoList.size(); i++) {
-            if (batchNoList.get(i).equals(batch)) {
-                value = true;
-            }
-        }
-        if (value == false) {
-            batchNoList.add(itemDAO.generateBatchID(txtItemId.getText()));
-            cmbBatchNo.getSelectionModel().selectLast();
-        }
-
     }
 
     @Override
@@ -302,7 +261,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         isupdate = false;
         txtItemId.setText(itemDAO.generateID());
         txtItemName.clear();
-        txtPrice.clear();
+        
         loadBatch();
         validatorInitialization();
     }
@@ -314,7 +273,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         batchNoList.clear();
 
-        txtPrice.clear();
+//        txtPrice.clear();
         isupdate = true;
 
         int count = TableItemData.size();
@@ -389,6 +348,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         validatorInitialization();
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Action Events">
     @FXML
     void btnItemNameSearchOnAction(ActionEvent event) {
         itemTableDataLoader(txtItemName.getText());
@@ -402,34 +362,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     void btnRefreshOnAction(ActionEvent event) {
         clearInput();
-    }
-
-    private void itemTableDataLoader(String keyword) {
-
-        itemData.clear();
-        ArrayList<ArrayList<String>> itemInfo
-                = new ArrayList<ArrayList<String>>();
-        ArrayList<ArrayList<String>> list = itemDAO.searchItemDetails(keyword);
-
-        if (list != null) {
-
-            for (int i = 0; i < list.size(); i++) {
-
-                itemInfo.add(list.get(i));
-            }
-
-            if (itemInfo != null && itemInfo.size() > 0) {
-                for (int i = 0; i < itemInfo.size(); i++) {
-
-                    itemPopup = new ItemInfoPopup();
-                    itemPopup.colItemID.setValue(itemInfo.get(i).get(0));
-                    itemPopup.colItemName.setValue(itemInfo.get(i).get(1));
-                    itemData.add(itemPopup);
-                }
-            }
-
-        }
-
     }
 
     @FXML
@@ -617,212 +549,18 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     void cmbBatchNoOnAction(ActionEvent event) {
 
-        try {
-            if (itemDAO.getPrice(txtItemId.getText(),
-                    cmbBatchNo.getValue().toString()) != null) {
-                txtPrice.setText(itemDAO.getPrice(txtItemId.getText(),
-                        cmbBatchNo.getValue().toString()));
-            } else {
-                txtPrice.clear();
-            }
-        } catch (Exception e) {
-            txtPrice.clear();
-        }
+//        try {
+//            if (itemDAO.getPrice(txtItemId.getText(),
+//                    cmbBatchNo.getValue().toString()) != null) {
+//                txtPrice.setText(itemDAO.getPrice(txtItemId.getText(),
+//                        cmbBatchNo.getValue().toString()));
+//            } else {
+//                txtPrice.clear();
+//            }
+//        } catch (Exception e) {
+//            txtPrice.clear();
+//        }
 
-    }
-
-    @FXML
-    void tblRequestNoteListOnMouseClicked(
-            javafx.scene.input.MouseEvent mouseEvent) {
-        try {
-
-            if (mouseEvent.getClickCount() == 2) {
-
-                boolean model = tblItemList.getSelectionModel().isEmpty();
-
-                if (model == false) {
-                    TableItemData.remove(
-                            tblItemList.getSelectionModel().getSelectedIndex());
-
-                }
-                validatorInitialization();
-
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    @FXML
-    void txtItemNameOnKeyReleased(KeyEvent event) {
-        if (txtItemName.getText().length() >= 3) {
-            itemTableDataLoader(txtItemName.getText());
-            itemTable.setItems(itemData);
-            if (!itemData.isEmpty()) {
-                itemPop.show(btnItemNameSearch);
-            }else{
-                itemPop.hide();
-            }
-            validatorInitialization();
-        }
-    }
-
-    void txtPriceOnKeyReleased(KeyEvent event) {
-        boolean validationSupportResult = false;
-        boolean isAvalible = false;
-
-        if (event.getCode() == KeyCode.ENTER) {
-
-            ValidationResult v = validationSupportTableData.
-                    getValidationResult();
-            if (v != null) {
-
-                validationSupportResult = validationSupportTableData.isInvalid();
-                if (validationSupportResult == true) {
-                    mb.ShowMessage(stageExtra, ErrorMessages.MandatoryError,
-                            "Error",
-                            MessageBox.MessageIcon.MSG_ICON_FAIL,
-                            MessageBox.MessageType.MSG_OK);
-
-                } else if (validationSupportResult == false) {
-
-                    if (isupdate == false) {
-
-                        isAvalible = itemDAO.checkingItemNameAvailability(
-                                txtItemName.getText()
-                        );
-
-                        if (isAvalible == false) {
-                            if (tblItemList.getItems().size() != 0) {
-                                int n = tblItemList.getItems().size();
-                                for (int s = 0; s < n; s++) {
-                                    item = (Item) tblItemList.getItems().get(s);
-                                    if ((txtItemId.getText() + cmbBatchNo.
-                                            getValue()).equals(
-                                                    (item.getColItemId() + item.
-                                                    getColBatchNo()))
-                                            && tblItemList.getItems().size() > 0) {
-                                        TableItemData.remove(s);
-                                        n--;
-                                    }
-
-                                    if (txtItemId.getText().equals(
-                                            item.getColItemId())
-                                            && tblItemList.getItems().size() > 0) {
-                                        if (!item.getColItemName().equals(
-                                                txtItemName.getText())) {
-                                            item.setColColItemName(
-                                                    txtItemName.getText());
-                                        }
-                                    }
-
-                                }
-                            }
-
-                            item = new Item();
-                            item.colItemId.setValue(txtItemId.getText());
-                            item.colItemName.setValue(txtItemName.getText());
-                            item.colBatchNo.setValue(
-                                    cmbBatchNo.getValue().toString());
-                            item.colPrice.setValue(txtPrice.getText());
-                            TableItemData.add(item);
-                            no = no + 1;
-                            txtItemId.setText(itemDAO.generateIDOOnDemand(no));
-                            loadBatchNoToCombobox(txtItemId.getText());
-                            txtItemName.clear();
-                            txtPrice.clear();
-
-                        } else {
-                            mb.ShowMessage(stageExtra,
-                                    ErrorMessages.InvalidItemName,
-                                    "Error",
-                                    MessageBox.MessageIcon.MSG_ICON_FAIL,
-                                    MessageBox.MessageType.MSG_OK);
-                        }
-
-                    } else {
-                        if (tblItemList.getItems().size() != 0) {
-                            int n = tblItemList.getItems().size();
-                            for (int s = 0; s < n; s++) {
-                                item = (Item) tblItemList.getItems().get(s);
-                                if ((txtItemId.getText() + cmbBatchNo.getValue()).
-                                        equals(
-                                                (item.getColItemId() + item.
-                                                getColBatchNo()))
-                                        && tblItemList.getItems().size() > 0) {
-                                    TableItemData.remove(s);
-                                    n--;
-                                }
-
-                                if (txtItemId.getText().equals(
-                                        item.getColItemId())
-                                        && tblItemList.getItems().size() > 0) {
-                                    if (!item.getColItemName().equals(
-                                            txtItemName.getText())) {
-                                        item.setColColItemName(
-                                                txtItemName.getText());
-                                    }
-                                }
-                            }
-                        }
-
-                        item = new Item();
-                        item.colItemId.setValue(txtItemId.getText());
-                        item.colItemName.setValue(txtItemName.getText());
-                        item.colBatchNo.setValue(
-                                cmbBatchNo.getValue().toString());
-                        item.colPrice.setValue(txtPrice.getText());
-                        TableItemData.add(item);
-
-                        txtItemId.setText(itemDAO.generateID());
-                        loadBatchNoToCombobox(txtItemId.getText());
-                        txtItemName.clear();
-                        txtPrice.clear();
-
-                        update = true;
-                        btnSave.setVisible(true);
-
-                    }
-
-                }
-            }
-        }
-        validatorInitialization();
-    }
-
-    private void validatorInitialization() {
-
-        validationSupportTableData.registerValidator(txtItemName,
-                new CustomTextFieldValidationImpl(txtItemName,
-                        !fav.validName(txtItemName.getText()),
-                        ErrorMessages.Error));
-
-        validationSupportTableData.registerValidator(txtPrice,
-                new CustomTextFieldValidationImpl(txtPrice,
-                        !fav.chkPrice(txtPrice.getText()),
-                        ErrorMessages.InvalidPrice));
-
-        validationSupportTable.registerValidator(tblItemList,
-                new CustomTableViewValidationImpl(tblItemList,
-                        !fav.validTableView(tblItemList),
-                        ErrorMessages.EmptyListView));
-
-    }
-
-    @FXML
-    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtPartNoOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtSuppliersPriceOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtItemDescriptionKeyReleased(KeyEvent event) {
     }
 
     @FXML
@@ -850,10 +588,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     @FXML
-    private void txtQtyOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
     private void cmbBUnitQtyOnAction(ActionEvent event) {
     }
 
@@ -861,6 +595,58 @@ public class ItemsController extends AnchorPane implements Initializable,
     private void btnUnitQtyOnAction(ActionEvent event) {
     }
 
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Key Events">
+    @FXML
+    private void txtItemNameOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtPartNoOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtSuppliersPriceOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtItemDescriptionKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtQtyOnKeyReleased(KeyEvent event) {
+    }
+
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Mouse Events">
+    @FXML
+    void tblRequestNoteListOnMouseClicked(
+            javafx.scene.input.MouseEvent mouseEvent) {
+        try {
+
+            if (mouseEvent.getClickCount() == 2) {
+
+                boolean model = tblItemList.getSelectionModel().isEmpty();
+
+                if (model == false) {
+                    TableItemData.remove(
+                            tblItemList.getSelectionModel().getSelectedIndex());
+
+                }
+                validatorInitialization();
+
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+//</editor-fold>
+    
     public class Item {
 
         public SimpleStringProperty colItemId = new SimpleStringProperty(
@@ -895,6 +681,106 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     //<editor-fold defaultstate="collapsed" desc="Methods">
+    private void validatorInitialization() {
+
+//        validationSupportTableData.registerValidator(txtItemName,
+//                new CustomTextFieldValidationImpl(txtItemName,
+//                        !fav.validName(txtItemName.getText()),
+//                        ErrorMessages.Error));
+//
+//        validationSupportTableData.registerValidator(txtPrice,
+//                new CustomTextFieldValidationImpl(txtPrice,
+//                        !fav.chkPrice(txtPrice.getText()),
+//                        ErrorMessages.InvalidPrice));
+//
+//        validationSupportTable.registerValidator(tblItemList,
+//                new CustomTableViewValidationImpl(tblItemList,
+//                        !fav.validTableView(tblItemList),
+//                        ErrorMessages.EmptyListView));
+
+    }
+
+    private void itemTableDataLoader(String keyword) {
+
+        itemData.clear();
+        ArrayList<ArrayList<String>> itemInfo
+                = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> list = itemDAO.searchItemDetails(keyword);
+
+        if (list != null) {
+
+            for (int i = 0; i < list.size(); i++) {
+
+                itemInfo.add(list.get(i));
+            }
+
+            if (itemInfo != null && itemInfo.size() > 0) {
+                for (int i = 0; i < itemInfo.size(); i++) {
+
+                    itemPopup = new ItemInfoPopup();
+                    itemPopup.colItemID.setValue(itemInfo.get(i).get(0));
+                    itemPopup.colItemName.setValue(itemInfo.get(i).get(1));
+                    itemData.add(itemPopup);
+                }
+            }
+
+        }
+
+    }
+
+    private void loadBatchNoToCombobox(String keyword) {
+
+        ArrayList<ArrayList<String>> itemInfo
+                = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> list = itemDAO.searchItemBatchDetails(
+                keyword);
+
+        if (list != null) {
+
+            for (int i = 0; i < list.size(); i++) {
+
+                itemInfo.add(list.get(i));
+            }
+
+            if (itemInfo != null && itemInfo.size() > 0) {
+                for (int i = 0; i < itemInfo.size(); i++) {
+                    batchNoList.add(itemInfo.get(i).get(0));
+                }
+            }
+            cmbBatchNo.setItems(batchNoList);
+            cmbBatchNo.getSelectionModel().selectFirst();
+
+        }
+        try {
+//            if (itemDAO.getPrice(txtItemId.getText(),
+//                    cmbBatchNo.getValue().toString()) != null) {
+//                txtPrice.setText(itemDAO.getPrice(txtItemId.getText(),
+//                        cmbBatchNo.getValue().toString()));
+//            }
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    private void loadBatch() {
+        boolean value = false;
+        if (isupdate == false) {
+            batchNoList.clear();
+        }
+        String batch = itemDAO.generateBatchID(txtItemId.getText());
+        for (int i = 0; i < batchNoList.size(); i++) {
+            if (batchNoList.get(i).equals(batch)) {
+                value = true;
+            }
+        }
+        if (value == false) {
+            batchNoList.add(itemDAO.generateBatchID(txtItemId.getText()));
+            cmbBatchNo.getSelectionModel().selectLast();
+        }
+
+    }
+
     private void setUiMode(UiMode uiMode) {
 
         switch (uiMode) {
@@ -968,8 +854,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         btnBatchNo.setDisable(state);
         btnBatchNo.setVisible(!state);
 
-        txtPrice.setDisable(state);
-        txtPrice.setVisible(!state);
+       
 
         tblItemList.setDisable(state);
         tblItemList.setVisible(!state);
@@ -1108,6 +993,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     private void deactivateSearch() {
+
         componentControl.deactivateSearch(lblItemName, txtItemName,
                 btnItemNameSearch,
                 220.00, 0.00);

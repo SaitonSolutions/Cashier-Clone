@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
@@ -59,6 +60,20 @@ public class ComponentControl {
 
     }
 
+      public void deactivateSearch(Label label, TextArea textArea, Button button,
+            Double textFieldPreferedSize, Double buttonPreferedSize) {
+
+        button.setVisible(false);
+        button.setMinWidth(buttonPreferedSize);
+        button.setPrefWidth(buttonPreferedSize);
+//        textArea.setAlignment(Pos.CENTER_LEFT);
+        textArea.setPrefWidth(textFieldPreferedSize);
+        HBox h = new HBox();
+        h.setMargin(label, new Insets(0, 0, 0, 5));
+        textArea.setDisable(true);
+
+    }
+    
     public void deactivateSearch(CheckBox checkbox, TextField textField, Button button,
             Double textFieldPreferedSize, Double buttonPreferedSize) {
 
