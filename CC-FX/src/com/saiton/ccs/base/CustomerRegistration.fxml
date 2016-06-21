@@ -140,12 +140,20 @@
                             </AnchorPane>
                                           <HBox spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="10">
                                              <children>
-                                                <Label prefWidth="100.0" text="VAT No." GridPane.rowIndex="10">
+                                                <Label prefWidth="100.0" text="Customer Type" GridPane.rowIndex="10">
                                                    <HBox.margin>
                                                       <Insets top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtVatNo" prefHeight="25.0" prefWidth="253.0" promptText="VAT Number" />
+                                                <ComboBox fx:id="cmbCusType" maxWidth="1.7976931348623157E308" onAction="#cmbCusTypeOnAction" prefWidth="253.0" promptText="Title">
+                                                   <items>
+                                                      <FXCollections fx:factory="observableArrayList">
+                                                         <String fx:value="Item 1" />
+                                                         <String fx:value="Item 2" />
+                                                         <String fx:value="Item 3" />
+                                                      </FXCollections>
+                                                   </items>
+                                                </ComboBox>
                                              </children>
                                              <GridPane.margin>
                                                 <Insets left="10.0" />
@@ -182,7 +190,7 @@
                     </AnchorPane>
                   </content>
                 </Tab>
-                <Tab fx:id="tabPaneContactInformation" closable="false" text="Contact Information">
+                <Tab fx:id="tabPaneContactInformation" closable="false" text="Other Information">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -315,13 +323,13 @@
                               <children>
                                 <HBox prefHeight="31.0" prefWidth="198.0">
                                   <children>
-                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-label" text="Fax" HBox.hgrow="ALWAYS" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-label" text="Vehicle No" HBox.hgrow="ALWAYS" />
                                   </children>
                                 </HBox>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                   <children>
-                                    <ListView fx:id="lstFax" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#lstFaxOnMouseClicked" prefHeight="200.0" prefWidth="142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <Button id="btnSearch" fx:id="btnRemoveFax" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnRemoveFaxOnAction" prefHeight="24.0" prefWidth="24.0" text="" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                    <ListView fx:id="lstVehicleNo" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#lstFaxOnMouseClicked" prefHeight="200.0" prefWidth="142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button id="btnSearch" fx:id="btnRemoveVehicleNo" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnRemoveVehicleNoxOnAction" prefHeight="24.0" prefWidth="24.0" text="" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                                       <graphic>
                                         <ImageView fitHeight="10.000000178813929" fitWidth="13.333333969116211" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                           <image>
@@ -334,8 +342,8 @@
                                 </AnchorPane>
                                 <HBox prefHeight="49.0" prefWidth="178.0" spacing="3.0">
                                   <children>
-                                    <TextField fx:id="txtFax" onKeyReleased="#txtFaxOnKeyReleased" prefWidth="91.0" promptText="Fax" HBox.hgrow="ALWAYS" />
-                                    <Button id="btnSearch" fx:id="btnAddFax" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnAddFaxOnAction" prefHeight="24.0" prefWidth="24.0" text="">
+                                    <TextField fx:id="txtVehicleNo" onKeyReleased="#txtVehicleNoOnKeyReleased" prefWidth="91.0" promptText="Fax" HBox.hgrow="ALWAYS" />
+                                    <Button id="btnSearch" fx:id="btnAddVehicleNo" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnAddVehicleNoOnAction" prefHeight="24.0" prefWidth="24.0" text="">
                                       <graphic>
                                         <ImageView fitHeight="10.000000178813929" fitWidth="13.333333969116211" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                           <image>
@@ -416,7 +424,7 @@
                      </graphic>
                   </Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="29.0" prefHeight="31.0" prefWidth="851.0" styleClass="header-label" text="Customer Registration" />
-                  <AnchorPane layoutX="27.0" layoutY="78.0" prefHeight="38.0" prefWidth="278.0" />
+                  <AnchorPane layoutX="27.0" layoutY="78.0" prefHeight="38.0" prefWidth="67.0" />
           </children>
           <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
