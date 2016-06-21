@@ -667,7 +667,12 @@ public class ItemDAO {
 
     public boolean additem(String itemId,
             String itemName,
+            double qty,
             String userId,
+            String itemDesc,
+            String partNo,
+            String itemMainCategory,
+            String itemSubCategory,
             String batchNo,
             Double price) {
         String encodedItemId = ESAPI.encoder().
@@ -702,7 +707,15 @@ public class ItemDAO {
                     available = true;
                 }
                 if (available == false) {
-//                    value = insertItems(itemId, itemName, userId);
+                    value = insertItems(
+                            itemId,
+                            itemName,
+                            qty,
+                            userId,
+                            itemDesc,
+                            partNo,
+                            itemMainCategory,
+                            itemSubCategory);
                 }
 
                 String query1
@@ -739,18 +752,17 @@ public class ItemDAO {
 
     public Boolean insertItems(
             String itemId,
-            String itemName,            
+            String itemName,
             double qty,
             String userId,
             String itemDesc,
             String partNo,
             String itemMainCategory,
             String itemSubCategory
-            
     ) {
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
-        String encodedItemName = itemName;        
+        String encodedItemName = itemName;
         double encodedQty = qty;
         String encodeduserId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, userId);
@@ -762,8 +774,7 @@ public class ItemDAO {
                 encodeForSQL(ORACLE_CODEC, itemMainCategory);
         String encodedItemSubCategory = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemSubCategory);
-        
-        
+
         if (star.con == null) {
             log.error("Databse connection failiure.");
             return false;
@@ -772,14 +783,14 @@ public class ItemDAO {
 
                 PreparedStatement ps = star.con.prepareStatement(
                         "INSERT INTO item("
-                                + "`item_id`,"
-                                + " `item_name`,"
-                                + " `qty`,"
-                                + " `user_id`,"
-                                + " `item_description`,"
-                                + " `part_no`,"
-                                + " `item_main_category`,"
-                                + " `item_sub_category`) "
+                        + "`item_id`,"
+                        + " `item_name`,"
+                        + " `qty`,"
+                        + " `user_id`,"
+                        + " `item_description`,"
+                        + " `part_no`,"
+                        + " `item_main_category`,"
+                        + " `item_sub_category`) "
                         + "VALUES(?,?,?,?,?,?,?,?)");
 
                 ps.setString(1, encodedItemId);
@@ -790,7 +801,6 @@ public class ItemDAO {
                 ps.setString(6, encodedPartNo);
                 ps.setString(7, encodedItemMainCategory);
                 ps.setString(8, encodedItemSubCategory);
-            
 
                 int val = ps.executeUpdate();
 
