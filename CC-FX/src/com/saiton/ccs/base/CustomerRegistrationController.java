@@ -1739,6 +1739,10 @@ public class CustomerRegistrationController extends AnchorPane implements
 
     }
 
+    @FXML
+    private void cmbCusTypeOnAction(ActionEvent event) {
+    }
+
 //----------------------------------------------------------------------------------------------------------------------    
 //Classes------------------------------------------------------------------------------------------------------------
     public class Item {
