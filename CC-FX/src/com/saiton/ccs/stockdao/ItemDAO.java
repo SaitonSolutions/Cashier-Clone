@@ -702,7 +702,7 @@ public class ItemDAO {
                     available = true;
                 }
                 if (available == false) {
-                    value = insertItems(itemId, itemName, userId);
+//                    value = insertItems(itemId, itemName, userId);
                 }
 
                 String query1
