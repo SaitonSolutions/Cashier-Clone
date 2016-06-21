@@ -69,7 +69,7 @@ public class CustomerRegistrationDAO {
                     cus_name = r.getString("cus_name");
 //                
                     cus_address = r.getString("cus_address");
-                    cus_Vat = r.getString("vat_no");
+                    cus_Vat = r.getString("cus_type");
                     
                     list.add(cus_id);
                     list.add(cus_title);
@@ -212,7 +212,7 @@ public class CustomerRegistrationDAO {
         } else {
             try {
 
-                PreparedStatement ps = star.con.prepareStatement("insert into customer(cus_id,cus_name,cus_address,cus_title,vat_no) VALUES(?,?,?,?,?)");
+                PreparedStatement ps = star.con.prepareStatement("insert into customer(cus_id,cus_name,cus_address,cus_title,cus_type) VALUES(?,?,?,?,?)");
 
                 ps.setString(1, encodedCusId);
                 ps.setString(2, encodedCusName);
@@ -429,7 +429,7 @@ public class CustomerRegistrationDAO {
 
     public Boolean insertCustomerFaxDetails(
             String cus_id,
-            String fax_no) {
+            String vehicle_no) {
         Integer id = null;
 
         if (star.con == null) {
@@ -438,9 +438,9 @@ public class CustomerRegistrationDAO {
             return null;
         } else {
             try {
-                PreparedStatement ps = star.con.prepareStatement("INSERT INTO customer_fax(cus_id,fax) VALUES(?,?)");
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO customer_vehicle_no(cus_id,vehicle_no) VALUES(?,?)");
                 ps.setString(1, cus_id);
-                ps.setString(2, fax_no);
+                ps.setString(2, vehicle_no);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {
@@ -638,7 +638,7 @@ public class CustomerRegistrationDAO {
     public ArrayList customerFaxLoading(String cus_id) {
 
         String encodedCusId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, cus_id);
-        String fax = null;
+        String vehicle_no = null;
         ArrayList list = new ArrayList();
 
         if (star.con == null) {
@@ -647,7 +647,7 @@ public class CustomerRegistrationDAO {
             return null;
         } else {
             try {
-                String query = "SELECT * FROM customer_fax WHERE cus_id = ? ";
+                String query = "SELECT * FROM customer_vehicle_no WHERE cus_id = ? ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedCusId);
@@ -656,9 +656,9 @@ public class CustomerRegistrationDAO {
 
                 while (r.next()) {
 
-                    fax = r.getString("fax");
+                    vehicle_no = r.getString("vehicle_no");
 
-                    list.add(fax);
+                    list.add(vehicle_no);
 
                 }
 
@@ -876,7 +876,7 @@ public class CustomerRegistrationDAO {
         } else {
             try {
 
-                String query = "DELETE FROM customer_fax WHERE cus_id= ? ";
+                String query = "DELETE FROM customer_vehicle_no WHERE cus_id= ? ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedCusId);
@@ -971,7 +971,7 @@ public class CustomerRegistrationDAO {
   //      String cus_id_type = null;
   //      String cus_dob = null;
   //      String cus_profession = null;
-        String cus_vat = null;
+        String cus_type = null;
         
         ArrayList<String> list = new ArrayList<>();
 
@@ -1001,7 +1001,7 @@ public class CustomerRegistrationDAO {
        //             cus_nationality = r.getString("customer.cus_nationality");
        //             cus_dob = r.getString("customer.cus_dob");
         //            cus_profession = r.getString("profession.profession");
-                    cus_vat = r.getString("vat_no");
+                    cus_type = r.getString("cus_type");
 
                     list.add(cus_id);
                     list.add(cus_title);
@@ -1012,7 +1012,7 @@ public class CustomerRegistrationDAO {
          //           list.add(cus_nationality);
          //           list.add(cus_dob);
           //          list.add(cus_profession);
-                    list.add(cus_vat);
+                    list.add(cus_type);
 
                 }
 
@@ -1225,7 +1225,7 @@ public class CustomerRegistrationDAO {
             try {
 
                 String query = "UPDATE customer set cus_name = ? ,cus_address = ?,"
-                        + "cus_title = ?,vat_no = ? WHERE cus_id=?";
+                        + "cus_title = ?,cus_type = ? WHERE cus_id=?";
                 PreparedStatement ps = star.con.prepareStatement(query);
 
                 ps.setString(1, encodedCusName);
