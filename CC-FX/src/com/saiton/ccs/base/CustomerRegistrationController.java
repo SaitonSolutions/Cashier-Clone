@@ -72,7 +72,7 @@ public class CustomerRegistrationController extends AnchorPane implements
     private Button btnRemoveEmail;
 
     @FXML
-    private Button btnRemoveFax;
+    private Button btnRemoveVehicleNo;
 
     @FXML
     private Button btnAddTelephone;
@@ -84,7 +84,7 @@ public class CustomerRegistrationController extends AnchorPane implements
     private Button btnAddEmail;
 
     @FXML
-    private Button btnAddFax;
+    private Button btnAddVehicleNo;
 
     @FXML
     private Button btnRemoveTelephone;
@@ -105,7 +105,7 @@ public class CustomerRegistrationController extends AnchorPane implements
     private ListView<String> lstEmail;
 
     @FXML
-    private ListView<String> lstFax;
+    private ListView<String> lstVehicleNo;
 
     @FXML
     private ListView<String> lstMobile;
@@ -138,10 +138,10 @@ public class CustomerRegistrationController extends AnchorPane implements
     private TextField txtEmail;
 
     @FXML
-    private TextField txtVatNo;
+    private ComboBox<String> cmbCusType;
 
     @FXML
-    private TextField txtFax;
+    private TextField txtVehicleNo;
 
     @FXML
     private TextField txtMobile;
@@ -410,11 +410,11 @@ public class CustomerRegistrationController extends AnchorPane implements
     }
 
     @FXML
-    private void btnAddFaxOnAction(ActionEvent event) {
+    private void btnAddVehicleNoOnAction(ActionEvent event) {
 
-        validateFax.registerValidator(txtFax, new CustomTextFieldValidationImpl(
-                txtFax,
-                !fav.isValidUniqueTelephoneNumber(lstFax, txtFax.getText().
+        validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
+                txtVehicleNo,
+                !fav.isValidUniqueTelephoneNumber(lstVehicleNo, txtVehicleNo.getText().
                         trim()), ErrorMessages.InvalidFaxOrDuplicate));
 
         boolean validationSupportResult = false;
@@ -427,10 +427,10 @@ public class CustomerRegistrationController extends AnchorPane implements
 
             } else if (validationSupportResult == false) {
 
-                ObservableList<String> faxList = lstFax.getItems();
-                faxList.add(txtFax.getText());
-                lstFax.setItems(FXCollections.observableList(faxList));
-                txtFax.clear();
+                ObservableList<String> faxList = lstVehicleNo.getItems();
+                faxList.add(txtVehicleNo.getText());
+                lstVehicleNo.setItems(FXCollections.observableList(faxList));
+                txtVehicleNo.clear();
 
             }
             //           validatorInitialization();
@@ -702,7 +702,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                                                 trim(),
                                                 cmbTitle.getValue().
                                                 toString(),
-                                                txtVatNo.getText()
+                                                cmbCusType.getValue().
+                                                toString()
                                         );
 
                                 saveContactInformation();
@@ -824,7 +825,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                                                 trim(),
                                                 cmbTitle.getValue().
                                                 toString(),
-                                                txtVatNo.getText()
+                                                cmbCusType.getValue().
+                                                toString()
                                         );
 
                                 boolean isTelephoneNoDeleted
@@ -1004,16 +1006,16 @@ public class CustomerRegistrationController extends AnchorPane implements
     }
 
     @FXML
-    private void btnRemoveFaxOnAction(ActionEvent event
+    private void btnRemoveVehicleNoxOnAction(ActionEvent event
     ) {
 
         try {
             validatorInitialization();
-            boolean model = lstFax.getSelectionModel().isEmpty();
+            boolean model = lstVehicleNo.getSelectionModel().isEmpty();
             if (model == false) {
 
-                int removeIndex = lstFax.getSelectionModel().getSelectedIndex();
-                lstFax.getItems().remove(removeIndex);
+                int removeIndex = lstVehicleNo.getSelectionModel().getSelectedIndex();
+                lstVehicleNo.getItems().remove(removeIndex);
             }
 
         } catch (Exception e) {
@@ -1205,12 +1207,12 @@ public class CustomerRegistrationController extends AnchorPane implements
     }
 
     @FXML
-    private void txtFaxOnKeyReleased(KeyEvent event
+    private void txtVehicleNoOnKeyReleased(KeyEvent event
     ) {
 
-        validateFax.registerValidator(txtFax, new CustomTextFieldValidationImpl(
-                txtFax,
-                !fav.isValidUniqueTelephoneNumber(lstFax, txtFax.getText().
+        validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
+                txtVehicleNo,
+                !fav.isValidUniqueTelephoneNumber(lstVehicleNo, txtVehicleNo.getText().
                         trim()), ErrorMessages.InvalidFaxOrDuplicate));
 
     }
@@ -1368,15 +1370,15 @@ public class CustomerRegistrationController extends AnchorPane implements
         try {
             if (mouseEvent.getClickCount() == 2) {
 
-                boolean model = lstFax.getSelectionModel().isEmpty();
+                boolean model = lstVehicleNo.getSelectionModel().isEmpty();
                 if (model == false) {
 
-                    txtFax.setText(lstFax.getSelectionModel().getSelectedItem());
-                    int removeIndex = lstFax.getSelectionModel().
+                    txtVehicleNo.setText(lstVehicleNo.getSelectionModel().getSelectedItem());
+                    int removeIndex = lstVehicleNo.getSelectionModel().
                             getSelectedIndex();
-                    lstFax.getItems().remove(removeIndex);
-                    txtFax.requestFocus();
-                    txtFax.selectAll();
+                    lstVehicleNo.getItems().remove(removeIndex);
+                    txtVehicleNo.requestFocus();
+                    txtVehicleNo.selectAll();
                 }
             }
         } catch (Exception e) {
@@ -1411,9 +1413,9 @@ public class CustomerRegistrationController extends AnchorPane implements
 
         reloadCustomerID();
         txtAddress.clear();
-        txtVatNo.clear();
+        cmbCusType.setValue("");
         txtEmail.clear();
-        txtFax.clear();
+        txtVehicleNo.clear();
         //txtIdentification.setText("");
         txtMobile.clear();
         txtName.clear();
@@ -1428,7 +1430,7 @@ public class CustomerRegistrationController extends AnchorPane implements
 //        cmbNationality.setValue("Sri Lankans");
 //        dtpDateOfBirth.setValue(LocalDate.now());
         lstEmail.getItems().removeAll(lstEmail.getItems());
-        lstFax.getItems().removeAll(lstFax.getItems());
+        lstVehicleNo.getItems().removeAll(lstVehicleNo.getItems());
         lstMobile.getItems().removeAll(lstMobile.getItems());
         lstTelephone.getItems().removeAll(lstTelephone.getItems());
         validatorInitialization();
@@ -1567,7 +1569,7 @@ public class CustomerRegistrationController extends AnchorPane implements
                 //cmbNationality.setValue(customerDataList.get(6));
                 //dtpDateOfBirth.setValue(LocalDate.parse(customerDataList.get(7)));
                 //cmbProfession.setValue(customerDataList.get(8));
-                txtVatNo.setText(customerDataList.get(4));
+                cmbCusType.setValue(customerDataList.get(4));
 
                 if (customerTelephoneList != null) {
                     lstTelephone.setItems(FXCollections.observableList(
@@ -1582,7 +1584,7 @@ public class CustomerRegistrationController extends AnchorPane implements
                             customerEmailList));
                 }
                 if (customerFaxList != null) {
-                    lstFax.setItems(FXCollections.
+                    lstVehicleNo.setItems(FXCollections.
                             observableList(customerFaxList));
                 }
 
@@ -1598,7 +1600,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         ObservableList<String> listTelephone = lstTelephone.getItems();
         ObservableList<String> listMobile = lstMobile.getItems();
         ObservableList<String> listEmail = lstEmail.getItems();
-        ObservableList<String> listFax = lstFax.getItems();
+        ObservableList<String> listFax = lstVehicleNo.getItems();
 
 //// Loading to db
 ////=============================================================================================================== 
@@ -1801,8 +1803,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                 btnRemoveEmail.setDisable(true);
                 btnRemoveEmail.setVisible(false);
 
-                btnRemoveFax.setDisable(true);
-                btnRemoveFax.setVisible(false);
+                btnRemoveVehicleNo.setDisable(true);
+                btnRemoveVehicleNo.setVisible(false);
 
                 btnBack.setDisable(true);
                 btnBack.setVisible(false);
@@ -1847,8 +1849,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                 btnRemoveEmail.setDisable(true);
                 btnRemoveEmail.setVisible(false);
 
-                btnRemoveFax.setDisable(true);
-                btnRemoveFax.setVisible(false);
+                btnRemoveVehicleNo.setDisable(true);
+                btnRemoveVehicleNo.setVisible(false);
 
                 break;
 
@@ -2036,8 +2038,8 @@ public class CustomerRegistrationController extends AnchorPane implements
         txtEmail.setDisable(state);
         txtEmail.setVisible(!state);
 
-        txtFax.setDisable(state);
-        txtFax.setVisible(!state);
+        txtVehicleNo.setDisable(state);
+        txtVehicleNo.setVisible(!state);
 
         btnRemoveTelephone.setDisable(state);
         btnRemoveTelephone.setVisible(!state);
@@ -2048,8 +2050,8 @@ public class CustomerRegistrationController extends AnchorPane implements
         btnRemoveEmail.setDisable(state);
         btnRemoveEmail.setVisible(!state);
 
-        btnRemoveFax.setDisable(state);
-        btnRemoveFax.setVisible(!state);
+        btnRemoveVehicleNo.setDisable(state);
+        btnRemoveVehicleNo.setVisible(!state);
 
         btnAddTelephone.setDisable(state);
         btnAddTelephone.setVisible(!state);
@@ -2060,8 +2062,8 @@ public class CustomerRegistrationController extends AnchorPane implements
         btnAddEmail.setDisable(state);
         btnAddEmail.setVisible(!state);
 
-        btnAddFax.setDisable(state);
-        btnAddFax.setVisible(!state);
+        btnAddVehicleNo.setDisable(state);
+        btnAddVehicleNo.setVisible(!state);
 
         btnDelete.setDisable(state);
         btnDelete.setVisible(!state);
@@ -2072,8 +2074,8 @@ public class CustomerRegistrationController extends AnchorPane implements
         btnClose.setDisable(state);
         btnClose.setVisible(!state);
 
-        txtVatNo.setDisable(state);
-        txtVatNo.setVisible(!state);
+        cmbCusType.setDisable(state);
+        cmbCusType.setVisible(!state);
 
     }
 
