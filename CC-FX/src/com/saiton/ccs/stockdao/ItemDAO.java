@@ -758,10 +758,10 @@ public class ItemDAO {
                 encodeForSQL(ORACLE_CODEC, itemDesc);
         String encodedPartNo = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, partNo);
-        String encoded = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, partNo);
-        String encodedPartNo = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, partNo);
+        String encodedItemMainCategory = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, itemMainCategory);
+        String encodedItemSubCategory = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, itemSubCategory);
         
         
         if (star.con == null) {
@@ -787,9 +787,9 @@ public class ItemDAO {
                 ps.setDouble(3, encodedQty);
                 ps.setString(4, encodeduserId);
                 ps.setString(5, encodedItemDesc);
-                ps.setString(7, encodedPartNo);
-                ps.setString(8, encodedItemName);
-                ps.setString(8, encodedItemName);
+                ps.setString(6, encodedPartNo);
+                ps.setString(7, encodedItemMainCategory);
+                ps.setString(8, encodedItemSubCategory);
             
 
                 int val = ps.executeUpdate();
