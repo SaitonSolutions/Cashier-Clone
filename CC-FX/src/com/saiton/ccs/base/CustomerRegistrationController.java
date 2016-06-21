@@ -117,7 +117,7 @@ public class CustomerRegistrationController extends AnchorPane implements
     private TableView<Item> tblContactDetails;
 
     @FXML
-    private TableColumn tcVAT;
+    private TableColumn tcCusType;
 
     @FXML
     private TableColumn tcAddress;
@@ -308,7 +308,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         tcAddress.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colAddress"));
 
-        tcVAT.setCellValueFactory(new PropertyValueFactory<Item, String>(
+        tcCusType.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colVAT"));
 
         hidePrinterRemark();
