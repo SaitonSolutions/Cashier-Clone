@@ -55,7 +55,7 @@ CREATE TABLE `customer` (
   `cus_title` varchar(45) DEFAULT NULL,
   `cus_name` varchar(300) DEFAULT NULL,
   `cus_address` varchar(300) DEFAULT NULL,
-  `vat_no` varchar(100) DEFAULT NULL,
+  `cus_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`cus_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
@@ -96,33 +96,6 @@ LOCK TABLES `customer_email` WRITE;
 /*!40000 ALTER TABLE `customer_email` DISABLE KEYS */;
 INSERT INTO `customer_email` VALUES (22,'CUS0001','Niresh@gmail.com');
 /*!40000 ALTER TABLE `customer_email` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `customer_fax`
---
-
-DROP TABLE IF EXISTS `customer_fax`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customer_fax` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cus_id` varchar(45) NOT NULL,
-  `fax` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `cus2` (`cus_id`),
-  CONSTRAINT `cus2` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer_fax`
---
-
-LOCK TABLES `customer_fax` WRITE;
-/*!40000 ALTER TABLE `customer_fax` DISABLE KEYS */;
-INSERT INTO `customer_fax` VALUES (12,'CUS0001','0112506500');
-/*!40000 ALTER TABLE `customer_fax` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -177,6 +150,33 @@ LOCK TABLES `customer_tel` WRITE;
 /*!40000 ALTER TABLE `customer_tel` DISABLE KEYS */;
 INSERT INTO `customer_tel` VALUES (124,'CUS0001','0778620956'),(125,'CUS0001','0778458167'),(126,'CUS0001','0312245741');
 /*!40000 ALTER TABLE `customer_tel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_vehicle_no`
+--
+
+DROP TABLE IF EXISTS `customer_vehicle_no`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer_vehicle_no` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cus_id` varchar(45) NOT NULL,
+  `vehicle_no` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cus2` (`cus_id`),
+  CONSTRAINT `cus2` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer_vehicle_no`
+--
+
+LOCK TABLES `customer_vehicle_no` WRITE;
+/*!40000 ALTER TABLE `customer_vehicle_no` DISABLE KEYS */;
+INSERT INTO `customer_vehicle_no` VALUES (12,'CUS0001','0112506500');
+/*!40000 ALTER TABLE `customer_vehicle_no` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -476,10 +476,10 @@ CREATE TABLE `item` (
   KEY `item_fk2` (`user_id`),
   KEY `item_fk4_idx` (`item_sub_category`),
   KEY `item_fk3_idx` (`item_main_category`),
+  CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_fk3` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `item_fk4` FOREIGN KEY (`item_sub_category`) REFERENCES `item_sub_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  CONSTRAINT `item_fk4` FOREIGN KEY (`item_sub_category`) REFERENCES `item_sub_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -564,7 +564,7 @@ CREATE TABLE `item_sub` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_fk1` (`item_id`),
   CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1443,4 +1443,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-15 23:38:08
+-- Dump completed on 2016-06-21 15:33:37
