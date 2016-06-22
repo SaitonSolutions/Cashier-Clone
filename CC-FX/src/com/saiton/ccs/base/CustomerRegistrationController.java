@@ -424,8 +424,8 @@ public class CustomerRegistrationController extends AnchorPane implements
 
         validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
                 txtVehicleNo,
-                !fav.isValidUniqueTelephoneNumber(lstVehicleNo, txtVehicleNo.getText().
-                        trim()), ErrorMessages.InvalidFaxOrDuplicate));
+                !fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.getText().
+                        trim()), ErrorMessages.InvalidVehicleNo));
 
         boolean validationSupportResult = false;
         ValidationResult v = validateFax.getValidationResult();
@@ -1222,8 +1222,8 @@ public class CustomerRegistrationController extends AnchorPane implements
 
         validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
                 txtVehicleNo,
-                !fav.isValidUniqueTelephoneNumber(lstVehicleNo, txtVehicleNo.getText().
-                        trim()), ErrorMessages.InvalidFaxOrDuplicate));
+                !fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.getText().
+                        trim()), ErrorMessages.InvalidVehicleNo));
 
     }
 

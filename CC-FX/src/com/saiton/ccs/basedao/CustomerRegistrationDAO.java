@@ -51,13 +51,17 @@ public class CustomerRegistrationDAO {
         } else {
             try {
 
-                String query = "SELECT * FROM customer WHERE (cus_name LIKE ? OR cus_address LIKE ? "
-                        + "OR cus_id LIKE ?  )";
+                String query = "SELECT * FROM customer c LEFT JOIN customer_vehicle_no  vn ON "
+                        + "c.cus_id = vn.cus_id "
+                        + "WHERE (c.cus_name LIKE ? OR c.cus_address LIKE ? "
+                        + "OR c.cus_id LIKE ? or "
+                        + "vn.vehicle_no LIKE ? )";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedSearch + "%");
                 pstmt.setString(2, encodedSearch + "%");
                 pstmt.setString(3, encodedSearch + "%");
+                pstmt.setString(4, encodedSearch + "%");
 
                 ResultSet r = pstmt.executeQuery();
 

@@ -64,7 +64,7 @@ public class FormatAndValidate {
 
     }
 
-//<editor-fold defaultstate="collapsed" desc="roundTwoDecimals">
+    //<editor-fold defaultstate="collapsed" desc="roundTwoDecimals">
     //========================================================================================
     //Formating Methods
     //========================================================================================
@@ -592,8 +592,6 @@ public class FormatAndValidate {
 
     }
     
-    
-
     //<editor-fold defaultstate="collapsed" desc="overlapNumber">
     //========================================================================================
     //validate Overlap Number by parameter a String
@@ -930,4 +928,49 @@ public class FormatAndValidate {
 
         return accept;
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="isValidVehicleNo">
+    //========================================================================================
+    //validate Vehicle Number by parameter a String
+    //========================================================================================
+//</editor-fold>
+    public boolean isValidVehicleNo(ListView listView,
+            String vehicleNo) {
+        boolean valid = true;
+
+        String vehicleNoTrimed = vehicleNo.trim();
+        ObservableList<String> list = listView.getItems();
+        
+      
+       
+
+        if ( vehicleNoTrimed.length() < 14
+                && vehicleNoTrimed.length() > 4) {
+            
+            if (list.size() != 0 && !vehicleNo.isEmpty()) {
+                for (int i = 0; i < list.size(); i++) {
+                   
+                    if (list.get(i).equals(vehicleNo)) {
+                        valid = false;
+                        
+                    } 
+//                    else {
+//
+//                        valid = false;
+//
+//                    }
+                }
+            } else if (list.size() == 0) {
+                valid = true;
+            }
+
+        } else {
+
+            valid = false;
+        }
+
+        return valid;
+
+    }
+
 }

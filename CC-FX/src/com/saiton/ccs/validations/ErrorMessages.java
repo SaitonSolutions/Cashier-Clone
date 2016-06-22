@@ -19,6 +19,7 @@ public class ErrorMessages {
     public static final String InvalidDiscount = "Invalid Discount Amount";
     public static final String InvalidBatchNo = "Invalid Batch Number";
     public static final String InvalidRegNo = "Invalid Register Number";
+    public static final String InvalidVehicleNo = "Invalid Vehicle No.";
 
     public static final String Default = "Default.";
     public static final String MandatoryError
