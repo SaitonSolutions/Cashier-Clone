@@ -1313,5 +1313,49 @@ public class CustomerRegistrationDAO {
 
         return available;
     }
+    
+        public Boolean insertCustomerType(
+            String tel_no) {
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + "customer_type(tel_no) VALUES(?)");
+                ps.setString(1, tel_no);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+    
 
 }

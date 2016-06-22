@@ -397,12 +397,12 @@ public class ItemsController extends AnchorPane implements Initializable,
                         for (int i = 0; i < tblItemList.getItems().size(); i++) {
                             itemTable = (Item) tblItemList.getItems().get(i);
 
-                            isTableContentSaved = itemDAO.additem(
-                                    itemTable.getColItemId(),
-                                    itemTable.getColItemName(),
-                                    userId,
-                                    itemTable.getColBatchNo(),
-                                    Double.parseDouble(itemTable.getColPrice()));
+//                            isTableContentSaved = itemDAO.additem(
+//                                    itemTable.getColItemId(),
+//                                    itemTable.getColItemName(),
+//                                    userId,
+//                                    itemTable.getColBatchNo(),
+//                                    Double.parseDouble(itemTable.getColPrice()));
 
                         }
                     }
@@ -435,13 +435,13 @@ public class ItemsController extends AnchorPane implements Initializable,
                                     i++) {
                                 itemTable = (Item) tblItemList.getItems().get(i);
 
-                                isTableContentSaved = itemDAO.additem(
-                                        itemTable.getColItemId(),
-                                        itemTable.getColItemName(),
-                                        userId,
-                                        itemTable.getColBatchNo(),
-                                        Double.parseDouble(
-                                                itemTable.getColPrice()));
+//                                isTableContentSaved = itemDAO.additem(
+//                                        itemTable.getColItemId(),
+//                                        itemTable.getColItemName(),
+//                                        userId,
+//                                        itemTable.getColBatchNo(),
+//                                        Double.parseDouble(
+//                                                itemTable.getColPrice()));
 
                             }
                         }
@@ -672,9 +672,9 @@ public class ItemsController extends AnchorPane implements Initializable,
             return colItemName.get();
         }
 
-        public String getColBatchNo() {
-            return colBatchNo.get();
-        }
+//        public String getColBatchNo() {
+////            return colBatchNo.get();
+//        }
 
         public String getColPrice() {
             return colPrice.get();

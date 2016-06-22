@@ -6,6 +6,7 @@ import com.saiton.ccs.msgbox.SimpleMessageBoxFactory;
 import com.saiton.ccs.uihandle.ComponentControl;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
+import com.saiton.ccs.util.InputDialog;
 import com.saiton.ccs.validations.CustomListViewValidationImpl;
 import com.saiton.ccs.validations.CustomTextAreaValidationImpl;
 import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
@@ -234,7 +235,11 @@ public class CustomerRegistrationController extends AnchorPane implements
     private ComponentControl componentControl = new ComponentControl();
 
     LocalDate date = null;
-
+    
+    //<editor-fold defaultstate="collapsed" desc="ObservableList">
+    
+    private ObservableList<String> customerTypeData;
+    
     ObservableList<String> idTypesList = FXCollections.observableArrayList(
             "NIC", "Passport"
     );
@@ -290,8 +295,12 @@ public class CustomerRegistrationController extends AnchorPane implements
             "Venezuelans", "Vietnamese", "Welsh", "Yemenis",
             "Zambians", "Zimbabweans"
     );
+//</editor-fold>
+    
     @FXML
     private Button btnRefresh;
+    @FXML
+    private Button btnAdd;
 
     // initialize-------------------------------------------------------------------------------------------------------------------------------------------------------
     @Override
@@ -1737,12 +1746,53 @@ public class CustomerRegistrationController extends AnchorPane implements
 
         stage.setHeight(575.0);
         stage.setWidth(907.0);
+        
         setUserAccessLevel();
 
+        customerTypeData = cmbCusType.getItems();
     }
 
     @FXML
     private void cmbCusTypeOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnAddOnAction(ActionEvent event) {
+        
+          String customerType = InputDialog.inputForAddNew("Customer Type");
+          boolean isSaved = false;
+        if (customerType == null) {
+            return;
+        }
+        if (!fav.validAddress(customerType)) {
+            mb.ShowMessage(stage, "Invalid Customer Type", "Customer",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (customerTypeData.contains(customerType)) {
+            mb.ShowMessage(stage, "Duplicate Customer", "Customer",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+        
+        isSaved = customerRegistrationDAO.insertCustomerType(customerType);
+        
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Customer",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+        
+        //success
+        customerTypeData.add(customerType);
+        
+        cmbCusType.getSelectionModel().selectFirst();
+        validatorInitialization();
+        
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
