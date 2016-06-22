@@ -145,7 +145,7 @@
                                                       <Insets top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="cmbCusType" maxWidth="1.7976931348623157E308" onAction="#cmbCusTypeOnAction" prefWidth="225.0" promptText="Title">
+                                                <ComboBox fx:id="cmbCusType" maxWidth="1.7976931348623157E308" onAction="#cmbCusTypeOnAction" onKeyReleased="#cmbCusTypeOnKeyReleased" prefWidth="225.0" promptText="Title">
                                                    <items>
                                                       <FXCollections fx:factory="observableArrayList">
                                                          <String fx:value="Item 1" />

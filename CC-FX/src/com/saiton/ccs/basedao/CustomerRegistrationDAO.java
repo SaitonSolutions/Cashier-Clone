@@ -9,6 +9,7 @@ import com.saiton.ccs.database.Starter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -1326,7 +1327,7 @@ public class CustomerRegistrationDAO {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
-                        + "customer_type(tel_no) VALUES(?)");
+                        + "customer_type(customer_type) VALUES(?)");
                 ps.setString(1, tel_no);
 
                 int val = ps.executeUpdate();
@@ -1358,4 +1359,70 @@ public class CustomerRegistrationDAO {
     }
     
 
+        public ArrayList loadCustomerType() {
+
+        String customerType = null;
+        ArrayList customerTypeList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Databse connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM customer_Type");
+                while (r.next()) {
+                    customerType = r.getString("customer_type");
+
+                    customerTypeList.add(customerType);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return customerTypeList;
+    }
+        
+        public boolean deleteCustomerType(String customerType) {
+        if (star.con == null) {
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        } else {
+            String encodedDesc = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, customerType);
+            try {
+                String sql = "DELETE FROM customer_type where `customer_type`= ? ";
+                PreparedStatement stmt = Starter.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, encodedDesc);
+                int val = stmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                log.error("Exception tag --> " + "Invalid sql statement " + e.
+                        getMessage());
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+        }
+    }
 }

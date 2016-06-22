@@ -43,6 +43,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -1748,8 +1749,10 @@ public class CustomerRegistrationController extends AnchorPane implements
         stage.setWidth(907.0);
         
         setUserAccessLevel();
-
+//        customerTypeData.clear();
         customerTypeData = cmbCusType.getItems();
+        loadCustomerTypeToCombobox();
+        
     }
 
     @FXML
@@ -1789,10 +1792,42 @@ public class CustomerRegistrationController extends AnchorPane implements
         
         //success
         customerTypeData.add(customerType);
+        loadCustomerTypeToCombobox();
+        cmbCusType.getSelectionModel().select(customerType);
         
-        cmbCusType.getSelectionModel().selectFirst();
         validatorInitialization();
         
+    }
+
+    @FXML
+    private void cmbCusTypeOnKeyReleased(KeyEvent event) {
+        
+        if (event.getCode() == KeyCode.DELETE | event.getCode() == KeyCode.BACK_SPACE) {
+            
+         if (cmbCusType.getValue() != null) {
+            MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                   "Are you sure you want \nto remove the customer type ? ",
+                   "Customer Type",
+                    MessageBox.MessageIcon.MSG_ICON_NONE,
+                    MessageBox.MessageType.MSG_YESNO);
+            if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+                
+                boolean isRemoved = customerRegistrationDAO.deleteCustomerType(
+                        cmbCusType.getValue());
+                
+                if (isRemoved == true) {
+                    loadCustomerTypeToCombobox();
+                } else {
+                    mb.ShowMessage(stage, ErrorMessages.NotSuccesfullyDeleted,
+                            "Error",
+                            MessageBox.MessageIcon.MSG_ICON_FAIL,
+                            MessageBox.MessageType.MSG_OK);
+                }
+            }
+        }
+        loadCustomerTypeToCombobox();
+        validatorInitialization();
+        }
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
@@ -1839,6 +1874,26 @@ public class CustomerRegistrationController extends AnchorPane implements
 
 //----------------------------------------------------------------------------------------------------------------------    
 //<editor-fold defaultstate="collapsed" desc="Methods">
+    
+    private void loadCustomerTypeToCombobox() {
+
+        cmbCusType.setItems(null);
+        ArrayList<String> customerTypeList = null;
+        customerTypeList = customerRegistrationDAO.loadCustomerType();
+        if (customerTypeList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        customerTypeList);
+                cmbCusType.setItems(List);
+                cmbCusType.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+
+    }
+    
     private void setUiMode(UiMode uiMode) {
 
         switch (uiMode) {
