@@ -351,7 +351,7 @@
                                 </AnchorPane>
                                 <HBox prefHeight="49.0" prefWidth="178.0" spacing="3.0">
                                   <children>
-                                    <TextField fx:id="txtVehicleNo" onKeyReleased="#txtVehicleNoOnKeyReleased" prefWidth="91.0" promptText="Fax" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="txtVehicleNo" onKeyReleased="#txtVehicleNoOnKeyReleased" prefWidth="91.0" promptText="Vehicle No" HBox.hgrow="ALWAYS" />
                                     <Button id="btnSearch" fx:id="btnAddVehicleNo" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnAddVehicleNoOnAction" prefHeight="24.0" prefWidth="24.0" text="">
                                       <graphic>
                                         <ImageView fitHeight="10.000000178813929" fitWidth="13.333333969116211" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">

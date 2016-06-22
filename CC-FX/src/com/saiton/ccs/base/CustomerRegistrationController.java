@@ -1726,6 +1726,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                         !fav.validListView(lstEmail),
                         ErrorMessages.EmptyListView));
     }
+    
+    
 
     @Override
     public void setStage(Stage stage, Object[] obj) {

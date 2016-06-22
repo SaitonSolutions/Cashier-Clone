@@ -653,10 +653,16 @@ public class ItemsController extends AnchorPane implements Initializable,
                 "tcItemId");
         public SimpleStringProperty colItemName = new SimpleStringProperty(
                 "tcItemName");
-        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
+        public SimpleStringProperty colQty = new SimpleStringProperty(
                 "tcBatchNo");
         public SimpleStringProperty colPrice = new SimpleStringProperty(
                 "tcPrice");
+//        public SimpleStringProperty colItemName = new SimpleStringProperty(
+//                "tcItemName");
+//        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
+//                "tcBatchNo");
+//        public SimpleStringProperty colPrice = new SimpleStringProperty(
+//                "tcPrice");
 
         public String getColItemId() {
             return colItemId.get();
