@@ -58,7 +58,7 @@ CREATE TABLE `customer` (
   `cus_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`cus_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (11,'CUS0001','Ms.','Isper Catering Equpment & supplys (Pvt) Ltd','No 477, Nawala RD, Rajagiriya','456546565');
+INSERT INTO `customer` VALUES (11,'CUS0001','Ms.','Isper Catering Equpment & supplys (Pvt) Ltd','No 477, Nawala RD, Rajagiriya','456546565'),(12,'CUS0002','Mr.','nimal','colombo','Item 2');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `customer_email` (
   PRIMARY KEY (`id`),
   KEY `cus` (`cus_id`),
   CONSTRAINT `cus` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `customer_email` (
 
 LOCK TABLES `customer_email` WRITE;
 /*!40000 ALTER TABLE `customer_email` DISABLE KEYS */;
-INSERT INTO `customer_email` VALUES (22,'CUS0001','Niresh@gmail.com');
+INSERT INTO `customer_email` VALUES (22,'CUS0001','Niresh@gmail.com'),(23,'CUS0002','miren2002@gmail.com');
 /*!40000 ALTER TABLE `customer_email` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `customer_tel` (
   PRIMARY KEY (`id`),
   KEY `cus6` (`cus_id`),
   CONSTRAINT `cus6` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,8 +148,32 @@ CREATE TABLE `customer_tel` (
 
 LOCK TABLES `customer_tel` WRITE;
 /*!40000 ALTER TABLE `customer_tel` DISABLE KEYS */;
-INSERT INTO `customer_tel` VALUES (124,'CUS0001','0778620956'),(125,'CUS0001','0778458167'),(126,'CUS0001','0312245741');
+INSERT INTO `customer_tel` VALUES (124,'CUS0001','0778620956'),(125,'CUS0001','0778458167'),(126,'CUS0001','0312245741'),(127,'CUS0002','0312279041');
 /*!40000 ALTER TABLE `customer_tel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_type`
+--
+
+DROP TABLE IF EXISTS `customer_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_type` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer_type`
+--
+
+LOCK TABLES `customer_type` WRITE;
+/*!40000 ALTER TABLE `customer_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1443,4 +1467,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-21 15:33:37
+-- Dump completed on 2016-06-22 12:10:17
