@@ -101,15 +101,18 @@
                   <children>
                     <TableView id="tbl" fx:id="tblItemList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#tblRequestNoteListOnMouseClicked" prefHeight="20.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <columns>
-                                    <TableColumn fx:id="tcPartNo" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Part No" />
-                        <TableColumn fx:id="tcItemId" maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Item ID" />
-                                    <TableColumn fx:id="tcItemName" maxWidth="5000.0" minWidth="10.0" prefWidth="230.0" text="Item Name" />
-                                    <TableColumn fx:id="tcBatchNo" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Batch No" />
+                        <TableColumn fx:id="tcItemId" maxWidth="5000.0" minWidth="10.0" text="Item ID" />
+                                    <TableColumn fx:id="tcItemName" maxWidth="5000.0" minWidth="10.0" text="Item Name" />
+                                    <TableColumn fx:id="tcItemDescripton" maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Item Description" />
+                                    <TableColumn fx:id="tcPartNo" maxWidth="5000.0" minWidth="0.0" text="Part No" />
+                                    <TableColumn fx:id="tcBatchNo" maxWidth="5000.0" minWidth="0.0" text="Batch No" />
+                                    <TableColumn fx:id="tcMainCategory" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Main Category" />
+                                    <TableColumn fx:id="tcSubCategory" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Sub Category" />
+                                    <TableColumn fx:id="tcUnit" maxWidth="5000.0" minWidth="0.0" prefWidth="70.0" text="Unit" />
+                                    <TableColumn fx:id="tcUnitQty" maxWidth="5000.0" minWidth="0.0" prefWidth="60.0" text="Unit Qty" />
+                                    <TableColumn fx:id="tcQty" maxWidth="5000.0" minWidth="0.0" prefWidth="60.0" text="Qty" />
                                     <TableColumn fx:id="tcBuyingPrice" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Buying Price" />
                                     <TableColumn fx:id="tcItSellingPrice" maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Selling Price" />
-                                    <TableColumn fx:id="tcQty" maxWidth="5000.0" minWidth="0.0" prefWidth="70.0" text="Qty" />
-                                    <TableColumn fx:id="tcMainCategory" maxWidth="5000.0" minWidth="0.0" prefWidth="110.0" text="Main Category" />
-                                    <TableColumn fx:id="tcSubCategory" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Sub Category" />
                       </columns>
                     </TableView>
                   </children>
