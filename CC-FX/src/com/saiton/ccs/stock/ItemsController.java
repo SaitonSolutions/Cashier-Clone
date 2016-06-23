@@ -14,6 +14,7 @@ import com.saiton.ccs.stockdao.ItemDAO;
 import com.saiton.ccs.uihandle.ComponentControl;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
+import com.saiton.ccs.util.InputDialog;
 import com.saiton.ccs.validations.CustomComboboxValidationImpl;
 import com.saiton.ccs.validations.CustomTableViewValidationImpl;
 import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
@@ -76,7 +77,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private TextField txtQty;
-    
+
     @FXML
     private TextField txtSellingPrice;
 
@@ -86,21 +87,16 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ComboBox<String> cmbBatchNo;
 
     @FXML
-    private ComboBox<?> cmbMainCategory;
+    private ComboBox<String> cmbMainCategory;
 
     @FXML
-    private ComboBox<?> cmbSubCategory;
+    private ComboBox<String> cmbSubCategory;
 
-    @FXML
-    private ComboBox<?> cmbBUnit;
-    @FXML
-    private ComboBox<?> cmbBUnitQty;
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Labels">
     @FXML
     private Label lblItemId;
-    @FXML
     private Label lblItemId1;
     @FXML
     private Label lblItemName;
@@ -171,7 +167,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TableColumn<Item, String> tcBatchNo;
     @FXML
     private TableColumn<Item, String> tcBuyingPrice;
-    
+
     @FXML
     private TableColumn<Item, String> tcItSellingPrice;
     @FXML
@@ -180,6 +176,12 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TableColumn<Item, String> tcMainCategory;
     @FXML
     private TableColumn<Item, String> tcSubCategory;
+     @FXML
+    private TableColumn<Item, String> tcItemDescripton;
+    @FXML
+    private TableColumn<Item, String> tcUnit;
+    @FXML
+    private TableColumn<Item, String> tcUnitQty;
     @FXML
     private TableView<Item> tblItemList;
 
@@ -191,7 +193,7 @@ public class ItemsController extends AnchorPane implements Initializable,
             = new ValidationSupport();
     private final FormatAndValidate fav = new FormatAndValidate();
     private MessageBox mb;
-    private Stage stageExtra;
+    private Stage stage;
 
     Item item = new Item();
     private ObservableList TableItemData = FXCollections.observableArrayList();
@@ -216,18 +218,42 @@ public class ItemsController extends AnchorPane implements Initializable,
             observableArrayList();
     private ItemInfoPopup itemPopup = new ItemInfoPopup();
     ObservableList<String> batchNoList;
+    private ObservableList<String> mainCategoryData;
+    @FXML
+    private ComboBox<String> cmbUnit;
+    @FXML
+    private ComboBox<String> cmbUnitQty;
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+               
 
         tcItemId.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colItemId"));
         tcItemName.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colItemName"));
+        tcItemDescripton.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colItemDescripton"));
+        tcPartNo.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colPartNo"));
         tcBatchNo.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colBatchNo"));
-//        tcPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
-//                "colPrice"));
+        tcMainCategory.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colMainCategory"));
+        tcSubCategory.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colSubCategory"));
+        tcUnit.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colUnit"));
+        tcUnitQty.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colUnitQty"));
+        tcQty.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colQty"));
+        tcBuyingPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colBuyingPrice"));
+        tcItSellingPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colItSellingPrice"));
+        
         tblItemList.setItems(TableItemData);
 
         mb = SimpleMessageBoxFactory.createMessageBox();
@@ -261,7 +287,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         isupdate = false;
         txtItemId.setText(itemDAO.generateID());
         txtItemName.clear();
-        
+
         loadBatch();
         validatorInitialization();
     }
@@ -290,7 +316,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     @Override
     public void setStage(Stage stage, Object[] obj) {
 
-        this.stageExtra = stage;
+        this.stage = stage;
         setUserAccessLevel();
         //item popup------------------------
         itemTable = itemPopup.tableViewLoader(itemData);
@@ -345,6 +371,10 @@ public class ItemsController extends AnchorPane implements Initializable,
 
             }
         });
+
+        mainCategoryData = cmbMainCategory.getItems();
+        loadMainCategoryToCombobox();
+
         validatorInitialization();
     }
 
@@ -384,8 +414,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
             if (validationSupportTableResult == true) {
 
-                mb.
-                        ShowMessage(stageExtra, ErrorMessages.MandatoryError,
+                mb.ShowMessage(stage, ErrorMessages.MandatoryError,
                                 "Error",
                                 MessageBox.MessageIcon.MSG_ICON_FAIL,
                                 MessageBox.MessageType.MSG_OK);
@@ -397,26 +426,34 @@ public class ItemsController extends AnchorPane implements Initializable,
                         for (int i = 0; i < tblItemList.getItems().size(); i++) {
                             itemTable = (Item) tblItemList.getItems().get(i);
 
-//                            isTableContentSaved = itemDAO.additem(
-//                                    itemTable.getColItemId(),
-//                                    itemTable.getColItemName(),
-//                                    userId,
-//                                    itemTable.getColBatchNo(),
-//                                    Double.parseDouble(itemTable.getColPrice()));
+                            isTableContentSaved = itemDAO.additem(
+                                    itemTable.getColItemId(),
+                                    itemTable.getColItemName(),
+                                    Double.parseDouble(itemTable.getColQty()),
+                                    userId,
+                                    itemTable.getColItemDescripton(),
+                                    itemTable.getColPartNo(),
+                                    itemTable.getColMainCategory(),
+                                    itemTable.getColSubCategory(),
+                                    itemTable.getColBatchNo(),
+                                    Double.parseDouble(itemTable.getColBuyingPrice()),
+                                    10,//this needs to be updated in the interface
+                                    Double.parseDouble(itemTable.getColSellingPrice()),
+                                    itemTable.getColUnit());
 
                         }
                     }
 
                     if (isTableContentSaved == true) {
 
-                        mb.ShowMessage(stageExtra,
+                        mb.ShowMessage(stage,
                                 ErrorMessages.SuccesfullyCreated, "Information",
                                 MessageBox.MessageIcon.MSG_ICON_SUCCESS,
                                 MessageBox.MessageType.MSG_OK);
                         clearInput();
 
                     } else {
-                        mb.ShowMessage(stageExtra,
+                        mb.ShowMessage(stage,
                                 ErrorMessages.NotSuccesfullyCreated, "Error",
                                 MessageBox.MessageIcon.MSG_ICON_FAIL,
                                 MessageBox.MessageType.MSG_OK);
@@ -424,7 +461,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                     //Save Action Event
                 } else {
 
-                    MessageBox.MessageOutput option = mb.ShowMessage(stageExtra,
+                    MessageBox.MessageOutput option = mb.ShowMessage(stage,
                             ErrorMessages.Update, "Information",
                             MessageBox.MessageIcon.MSG_ICON_NONE,
                             MessageBox.MessageType.MSG_YESNO);
@@ -442,12 +479,11 @@ public class ItemsController extends AnchorPane implements Initializable,
 //                                        itemTable.getColBatchNo(),
 //                                        Double.parseDouble(
 //                                                itemTable.getColPrice()));
-
                             }
                         }
                         if (isTableContentSaved == true) {
 
-                            mb.ShowMessage(this.stageExtra,
+                            mb.ShowMessage(this.stage,
                                     ErrorMessages.SuccesfullyUpdated,
                                     "Information",
                                     MessageBox.MessageIcon.MSG_ICON_SUCCESS,
@@ -455,7 +491,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                             clearInput();
 
                         } else {
-                            mb.ShowMessage(stageExtra,
+                            mb.ShowMessage(stage,
                                     ErrorMessages.NotSuccesfullyUpdated, "Error",
                                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                                     MessageBox.MessageType.MSG_OK);
@@ -489,13 +525,13 @@ public class ItemsController extends AnchorPane implements Initializable,
 
             if (validationSupportResult == true) {
 
-                mb.ShowMessage(stageExtra, ErrorMessages.NoData, "Error",
+                mb.ShowMessage(stage, ErrorMessages.NoData, "Error",
                         MessageBox.MessageIcon.MSG_ICON_FAIL,
                         MessageBox.MessageType.MSG_OK);
 
             } else if (validationSupportResult == false) {
 
-                MessageBox.MessageOutput option = mb.ShowMessage(stageExtra,
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
                         ErrorMessages.Delete, "Information",
                         MessageBox.MessageIcon.MSG_ICON_NONE,
                         MessageBox.MessageType.MSG_YESNO);
@@ -509,7 +545,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                                 isDeleted = itemDAO.deleteItem(
                                         itemTable.getColItemId());
                             } else {
-                                mb.ShowMessage(stageExtra,
+                                mb.ShowMessage(stage,
                                         ErrorMessages.InvalidId, "Error",
                                         MessageBox.MessageIcon.MSG_ICON_FAIL,
                                         MessageBox.MessageType.MSG_OK);
@@ -519,7 +555,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
                         if (isDeleted == true) {
 
-                            mb.ShowMessage(stageExtra,
+                            mb.ShowMessage(stage,
                                     ErrorMessages.SuccesfullyDeleted,
                                     "Information",
                                     MessageBox.MessageIcon.MSG_ICON_SUCCESS,
@@ -527,14 +563,14 @@ public class ItemsController extends AnchorPane implements Initializable,
                             clearInput();
 
                         } else {
-                            mb.ShowMessage(stageExtra, ErrorMessages.Error,
+                            mb.ShowMessage(stage, ErrorMessages.Error,
                                     "Error",
                                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                                     MessageBox.MessageType.MSG_OK);
                         }
 
                     } else {
-                        mb.ShowMessage(stageExtra,
+                        mb.ShowMessage(stage,
                                 ErrorMessages.NoData, "Error",
                                 MessageBox.MessageIcon.MSG_ICON_FAIL,
                                 MessageBox.MessageType.MSG_OK);
@@ -560,7 +596,6 @@ public class ItemsController extends AnchorPane implements Initializable,
 //        } catch (Exception e) {
 //            txtPrice.clear();
 //        }
-
     }
 
     @FXML
@@ -569,6 +604,42 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void btnMainCategoryOnAction(ActionEvent event) {
+
+        String mainCategory = InputDialog.inputForAddNew("Customer Type");
+        boolean isSaved = false;
+        if (mainCategory == null) {
+            return;
+        }
+        if (!fav.validAddress(mainCategory)) {
+            mb.ShowMessage(stage, "Invalid Main Category", "Main Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (mainCategoryData.contains(mainCategory)) {
+            mb.ShowMessage(stage, "Duplicate Main Category", "Main Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        isSaved = itemDAO.insertMainCategory(mainCategory);
+
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Main Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        //success
+        mainCategoryData.add(mainCategory);
+        loadMainCategoryToCombobox();
+        cmbMainCategory.getSelectionModel().select(mainCategory);
+
+        validatorInitialization();
+
     }
 
     @FXML
@@ -603,6 +674,151 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void txtSellingPriceOnKeyReleased(KeyEvent event) {
+        
+         boolean validationSupportResult = false;
+        boolean isAvalible = false;
+
+        if (event.getCode() == KeyCode.ENTER) {
+
+            ValidationResult v = validationSupportTableData.
+                    getValidationResult();
+            if (v != null) {
+
+                validationSupportResult = validationSupportTableData.isInvalid();
+                if (validationSupportResult == true) {
+                    mb.ShowMessage(stage, ErrorMessages.MandatoryError,
+                            "Error",
+                            MessageBox.MessageIcon.MSG_ICON_FAIL,
+                            MessageBox.MessageType.MSG_OK);
+
+                } else if (validationSupportResult == false) {
+
+                    if (isupdate == false) {
+
+                        isAvalible = itemDAO.checkingItemNameAvailability(
+                                txtItemName.getText()
+                        );
+
+                        if (isAvalible == false) {
+                            if (tblItemList.getItems().size() != 0) {
+                                int n = tblItemList.getItems().size();
+                                for (int s = 0; s < n; s++) {
+                                    
+                                    item = (Item) tblItemList.getItems().get(s);
+                                    
+                                    if ((txtItemId.getText() + cmbBatchNo.
+                                            getValue()).equals(
+                                                    (item.getColItemId() + item.
+                                                    getColBatchNo()))
+                                            && tblItemList.getItems().size() > 0) {
+                                        TableItemData.remove(s);
+                                        n--;
+                                        
+                                    }
+
+                                    if (txtItemId.getText().equals(
+                                            item.getColItemId())
+                                            && tblItemList.getItems().size() > 0) {
+                                        if (!item.getColItemName().equals(
+                                                txtItemName.getText())) {
+                                            item.setColItemName(
+                                                    txtItemName.getText());
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            item = new Item();
+                            
+                            item.colItemId.setValue(txtItemId.getText());
+                            item.colItemName.setValue(txtItemName.getText());
+                            item.colItemDescripton.setValue(txtItemDescription.getText());
+                            item.colPartNo.setValue(txtPartNo.getText());
+                            item.colMainCategory.setValue(cmbMainCategory.getValue());
+                            item.colSubCategory.setValue(cmbSubCategory.getValue());
+                            item.colUnit.setValue(cmbUnit.getValue());
+                            item.colUnitQty.setValue(cmbUnitQty.getValue());
+                            item.colQty.setValue(txtQty.getText());
+                            item.colBuyingPrice.setValue(txtBuyingPrice.getText());
+                            item.colSellingPrice.setValue(txtSellingPrice.getText());
+                            
+                            TableItemData.add(item);
+                            no = no + 1;
+                            txtItemId.setText(itemDAO.generateIDOOnDemand(no));
+                            loadBatchNoToCombobox(txtItemId.getText());
+                            
+                            //Clear item components for new entry
+                            clearComponentsForNewEntry();
+
+                        } else {
+                            mb.ShowMessage(stage,
+                                    ErrorMessages.InvalidItemName,
+                                    "Error",
+                                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                    MessageBox.MessageType.MSG_OK);
+                        }
+
+                    } else {
+                        if (tblItemList.getItems().size() != 0) {
+                            //Removing existing item for update or new addition
+                            int n = tblItemList.getItems().size();
+                            for (int s = 0; s < n; s++) {
+                                item = (Item) tblItemList.getItems().get(s);
+                                if ((txtItemId.getText() + cmbBatchNo.getValue()).
+                                        equals(
+                                                (item.getColItemId() + item.
+                                                getColBatchNo()))
+                                        && tblItemList.getItems().size() > 0) {
+                                    TableItemData.remove(s);
+                                    n--;
+                                }
+
+                                if (txtItemId.getText().equals(
+                                        item.getColItemId())
+                                        && tblItemList.getItems().size() > 0) {
+                                    if (!item.getColItemName().equals(
+                                            txtItemName.getText())) {
+                                        item.colItemName.setValue(
+                                                txtItemName.getText());
+                                    }
+                                }
+                            }
+                        }
+                        //Adding items to the table
+                        item = new Item();
+                        item.colItemId.setValue(txtItemId.getText());
+                        item.colItemName.setValue(txtItemName.getText());
+                        item.colItemDescripton.setValue(txtItemDescription.getText());
+                        item.colPartNo.setValue(txtPartNo.getText());
+                        item.colMainCategory.setValue(cmbMainCategory.getValue());
+                        item.colSubCategory.setValue(cmbSubCategory.getValue());
+                        item.colUnit.setValue(cmbUnit.getValue());
+                        item.colUnitQty.setValue(cmbUnitQty.getValue());
+                        item.colQty.setValue(txtQty.getText());
+                        item.colBuyingPrice.setValue(txtBuyingPrice.getText());
+                        item.colSellingPrice.setValue(txtSellingPrice.getText());
+                                        
+                        TableItemData.add(item);
+
+                        //Resetting fields for next item
+                        txtItemId.setText(itemDAO.generateID());
+                        loadBatchNoToCombobox(txtItemId.getText());
+                        txtItemName.clear();
+                        
+
+                        update = true;
+                        btnSave.setVisible(true);
+
+                    }
+
+                }
+            }
+        }
+        validatorInitialization();
+
+        
+        
     }
 
     @FXML
@@ -621,7 +837,42 @@ public class ItemsController extends AnchorPane implements Initializable,
     private void txtQtyOnKeyReleased(KeyEvent event) {
     }
 
+    @FXML
+    private void cmbMainCategoryOnKeyReleased(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.DELETE | event.getCode()
+                == KeyCode.BACK_SPACE) {
+
+            if (cmbMainCategory.getValue() != null) {
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        "Are you sure you want \nto remove the main category ? ",
+                        "Main Category",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    boolean isRemoved = itemDAO.deleteMainCategory(
+                            cmbMainCategory.getValue());
+
+                    if (isRemoved == true) {
+                        loadMainCategoryToCombobox();
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyDeleted,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+                }
+            }
+            loadMainCategoryToCombobox();
+            validatorInitialization();
+        }
+
+    }
+
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Mouse Events">
     @FXML
     void tblRequestNoteListOnMouseClicked(
@@ -653,16 +904,28 @@ public class ItemsController extends AnchorPane implements Initializable,
                 "tcItemId");
         public SimpleStringProperty colItemName = new SimpleStringProperty(
                 "tcItemName");
-        public SimpleStringProperty colQty = new SimpleStringProperty(
+        public SimpleStringProperty colItemDescripton
+                = new SimpleStringProperty(
+                        "tcItemDescripton");
+        public SimpleStringProperty colPartNo = new SimpleStringProperty(
+                "tcPartNo");
+        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
                 "tcBatchNo");
-        public SimpleStringProperty colPrice = new SimpleStringProperty(
-                "tcPrice");
-//        public SimpleStringProperty colItemName = new SimpleStringProperty(
-//                "tcItemName");
-//        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
-//                "tcBatchNo");
-//        public SimpleStringProperty colPrice = new SimpleStringProperty(
-//                "tcPrice");
+        public SimpleStringProperty colMainCategory = new SimpleStringProperty(
+                "tcMainCategory");
+        public SimpleStringProperty colSubCategory = new SimpleStringProperty(
+                "tcSubCategory");
+        public SimpleStringProperty colUnit = new SimpleStringProperty(
+                "tcUnit");
+        public SimpleStringProperty colUnitQty = new SimpleStringProperty(
+                "tcUnitQty");
+        public SimpleStringProperty colQty = new SimpleStringProperty(
+                "tcQty");
+        public SimpleStringProperty colBuyingPrice = new SimpleStringProperty(
+                "tcBuyingPrice");
+        public SimpleStringProperty colSellingPrice
+                = new SimpleStringProperty(
+                        "tcItSellingPrice");
 
         public String getColItemId() {
             return colItemId.get();
@@ -672,21 +935,72 @@ public class ItemsController extends AnchorPane implements Initializable,
             return colItemName.get();
         }
 
-//        public String getColBatchNo() {
-////            return colBatchNo.get();
-//        }
-
-        public String getColPrice() {
-            return colPrice.get();
+        public String getColItemDescripton() {
+            return colItemDescripton.get();
         }
 
-        public void setColColItemName(String itemName) {
+        public String getColPartNo() {
+            return colPartNo.get();
+        }
+
+        public String getColBatchNo() {
+            return colBatchNo.get();
+        }
+
+        public String getColMainCategory() {
+            return colMainCategory.get();
+        }
+
+        public String getColSubCategory() {
+            return colSubCategory.get();
+        }
+
+        public String getColUnit() {
+            return colUnit.get();
+        }
+
+        public String getColUnitQty() {
+            return colUnitQty.get();
+        }
+
+        public String getColQty() {
+            return colQty.get();
+        }
+
+        public String getColBuyingPrice() {
+            return colBuyingPrice.get();
+        }
+
+        public String getColSellingPrice() {
+            return colSellingPrice.get();
+        }
+        
+        public void setColItemName(String itemName) {
             colItemName.setValue(itemName);
         }
 
     }
 
     //<editor-fold defaultstate="collapsed" desc="Methods">
+    private void loadMainCategoryToCombobox() {
+
+        cmbMainCategory.setItems(null);
+        ArrayList<String> mainCategoryList = null;
+        mainCategoryList = itemDAO.loadMainCategory();
+        if (mainCategoryList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        mainCategoryList);
+                cmbMainCategory.setItems(List);
+                cmbMainCategory.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+
+    }
+
     private void validatorInitialization() {
 
 //        validationSupportTableData.registerValidator(txtItemName,
@@ -703,7 +1017,6 @@ public class ItemsController extends AnchorPane implements Initializable,
 //                new CustomTableViewValidationImpl(tblItemList,
 //                        !fav.validTableView(tblItemList),
 //                        ErrorMessages.EmptyListView));
-
     }
 
     private void itemTableDataLoader(String keyword) {
@@ -860,8 +1173,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         btnBatchNo.setDisable(state);
         btnBatchNo.setVisible(!state);
 
-       
-
         tblItemList.setDisable(state);
         tblItemList.setVisible(!state);
 
@@ -883,7 +1194,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         userCategory = UserSession.getInstance().getUserInfo().getCategory();
         txtUserId.setText(userName);
 
-        String title = stageExtra.getTitle();
+        String title = stage.getTitle();
 
         if (!title.isEmpty()) {
 
@@ -1009,6 +1320,24 @@ public class ItemsController extends AnchorPane implements Initializable,
     private void deactivateCombo() {
         componentControl.controlCComboBox(lblItemId1, cmbBatchNo, btnBatchNo,
                 220.00, 0.0, true);
+    }
+    
+    private void clearComponentsForNewEntry(){
+    
+        txtItemId.clear();
+        txtItemName.clear();
+        txtItemDescription.clear();
+        txtPartNo.clear();
+        cmbBatchNo.getSelectionModel().selectFirst();
+        cmbMainCategory.getSelectionModel().selectFirst();
+        cmbSubCategory.getSelectionModel().selectFirst();
+        cmbUnit.getSelectionModel().selectFirst();
+        cmbUnitQty.getSelectionModel().selectFirst();
+        txtQty.clear();
+        txtBuyingPrice.clear();
+        txtSellingPrice.clear();
+        
+    
     }
 
 //</editor-fold>

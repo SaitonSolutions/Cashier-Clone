@@ -1320,7 +1320,7 @@ public class CustomerRegistrationDAO {
     }
     
         public Boolean insertCustomerType(
-            String tel_no) {
+            String customerType) {
 
         if (star.con == null) {
 
@@ -1332,7 +1332,7 @@ public class CustomerRegistrationDAO {
 
                 PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
                         + "customer_type(customer_type) VALUES(?)");
-                ps.setString(1, tel_no);
+                ps.setString(1, customerType);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {

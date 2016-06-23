@@ -665,7 +665,8 @@ public class ItemDAO {
         }
     }
 
-    public boolean additem(String itemId,
+    public boolean additem(
+            String itemId,
             String itemName,
             double qty,
             String userId,
@@ -674,7 +675,11 @@ public class ItemDAO {
             String itemMainCategory,
             String itemSubCategory,
             String batchNo,
-            Double price) {
+            double buyingPrice,
+            double reorderLevel,
+            double sellingPrice,
+            String unit) {
+
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
 //        String encodedItemName = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, itemName);
@@ -703,7 +708,15 @@ public class ItemDAO {
                 ResultSet r = pstmt.executeQuery();
 
                 while (r.next()) {
-                    value = updateItems(itemId, itemName, userId);
+                    value = updateItems(itemId,
+                            itemName,
+                            qty,
+                            userId,
+                            itemDesc,
+                            partNo,
+                            itemMainCategory,
+                            itemSubCategory);
+
                     available = true;
                 }
                 if (available == false) {
@@ -728,10 +741,23 @@ public class ItemDAO {
 
                 while (r1.next()) {
                     available1 = true;
-                    value = updateItemsSub(itemId, batchNo, price);
+                    value = updateItemsSub(
+                            itemId,
+                            batchNo,
+                            qty,
+                            buyingPrice,
+                            reorderLevel,
+                            sellingPrice,
+                            unit);
                 }
                 if (available1 == false) {
-                    value = insertItemsSub(itemId, batchNo, price);
+                    value = insertItemsSub(itemId,
+                            batchNo,
+                            qty,
+                            buyingPrice,
+                            reorderLevel,
+                            sellingPrice,
+                            unit);
                 }
 
             } catch (NullPointerException | SQLException e) {
@@ -828,14 +854,23 @@ public class ItemDAO {
     public Boolean updateItems(
             String itemId,
             String itemName,
-            String userId
+            double qty,
+            String userId,
+            String itemDesc,
+            String partNo,
+            String itemMainCategory,
+            String itemSubCategory
     ) {
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
-//        String encodedItemName = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, itemName);
+
         String encodedItemName = itemName;
         String encodeduserId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, userId);
+        String encodedItemMainCategory = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, itemMainCategory);
+        String encodedItemSubCategory = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, itemSubCategory);
 
         if (star.con == null) {
             log.error("Databse connection failiure.");
@@ -844,13 +879,24 @@ public class ItemDAO {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement(
-                        "UPDATE item SET `item_name`=? , "
-                        + "`user_id`=? WHERE `item_id`=? ");
+                        "UPDATE item SET "
+                        + "`item_name`=? , "
+                        + "`qty`=? ,"
+                        + "`user_id`=? , "
+                        + "`item_description`=? , "
+                        + "`part_no`=? , "
+                        + "`item_main_category`=? , "
+                        + "`item_sub_category`=?  "
+                        + " WHERE `item_id`=? ");
 
                 ps.setString(1, encodedItemName);
-
-                ps.setString(2, encodeduserId);
-                ps.setString(3, encodedItemId);
+                ps.setDouble(2, qty);
+                ps.setString(3, encodeduserId);
+                ps.setString(4, itemDesc);
+                ps.setString(5, partNo);
+                ps.setString(6, encodedItemMainCategory);
+                ps.setString(7, encodedItemSubCategory);
+                ps.setString(8, encodedItemId);
 
                 int val = ps.executeUpdate();
 
@@ -878,25 +924,42 @@ public class ItemDAO {
     public Boolean insertItemsSub(
             String itemId,
             String batchNo,
-            Double price) {
+            double qty,
+            double buyingPrice,
+            double reorderLevel,
+            double sellingPrice,
+            String unit) {
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
         String encodedBatchNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 batchNo);
+        String encodedUnit = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                unit);
 
         if (star.con == null) {
-            log.error("Databse connection failiure.");
+            log.error("Database connection failiure.");
             return false;
         } else {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement(
-                        "INSERT INTO item_sub(`item_id`, `batch_no`, `price`) "
-                        + "VALUES(?,?,?)");
+                        "INSERT INTO item_sub("
+                        + "`item_id`,"
+                        + " `batch_no`,"
+                        + " `qty`,"
+                        + " `buying_price`,"
+                        + " `reorder_level`,"
+                        + " `selling_price`,"
+                        + " `unit`) "
+                        + "VALUES(?,?,?,?,?,?,?)");
 
                 ps.setString(1, encodedItemId);
                 ps.setString(2, encodedBatchNo);
-                ps.setDouble(3, price);
+                ps.setDouble(3, qty);
+                ps.setDouble(4, buyingPrice);
+                ps.setDouble(5, reorderLevel);
+                ps.setDouble(6, sellingPrice);
+                ps.setString(7, unit);
 
                 int val = ps.executeUpdate();
 
@@ -924,7 +987,11 @@ public class ItemDAO {
     public Boolean updateItemsSub(
             String itemId,
             String batchNo,
-            Double price) {
+            double qty,
+            double buyingPrice,
+            double reorderLevel,
+            double sellingPrice,
+            String unit) {
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
         String encodedBatchNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
@@ -937,12 +1004,20 @@ public class ItemDAO {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement(
-                        "UPDATE item_sub SET `price`=? "
+                        "UPDATE item_sub SET "
+                        + "`qty`=? ,"
+                        + "`buying_price`=? ,"
+                        + "`reorder_level`=? ,"
+                        + "`selling_price`=? ,"
+                        + "`unit`=? ,"
                         + "WHERE `item_id`=? and `batch_no`=? ");
 
-                ps.setDouble(1, price);
-                ps.setString(2, encodedItemId);
-                ps.setString(3, encodedBatchNo);
+                ps.setDouble(1, qty);
+                ps.setDouble(2, buyingPrice);
+                ps.setDouble(3, reorderLevel);
+                ps.setDouble(4, sellingPrice);
+                ps.setString(5, encodedItemId);
+                ps.setString(6, encodedBatchNo);
 
                 int val = ps.executeUpdate();
 
@@ -1030,6 +1105,228 @@ public class ItemDAO {
             } catch (Exception e) {
                 log.error("Exception tag --> " + "Error");
                 return null;
+            }
+        }
+    }
+
+    public Boolean insertMainCategory(
+            String mainCategory) {
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + "item_main_category (title) VALUES(?)");
+                ps.setString(1, mainCategory);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+
+    public ArrayList loadMainCategory() {
+
+        String mainCategory = null;
+        ArrayList mainCategoryList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM item_main_category");
+                while (r.next()) {
+                    mainCategory = r.getString("title");
+
+                    mainCategoryList.add(mainCategory);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return mainCategoryList;
+    }
+
+    public boolean deleteMainCategory(String mainCategory) {
+        if (star.con == null) {
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        } else {
+            String encodedTitle = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, mainCategory);
+            try {
+                String sql = "DELETE FROM item_main_category where `title`= ? ";
+                PreparedStatement stmt = Starter.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, encodedTitle);
+                int val = stmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                log.error("Exception tag --> " + "Invalid sql statement " + e.
+                        getMessage());
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+        }
+    }
+
+    public Boolean insertSubCategory(
+            String subCategory) {
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + "item_sub_category (itemSubCatebory) VALUES(?)");
+                ps.setString(1, subCategory);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+
+    //Need some modification
+    public ArrayList loadSubCategory() {
+
+        String subCategory = null;
+        ArrayList subCategoryList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM item_sub_category");
+                while (r.next()) {
+                    subCategory = r.getString("itemSubCatebory");
+
+                    subCategoryList.add(subCategory);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return subCategoryList;
+    }
+
+    public boolean deleteSubCategory(String subCategory) {
+        if (star.con == null) {
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        } else {
+            String encodedSubCategory = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, subCategory);
+            try {
+                String sql = "DELETE FROM item_sub_category where "
+                        + "`itemSubCatebory`= ? ";
+                PreparedStatement stmt = Starter.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, encodedSubCategory);
+                int val = stmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                log.error("Exception tag --> " + "Invalid sql statement " + e.
+                        getMessage());
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
             }
         }
     }
