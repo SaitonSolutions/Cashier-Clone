@@ -17,6 +17,7 @@ import com.saiton.ccs.uihandle.UiMode;
 import com.saiton.ccs.util.InputDialog;
 import com.saiton.ccs.validations.CustomComboboxValidationImpl;
 import com.saiton.ccs.validations.CustomTableViewValidationImpl;
+import com.saiton.ccs.validations.CustomTextAreaValidationImpl;
 import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
 import com.saiton.ccs.validations.ErrorMessages;
 import com.saiton.ccs.validations.FormatAndValidate;
@@ -677,13 +678,13 @@ public class ItemsController extends AnchorPane implements Initializable,
         
          boolean validationSupportResult = false;
         boolean isAvalible = false;
-
+        
         if (event.getCode() == KeyCode.ENTER) {
 
             ValidationResult v = validationSupportTableData.
                     getValidationResult();
             if (v != null) {
-
+System.out.println("System loaded...");
                 validationSupportResult = validationSupportTableData.isInvalid();
                 if (validationSupportResult == true) {
                     mb.ShowMessage(stage, ErrorMessages.MandatoryError,
@@ -692,7 +693,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                             MessageBox.MessageType.MSG_OK);
 
                 } else if (validationSupportResult == false) {
-
+                    
                     if (isupdate == false) {
 
                         isAvalible = itemDAO.checkingItemNameAvailability(
@@ -1003,20 +1004,27 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     private void validatorInitialization() {
 
-//        validationSupportTableData.registerValidator(txtItemName,
-//                new CustomTextFieldValidationImpl(txtItemName,
-//                        !fav.validName(txtItemName.getText()),
-//                        ErrorMessages.Error));
-//
-//        validationSupportTableData.registerValidator(txtPrice,
-//                new CustomTextFieldValidationImpl(txtPrice,
-//                        !fav.chkPrice(txtPrice.getText()),
-//                        ErrorMessages.InvalidPrice));
-//
-//        validationSupportTable.registerValidator(tblItemList,
-//                new CustomTableViewValidationImpl(tblItemList,
-//                        !fav.validTableView(tblItemList),
-//                        ErrorMessages.EmptyListView));
+
+        
+         validationSupportTableData.registerValidator(txtItemName,
+                new CustomTextAreaValidationImpl(txtItemName,
+                        !fav.validName(txtItemName.getText()),
+                        ErrorMessages.Error));
+
+        validationSupportTableData.registerValidator(txtBuyingPrice,
+                new CustomTextFieldValidationImpl(txtBuyingPrice,
+                        !fav.chkPrice(txtBuyingPrice.getText()),
+                        ErrorMessages.InvalidPrice));
+        
+        validationSupportTableData.registerValidator(txtSellingPrice,
+                new CustomTextFieldValidationImpl(txtSellingPrice,
+                        !fav.chkPrice(txtSellingPrice.getText()),
+                        ErrorMessages.InvalidPrice));
+
+        validationSupportTable.registerValidator(tblItemList,
+                new CustomTableViewValidationImpl(tblItemList,
+                        !fav.validTableView(tblItemList),
+                        ErrorMessages.EmptyListView));
     }
 
     private void itemTableDataLoader(String keyword) {
