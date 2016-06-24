@@ -447,9 +447,6 @@ public class ItemsController extends AnchorPane implements Initializable,
                         for (int i = 0; i < tblItemList.getItems().size(); i++) {
                             itemTable = (Item) tblItemList.getItems().get(i);
 
-                            itemDAO.getSubCategoryId(itemTable.getColSubCategory(),
-                                            Integer.parseInt(itemDAO.getMainCategoryId(itemTable.getColMainCategory())));
-                            
                             
                             isTableContentSaved = itemDAO.additem(
                                     itemTable.getColItemId(),
@@ -887,7 +884,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                             item.colItemDescripton.setValue(txtItemDescription.getText());
                             item.colPartNo.setValue(txtPartNo.getText());
                             item.colMainCategory.setValue(cmbMainCategory.getValue());
-                            item.colSubCategory.setValue(cmbUnitQty.getValue());
+                            item.colSubCategory.setValue(cmbSubCategory.getValue());
                             item.colUnit.setValue(cmbUnit.getValue());
                             item.colUnitQty.setValue(cmbUnitQty.getValue());
                             item.colQty.setValue(txtQty.getText());
