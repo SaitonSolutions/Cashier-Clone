@@ -1131,8 +1131,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     private void validatorInitialization() {
-
-
         
          validationSupportTableData.registerValidator(txtItemName,
                 new CustomTextAreaValidationImpl(txtItemName,
@@ -1144,6 +1142,16 @@ public class ItemsController extends AnchorPane implements Initializable,
                         !fav.chkPrice(txtBuyingPrice.getText()),
                         ErrorMessages.InvalidPrice));
         
+        validationSupportTableData.registerValidator(txtQty,
+                new CustomTextFieldValidationImpl(txtQty,
+                        !fav.chkPrice(txtQty.getText()),
+                        ErrorMessages.InvalidQty));
+        
+        validationSupportTableData.registerValidator(txtQty,
+                new CustomTextFieldValidationImpl(txtQty,
+                        !fav.chkPrice(txtQty.getText()),
+                        ErrorMessages.InvalidQty));
+        
         validationSupportTableData.registerValidator(txtSellingPrice,
                 new CustomTextFieldValidationImpl(txtSellingPrice,
                         !fav.chkPrice(txtSellingPrice.getText()),
@@ -1153,6 +1161,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                 new CustomTableViewValidationImpl(tblItemList,
                         !fav.validTableView(tblItemList),
                         ErrorMessages.EmptyListView));
+        
     }
 
     private void itemTableDataLoader(String keyword) {
