@@ -387,6 +387,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         mainCategoryData = cmbMainCategory.getItems();
         subCategoryData = cmbUnitQty.getItems();
         unitData = cmbUnit.getItems();
+        unitQtyData = cmbUnitQty.getItems();
         
         loadMainCategoryToCombobox();
         loadSubCategoryToCombobox();
@@ -716,6 +717,8 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void cmbBUnitOnAction(ActionEvent event) {
+        
+        loadUnitQtyToCombobox();
     }
 
     @FXML
@@ -760,6 +763,8 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void cmbBUnitQtyOnAction(ActionEvent event) {
+        
+        
     }
 
     @FXML
@@ -777,14 +782,15 @@ public class ItemsController extends AnchorPane implements Initializable,
             return;
         }
 
-        if (unitData.contains(unitQty)) {
+        if (unitQtyData.contains(unitQty)) {
             mb.ShowMessage(stage, "Duplicate Unit qty", "Unit-Qty",
                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                     MessageBox.MessageType.MSG_OK);
             return;
         }
 
-        isSaved = itemDAO.insertUnit(unitQty);
+        isSaved = itemDAO.insertUnitQty(unitQty,
+                Integer.parseInt(itemDAO.getUnitId(cmbUnit.getValue())));
 
         if (isSaved == false) {
             mb.ShowMessage(stage, "Data not saved.", "Unit-Qty",
@@ -795,7 +801,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         //success
         unitQtyData.add(unitQty);
-        loadUnitToCombobox();
+        loadUnitQtyToCombobox();
         cmbUnitQty.getSelectionModel().select(unitQty);
 
         validatorInitialization();

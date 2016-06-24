@@ -1554,6 +1554,54 @@ public class ItemDAO {
         }
     }
      
+      public Boolean insertUnitQty(
+            String unitQty,int unitId) {
+        
+        String encodedUnitQty = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, unitQty);
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + "item_unit_value (unit_qty,item_unit)"
+                        + " VALUES(?,?)");
+                ps.setString(1, encodedUnitQty);
+                ps.setInt(2, unitId);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+     
      public boolean deleteUnit(String unit) {
         if (star.con == null) {
             log.info(" Exception tag --> " + "Databse connection failiure. ");
