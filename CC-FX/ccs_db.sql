@@ -504,7 +504,7 @@ CREATE TABLE `item` (
   CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_fk3` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `item_fk4` FOREIGN KEY (`item_sub_category`) REFERENCES `item_sub_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,36 +513,8 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `item_category`
---
-
-DROP TABLE IF EXISTS `item_category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `item_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `itemMainCategory` int(11) NOT NULL,
-  `itemSubCategorycol` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `item_category_fk1_idx` (`itemMainCategory`),
-  KEY `item_category_fk2_idx` (`itemSubCategorycol`),
-  CONSTRAINT `item_category_fk1` FOREIGN KEY (`itemMainCategory`) REFERENCES `item_main_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `item_category_fk2` FOREIGN KEY (`itemSubCategorycol`) REFERENCES `item_sub_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `item_category`
---
-
-LOCK TABLES `item_category` WRITE;
-/*!40000 ALTER TABLE `item_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `item_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -557,7 +529,7 @@ CREATE TABLE `item_main_category` (
   `title` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -566,7 +538,7 @@ CREATE TABLE `item_main_category` (
 
 LOCK TABLES `item_main_category` WRITE;
 /*!40000 ALTER TABLE `item_main_category` DISABLE KEYS */;
-INSERT INTO `item_main_category` VALUES (1,'Oil'),(2,'gear oil');
+INSERT INTO `item_main_category` VALUES (2,'gear oil');
 /*!40000 ALTER TABLE `item_main_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,7 +562,7 @@ CREATE TABLE `item_sub` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_fk1` (`item_id`),
   CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -599,6 +571,7 @@ CREATE TABLE `item_sub` (
 
 LOCK TABLES `item_sub` WRITE;
 /*!40000 ALTER TABLE `item_sub` DISABLE KEYS */;
+INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,NULL);
 /*!40000 ALTER TABLE `item_sub` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -617,7 +590,7 @@ CREATE TABLE `item_sub_category` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_category_fk1_idx` (`item_main_category`),
   CONSTRAINT `item_sub_category_fk1` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -626,7 +599,7 @@ CREATE TABLE `item_sub_category` (
 
 LOCK TABLES `item_sub_category` WRITE;
 /*!40000 ALTER TABLE `item_sub_category` DISABLE KEYS */;
-INSERT INTO `item_sub_category` VALUES (1,'caltex',1);
+INSERT INTO `item_sub_category` VALUES (3,'ioc',2);
 /*!40000 ALTER TABLE `item_sub_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -638,7 +611,7 @@ DROP TABLE IF EXISTS `item_unit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item_unit` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `unit` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -661,7 +634,7 @@ DROP TABLE IF EXISTS `item_unit_value`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item_unit_value` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `unit_qty` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1516,4 +1489,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-24 17:01:55
+-- Dump completed on 2016-06-24 17:45:14
