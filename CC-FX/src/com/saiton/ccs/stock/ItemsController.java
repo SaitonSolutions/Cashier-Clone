@@ -44,6 +44,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.controlsfx.control.PopOver;
@@ -219,7 +220,7 @@ public class ItemsController extends AnchorPane implements Initializable,
             observableArrayList();
     private ItemInfoPopup itemPopup = new ItemInfoPopup();
     ObservableList<String> batchNoList;
-    private ObservableList<String> mainCategoryData;
+    private ObservableList<String> subCategoryData;
     @FXML
     private ComboBox<String> cmbUnit;
     @FXML
@@ -373,8 +374,9 @@ public class ItemsController extends AnchorPane implements Initializable,
             }
         });
 
-        mainCategoryData = cmbMainCategory.getItems();
+        subCategoryData = cmbMainCategory.getItems();
         loadMainCategoryToCombobox();
+        loadSubCategoryToCombobox();
 
         validatorInitialization();
     }
@@ -602,12 +604,14 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void cmbMainCategoryNoOnAction(ActionEvent event) {
+         loadSubCategoryToCombobox();
+        
     }
 
     @FXML
     private void btnMainCategoryOnAction(ActionEvent event) {
 
-        String mainCategory = InputDialog.inputForAddNew("Customer Type");
+        String mainCategory = InputDialog.inputForAddNew("Main Category");
         boolean isSaved = false;
         if (mainCategory == null) {
             return;
@@ -619,7 +623,7 @@ public class ItemsController extends AnchorPane implements Initializable,
             return;
         }
 
-        if (mainCategoryData.contains(mainCategory)) {
+        if (subCategoryData.contains(mainCategory)) {
             mb.ShowMessage(stage, "Duplicate Main Category", "Main Category",
                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                     MessageBox.MessageType.MSG_OK);
@@ -636,7 +640,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
 
         //success
-        mainCategoryData.add(mainCategory);
+        subCategoryData.add(mainCategory);
         loadMainCategoryToCombobox();
         cmbMainCategory.getSelectionModel().select(mainCategory);
 
@@ -646,10 +650,51 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void cmbSubCategoryNoOnAction(ActionEvent event) {
+        
+                
+
+        
     }
 
     @FXML
     private void btnSubCategoryOnAction(ActionEvent event) {
+        
+         String subCategory = InputDialog.inputForAddNew("Sub Category");
+        boolean isSaved = false;
+        if (subCategory == null) {
+            return;
+        }
+        if (!fav.validAddress(subCategory)) {
+            mb.ShowMessage(stage, "Invalid Sub Category", "Sub Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (subCategoryData.contains(subCategory)) {
+            mb.ShowMessage(stage, "Duplicate Sub Category", "Sub Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        isSaved = itemDAO.insertSubCategory(subCategory,
+                Integer.parseInt(itemDAO.getMainCategoryId(cmbMainCategory.getValue())));
+
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Sub Category",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        //success
+        subCategoryData.add(subCategory);
+        loadSubCategoryToCombobox();
+        cmbSubCategory.getSelectionModel().select(subCategory);
+
+        validatorInitialization();
+        
     }
 
     @FXML
@@ -877,6 +922,46 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
 
     }
+    
+    @FXML
+    private void cmbSubCategoryNoOnKeyReleased(KeyEvent event) {
+        
+         if (event.getCode() == KeyCode.DELETE | event.getCode()
+                == KeyCode.BACK_SPACE) {
+
+            if (cmbSubCategory.getValue() != null) {
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        "Are you sure you want \nto remove the sub category ? ",
+                        "Sub Category",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    boolean isRemoved = itemDAO.deleteSubCategory(
+                            cmbSubCategory.getValue(),
+                            Integer.parseInt(itemDAO.getMainCategoryId(
+                                            cmbMainCategory.getValue()))
+                    
+                    
+                    );
+
+                    if (isRemoved == true) {
+                        loadSubCategoryToCombobox();
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyDeleted,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+                }
+            }
+            loadSubCategoryToCombobox();
+            validatorInitialization();
+        }
+
+        
+    }
 
 //</editor-fold>
     
@@ -902,6 +987,15 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         }
     }
+
+    @FXML
+    private void cmbMainCategoryOnMouseReleased(MouseEvent event) {
+        
+       
+        
+    }
+
+    
 
 //</editor-fold>
     
@@ -1000,6 +1094,27 @@ public class ItemsController extends AnchorPane implements Initializable,
                         mainCategoryList);
                 cmbMainCategory.setItems(List);
                 cmbMainCategory.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+                loadSubCategoryToCombobox();
+
+    }
+    
+    private void loadSubCategoryToCombobox() {
+
+        cmbSubCategory.setItems(null);
+        ArrayList<String> subCategoryList = null;
+        subCategoryList = itemDAO.loadSubCategory
+        (Integer.parseInt(itemDAO.getMainCategoryId(cmbMainCategory.getValue())));
+        if (subCategoryList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        subCategoryList);
+                cmbSubCategory.setItems(List);
+                cmbSubCategory.setValue(List.get(0));
             } catch (Exception e) {
 
             }

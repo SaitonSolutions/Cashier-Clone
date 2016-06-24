@@ -1220,7 +1220,10 @@ public class ItemDAO {
     }
 
     public Boolean insertSubCategory(
-            String subCategory) {
+            String subCategory,int mainId) {
+        
+        String encodedSubCategory = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, subCategory);
 
         if (star.con == null) {
 
@@ -1231,8 +1234,10 @@ public class ItemDAO {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
-                        + "item_sub_category (itemSubCatebory) VALUES(?)");
-                ps.setString(1, subCategory);
+                        + "item_sub_category (item_Sub_Category,item_main_category)"
+                        + " VALUES(?,?)");
+                ps.setString(1, encodedSubCategory);
+                ps.setInt(2, mainId);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {
@@ -1263,7 +1268,7 @@ public class ItemDAO {
     }
 
     //Need some modification
-    public ArrayList loadSubCategory() {
+    public ArrayList loadSubCategory(int mainId) {
 
         String subCategory = null;
         ArrayList subCategoryList = new ArrayList();
@@ -1273,12 +1278,21 @@ public class ItemDAO {
         } else {
             try {
                 Statement stt = star.con.createStatement();
-                ResultSet r = stt.
-                        executeQuery("SELECT * FROM item_sub_category");
-                while (r.next()) {
-                    subCategory = r.getString("itemSubCatebory");
+               
+                
+                String query = " SELECT * FROM item_sub_category "
+                                + " Where item_main_category = ? ";
 
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setInt(1, mainId);
+                
+                ResultSet r = pstmt.executeQuery();
+                
+                while (r.next()) {
+                    
+                    subCategory = r.getString("item_sub_category");
                     subCategoryList.add(subCategory);
+                    
                 }
 
             } catch (ArrayIndexOutOfBoundsException | SQLException |
@@ -1301,19 +1315,26 @@ public class ItemDAO {
         return subCategoryList;
     }
 
-    public boolean deleteSubCategory(String subCategory) {
+    public boolean deleteSubCategory(String subCategory,int mainId) {
+        
+        String encodedSubCategory = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, subCategory);
+        
+        
         if (star.con == null) {
             log.info(" Exception tag --> " + "Databse connection failiure. ");
             return false;
         } else {
-            String encodedSubCategory = ESAPI.encoder().
-                    encodeForSQL(ORACLE_CODEC, subCategory);
+           
             try {
                 String sql = "DELETE FROM item_sub_category where "
-                        + "`itemSubCatebory`= ? ";
+                        + "`item_sub_category`= ? AND item_main_category = ? ";
                 PreparedStatement stmt = Starter.con.prepareStatement(sql,
                         Statement.RETURN_GENERATED_KEYS);
+                
                 stmt.setString(1, encodedSubCategory);
+                stmt.setInt(2, mainId);
+                
                 int val = stmt.executeUpdate();
                 if (val == 1) {
                     return true;

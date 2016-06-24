@@ -212,7 +212,7 @@
                         <HBox id="HBox" alignment="CENTER" layoutX="374.0" layoutY="76.0" spacing="5.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3">
                            <children>
                               <Label fx:id="lblMainCategory" prefWidth="100.0" text="Main Category" />
-                              <ComboBox fx:id="cmbMainCategory" onAction="#cmbMainCategoryNoOnAction" onKeyReleased="#cmbMainCategoryOnKeyReleased" prefWidth="190.0" promptText="Main Category" styleClass="combo-box-popup">
+                              <ComboBox fx:id="cmbMainCategory" onAction="#cmbMainCategoryNoOnAction" onKeyReleased="#cmbMainCategoryOnKeyReleased" onMouseReleased="#cmbMainCategoryOnMouseReleased" prefWidth="190.0" promptText="Main Category" styleClass="combo-box-popup">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="Item 1" />
@@ -235,7 +235,7 @@
                         <HBox id="HBox" alignment="CENTER" layoutX="374.0" layoutY="166.0" spacing="5.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="4">
                            <children>
                               <Label fx:id="lblSubCategory" prefWidth="100.0" text="Sub Category" />
-                              <ComboBox fx:id="cmbSubCategory" onAction="#cmbSubCategoryNoOnAction" prefWidth="190.0" promptText="Sub Category" styleClass="combo-box-popup">
+                              <ComboBox fx:id="cmbSubCategory" onAction="#cmbSubCategoryNoOnAction" onKeyReleased="#cmbSubCategoryNoOnKeyReleased" prefWidth="190.0" promptText="Sub Category" styleClass="combo-box-popup">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="Item 1" />
