@@ -636,7 +636,10 @@ DROP TABLE IF EXISTS `item_unit_value`;
 CREATE TABLE `item_unit_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `unit_qty` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `item_unit` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_unit_value_fk1_idx` (`item_unit`),
+  CONSTRAINT `item_unit_value_fk1` FOREIGN KEY (`item_unit`) REFERENCES `item_unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1489,4 +1492,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-24 17:45:14
+-- Dump completed on 2016-06-24 17:55:43
