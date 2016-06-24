@@ -112,7 +112,7 @@
                                     <TableColumn fx:id="tcUnitQty" maxWidth="5000.0" minWidth="0.0" prefWidth="60.0" text="Unit Qty" />
                                     <TableColumn fx:id="tcQty" maxWidth="5000.0" minWidth="0.0" prefWidth="60.0" text="Qty" />
                                     <TableColumn fx:id="tcBuyingPrice" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Buying Price" />
-                                    <TableColumn fx:id="tcItSellingPrice" maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Selling Price" />
+                                    <TableColumn fx:id="tcSellingPrice" maxWidth="5000.0" minWidth="10.0" prefWidth="100.0" text="Selling Price" />
                       </columns>
                     </TableView>
                   </children>

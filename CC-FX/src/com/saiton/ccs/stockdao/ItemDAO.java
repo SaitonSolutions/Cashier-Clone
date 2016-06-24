@@ -682,7 +682,7 @@ public class ItemDAO {
 
         String encodedItemId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, itemId);
-//        String encodedItemName = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, itemName);
+//      String encodedItemName = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, itemName);
         String encodedItemName = itemName;
 
         String encodeduserId = ESAPI.encoder().
@@ -1329,6 +1329,124 @@ public class ItemDAO {
                 return false;
             }
         }
+    }
+    
+    public String getMainCategoryId(String mainCategory) {
+
+        String encodedMaincategory = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                mainCategory);
+       
+
+        String id = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_main_category "
+                        + "Where title = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedMaincategory);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    id = r.getString("id");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return id;
+    }
+    
+    public String getSubCategoryId(String subCategory) {
+
+        String encodedSubCategory = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                subCategory);
+       
+
+        String id = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_sub_category "
+                        + "Where itemSubCategory = ? and main xxxxx";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedSubCategory);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    id = r.getString("id");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return id;
     }
 
 }

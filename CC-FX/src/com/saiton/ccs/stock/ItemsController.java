@@ -170,7 +170,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TableColumn<Item, String> tcBuyingPrice;
 
     @FXML
-    private TableColumn<Item, String> tcItSellingPrice;
+    private TableColumn<Item, String> tcSellingPrice;
     @FXML
     private TableColumn<Item, String> tcQty;
     @FXML
@@ -252,8 +252,8 @@ public class ItemsController extends AnchorPane implements Initializable,
                 "colQty"));
         tcBuyingPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
                 "colBuyingPrice"));
-        tcItSellingPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
-                "colItSellingPrice"));
+        tcSellingPrice.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colSellingPrice"));
         
         tblItemList.setItems(TableItemData);
 
@@ -434,7 +434,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                                     userId,
                                     itemTable.getColItemDescripton(),
                                     itemTable.getColPartNo(),
-                                    itemTable.getColMainCategory(),
+                                    itemDAO.getMainCategoryId(itemTable.getColMainCategory()),
                                     itemTable.getColSubCategory(),
                                     itemTable.getColBatchNo(),
                                     Double.parseDouble(itemTable.getColBuyingPrice()),
@@ -668,6 +668,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Key Events">
     @FXML
     private void txtItemNameOnKeyReleased(KeyEvent event) {
@@ -676,7 +677,8 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private void txtSellingPriceOnKeyReleased(KeyEvent event) {
         
-         boolean validationSupportResult = false;
+        validatorInitialization();
+        boolean validationSupportResult = false;
         boolean isAvalible = false;
         
         if (event.getCode() == KeyCode.ENTER) {
@@ -684,7 +686,7 @@ public class ItemsController extends AnchorPane implements Initializable,
             ValidationResult v = validationSupportTableData.
                     getValidationResult();
             if (v != null) {
-System.out.println("System loaded...");
+
                 validationSupportResult = validationSupportTableData.isInvalid();
                 if (validationSupportResult == true) {
                     mb.ShowMessage(stage, ErrorMessages.MandatoryError,
@@ -743,8 +745,10 @@ System.out.println("System loaded...");
                             item.colQty.setValue(txtQty.getText());
                             item.colBuyingPrice.setValue(txtBuyingPrice.getText());
                             item.colSellingPrice.setValue(txtSellingPrice.getText());
+                            item.colBatchNo.setValue(cmbBatchNo.getValue());
                             
                             TableItemData.add(item);
+                            
                             no = no + 1;
                             txtItemId.setText(itemDAO.generateIDOOnDemand(no));
                             loadBatchNoToCombobox(txtItemId.getText());
