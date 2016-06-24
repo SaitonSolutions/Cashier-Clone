@@ -435,7 +435,8 @@ public class ItemsController extends AnchorPane implements Initializable,
                                     itemTable.getColItemDescripton(),
                                     itemTable.getColPartNo(),
                                     itemDAO.getMainCategoryId(itemTable.getColMainCategory()),
-                                    itemTable.getColSubCategory(),
+                                    itemDAO.getSubCategoryId(itemTable.getColSubCategory(),
+                                            Integer.parseInt(itemDAO.getMainCategoryId(itemTable.getColMainCategory()))),
                                     itemTable.getColBatchNo(),
                                     Double.parseDouble(itemTable.getColBuyingPrice()),
                                     10,//this needs to be updated in the interface
@@ -672,6 +673,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     //<editor-fold defaultstate="collapsed" desc="Key Events">
     @FXML
     private void txtItemNameOnKeyReleased(KeyEvent event) {
+        validatorInitialization();
     }
 
     @FXML

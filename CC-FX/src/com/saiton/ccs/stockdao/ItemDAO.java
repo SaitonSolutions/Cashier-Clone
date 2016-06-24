@@ -1390,7 +1390,7 @@ public class ItemDAO {
         return id;
     }
     
-    public String getSubCategoryId(String subCategory) {
+    public String getSubCategoryId(String subCategory,int mainCategoryId) {
 
         String encodedSubCategory = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 subCategory);
@@ -1408,10 +1408,11 @@ public class ItemDAO {
 
                 String query = "SELECT * "
                         + "From item_sub_category "
-                        + "Where itemSubCategory = ? and main xxxxx";
+                        + "Where item_sub_category = ? AND item_main_category = ?";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedSubCategory);
+                pstmt.setInt(2, mainCategoryId);
                 
                 ResultSet r = pstmt.executeQuery();
 
