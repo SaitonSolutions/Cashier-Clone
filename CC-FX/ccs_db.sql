@@ -611,7 +611,7 @@ DROP TABLE IF EXISTS `item_sub_category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item_sub_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `itemSubCatebory` varchar(45) DEFAULT NULL,
+  `item_Sub_Category` varchar(45) DEFAULT NULL,
   `item_main_category` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -1469,4 +1469,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-24 12:19:48
+-- Dump completed on 2016-06-24 12:36:47
