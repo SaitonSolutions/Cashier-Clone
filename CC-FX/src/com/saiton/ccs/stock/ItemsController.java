@@ -94,13 +94,11 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ComboBox<String> cmbMainCategory;
 
     @FXML
-    private ComboBox<String> cmbSubCategory;
+    private ComboBox<String> cmbUnitQty;
     
     @FXML
     private ComboBox<String> cmbUnit;
-    @FXML
-    private ComboBox<String> cmbUnitQty;
-
+   
 
 //</editor-fold>
     
@@ -235,6 +233,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ObservableList<String> subCategoryData;
     private ObservableList<String> mainCategoryData;
     private ObservableList<String> unitData;
+    private ObservableList<String> unitQtyData;
     
    
 
@@ -386,12 +385,13 @@ public class ItemsController extends AnchorPane implements Initializable,
         });
 
         mainCategoryData = cmbMainCategory.getItems();
-        subCategoryData = cmbSubCategory.getItems();
+        subCategoryData = cmbUnitQty.getItems();
         unitData = cmbUnit.getItems();
         
         loadMainCategoryToCombobox();
         loadSubCategoryToCombobox();
         loadUnitToCombobox();
+        loadUnitQtyToCombobox();
 
         validatorInitialization();
     }
@@ -708,7 +708,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         //success
         subCategoryData.add(subCategory);
         loadSubCategoryToCombobox();
-        cmbSubCategory.getSelectionModel().select(subCategory);
+        cmbUnitQty.getSelectionModel().select(subCategory);
 
         validatorInitialization();
         
@@ -765,7 +765,40 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private void btnUnitQtyOnAction(ActionEvent event) {
         
-        
+         String unitQty = InputDialog.inputForAddNew("Unit-Qty");
+        boolean isSaved = false;
+        if (unitQty == null) {
+            return;
+        }
+        if (!fav.validName(unitQty)) {
+            mb.ShowMessage(stage, "Invalid Unit qty", "Unit-Qty",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (unitData.contains(unitQty)) {
+            mb.ShowMessage(stage, "Duplicate Unit qty", "Unit-Qty",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        isSaved = itemDAO.insertUnit(unitQty);
+
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Unit-Qty",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        //success
+        unitQtyData.add(unitQty);
+        loadUnitToCombobox();
+        cmbUnitQty.getSelectionModel().select(unitQty);
+
+        validatorInitialization();
         
     }
 
@@ -842,7 +875,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                             item.colItemDescripton.setValue(txtItemDescription.getText());
                             item.colPartNo.setValue(txtPartNo.getText());
                             item.colMainCategory.setValue(cmbMainCategory.getValue());
-                            item.colSubCategory.setValue(cmbSubCategory.getValue());
+                            item.colSubCategory.setValue(cmbUnitQty.getValue());
                             item.colUnit.setValue(cmbUnit.getValue());
                             item.colUnitQty.setValue(cmbUnitQty.getValue());
                             item.colQty.setValue(txtQty.getText());
@@ -900,7 +933,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                         item.colItemDescripton.setValue(txtItemDescription.getText());
                         item.colPartNo.setValue(txtPartNo.getText());
                         item.colMainCategory.setValue(cmbMainCategory.getValue());
-                        item.colSubCategory.setValue(cmbSubCategory.getValue());
+                        item.colSubCategory.setValue(cmbUnitQty.getValue());
                         item.colUnit.setValue(cmbUnit.getValue());
                         item.colUnitQty.setValue(cmbUnitQty.getValue());
                         item.colQty.setValue(txtQty.getText());
@@ -985,7 +1018,7 @@ public class ItemsController extends AnchorPane implements Initializable,
          if (event.getCode() == KeyCode.DELETE | event.getCode()
                 == KeyCode.BACK_SPACE) {
 
-            if (cmbSubCategory.getValue() != null) {
+            if (cmbUnitQty.getValue() != null) {
                 MessageBox.MessageOutput option = mb.ShowMessage(stage,
                         "Are you sure you want \nto remove the sub category ? ",
                         "Sub Category",
@@ -994,7 +1027,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                 if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
 
                     boolean isRemoved = itemDAO.deleteSubCategory(
-                            cmbSubCategory.getValue(),
+                            cmbUnitQty.getValue(),
                             Integer.parseInt(itemDAO.getMainCategoryId(
                                             cmbMainCategory.getValue()))
                     
@@ -1052,7 +1085,48 @@ public class ItemsController extends AnchorPane implements Initializable,
         }       
         
     }
+    
+      @FXML
+    private void cmbUnitQtyOnKeyReleased(KeyEvent event) {
+        
+        if (event.getCode() == KeyCode.DELETE | event.getCode()
+                == KeyCode.BACK_SPACE) {
 
+            if (cmbUnitQty.getValue() != null) {
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        "Are you sure you want \nto remove the unit qty ? ",
+                        "Unit Qty",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    boolean isRemoved = itemDAO.deleteUnitQty(
+                            cmbUnitQty.getValue(),
+                            Integer.parseInt(itemDAO.getUnitId(
+                                            cmbUnit.getValue()))
+                    
+                    
+                    );
+
+                    if (isRemoved == true) {
+                        loadUnitQtyToCombobox();
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyDeleted,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+                }
+            }
+            loadUnitQtyToCombobox();
+            validatorInitialization();
+        }
+        
+    }
+
+   
+    
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Mouse Events">
@@ -1084,6 +1158,8 @@ public class ItemsController extends AnchorPane implements Initializable,
        
         
     }
+
+  
 
    
 
@@ -1197,7 +1273,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     
     private void loadSubCategoryToCombobox() {
 
-        cmbSubCategory.setItems(null);
+        cmbUnitQty.setItems(null);
         ArrayList<String> subCategoryList = null;
         
         try {
@@ -1210,8 +1286,8 @@ public class ItemsController extends AnchorPane implements Initializable,
             try {
                 ObservableList<String> List = FXCollections.observableArrayList(
                         subCategoryList);
-                cmbSubCategory.setItems(List);
-                cmbSubCategory.setValue(List.get(0));
+                cmbUnitQty.setItems(List);
+                cmbUnitQty.setValue(List.get(0));
             } catch (Exception e) {
 
             }
@@ -1565,7 +1641,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         txtPartNo.clear();
         cmbBatchNo.getSelectionModel().selectFirst();
         cmbMainCategory.getSelectionModel().selectFirst();
-        cmbSubCategory.getSelectionModel().selectFirst();
+        cmbUnitQty.getSelectionModel().selectFirst();
         cmbUnit.getSelectionModel().selectFirst();
         cmbUnitQty.getSelectionModel().selectFirst();
         txtQty.clear();
@@ -1592,6 +1668,31 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         }
                
+
+    }
+    
+    private void loadUnitQtyToCombobox() {
+
+        cmbUnitQty.setItems(null);
+        ArrayList<String> unitQtyList = null;
+        
+        try {
+            unitQtyList = itemDAO.loadUnitQty
+        (Integer.parseInt(itemDAO.getUnitId(cmbUnit.getValue())));
+        } catch (NumberFormatException e) {
+        }
+        
+        if (unitQtyList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        unitQtyList);
+                cmbUnitQty.setItems(List);
+                cmbUnitQty.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
 
     }
 

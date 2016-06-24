@@ -287,7 +287,7 @@
                         <HBox id="HBox" alignment="CENTER" layoutX="691.0" layoutY="72.0" spacing="5.0" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="2">
                            <children>
                               <Label fx:id="lblUnitQty" prefWidth="100.0" text="Unit qty" />
-                              <ComboBox fx:id="cmbUnitQty" onAction="#cmbBUnitQtyOnAction" prefWidth="190.0" promptText="Unit Qty" styleClass="combo-box-popup">
+                              <ComboBox fx:id="cmbUnitQty" onAction="#cmbBUnitQtyOnAction" onKeyReleased="#cmbUnitQtyOnKeyReleased" prefWidth="190.0" promptText="Unit Qty" styleClass="combo-box-popup">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="Item 1" />

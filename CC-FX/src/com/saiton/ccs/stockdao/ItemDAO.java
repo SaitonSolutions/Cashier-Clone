@@ -1584,5 +1584,150 @@ public class ItemDAO {
             }
         }
     }
+     
+     public ArrayList loadUnitQty(int unitId) {
+
+        String unitQty = null;
+        ArrayList unitQtyList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+               
+                
+                String query = " SELECT * FROM item_unit_value "
+                                + " Where item_unit = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setInt(1, unitId);
+                
+                ResultSet r = pstmt.executeQuery();
+                
+                while (r.next()) {
+                    
+                    unitQty = r.getString("unit_qty");
+                    unitQtyList.add(unitQty);
+                    
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return unitQtyList;
+    }
+     
+     public String getUnitId(String unit) {
+
+        String encodedUnit = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                unit);
+       
+
+        String id = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_unit "
+                        + "Where unit = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedUnit);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    id = r.getString("id");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return id;
+    }
+     
+     public boolean deleteUnitQty(String unitQty,int unitId) {
+        
+        String encodedUnitQty = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, unitQty);
+        
+        
+        if (star.con == null) {
+            
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        
+        } else {
+           
+            try {
+                String sql = "DELETE FROM item_unit_value where "
+                        + "`unit_qty`= ? AND item_unit = ? ";
+                PreparedStatement stmt = Starter.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                
+                stmt.setString(1, encodedUnitQty);
+                stmt.setInt(2, unitId);
+                
+                int val = stmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                log.error("Exception tag --> " + "Invalid sql statement " + e.
+                        getMessage());
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+        }
+    }
 
 }
