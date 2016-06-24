@@ -234,6 +234,8 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ObservableList<String> mainCategoryData;
     private ObservableList<String> unitData;
     private ObservableList<String> unitQtyData;
+    @FXML
+    private ComboBox<String> cmbSubCategory;
     
    
 
@@ -709,7 +711,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         //success
         subCategoryData.add(subCategory);
         loadSubCategoryToCombobox();
-        cmbUnitQty.getSelectionModel().select(subCategory);
+        cmbSubCategory.getSelectionModel().select(subCategory);
 
         validatorInitialization();
         
@@ -1279,7 +1281,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     
     private void loadSubCategoryToCombobox() {
 
-        cmbUnitQty.setItems(null);
+        cmbSubCategory.setItems(null);
         ArrayList<String> subCategoryList = null;
         
         try {
@@ -1292,8 +1294,8 @@ public class ItemsController extends AnchorPane implements Initializable,
             try {
                 ObservableList<String> List = FXCollections.observableArrayList(
                         subCategoryList);
-                cmbUnitQty.setItems(List);
-                cmbUnitQty.setValue(List.get(0));
+                cmbSubCategory.setItems(List);
+                cmbSubCategory.setValue(List.get(0));
             } catch (Exception e) {
 
             }
