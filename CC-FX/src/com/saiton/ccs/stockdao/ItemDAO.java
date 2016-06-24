@@ -1322,8 +1322,10 @@ public class ItemDAO {
         
         
         if (star.con == null) {
+            
             log.info(" Exception tag --> " + "Databse connection failiure. ");
             return false;
+        
         } else {
            
             try {

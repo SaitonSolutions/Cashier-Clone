@@ -600,12 +600,14 @@ public class ItemsController extends AnchorPane implements Initializable,
 //        } catch (Exception e) {
 //            txtPrice.clear();
 //        }
+        
     }
 
     @FXML
     private void cmbMainCategoryNoOnAction(ActionEvent event) {
-         loadSubCategoryToCombobox();
-        
+                
+            loadSubCategoryToCombobox();
+              
     }
 
     @FXML
@@ -1107,8 +1109,13 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         cmbSubCategory.setItems(null);
         ArrayList<String> subCategoryList = null;
-        subCategoryList = itemDAO.loadSubCategory
+        
+        try {
+            subCategoryList = itemDAO.loadSubCategory
         (Integer.parseInt(itemDAO.getMainCategoryId(cmbMainCategory.getValue())));
+        } catch (NumberFormatException e) {
+        }
+        
         if (subCategoryList != null) {
             try {
                 ObservableList<String> List = FXCollections.observableArrayList(
