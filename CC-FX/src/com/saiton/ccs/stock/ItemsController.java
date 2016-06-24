@@ -60,6 +60,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         Validatable, StagePassable {
 
     //<editor-fold defaultstate="collapsed" desc="initcomponents">
+    
     //<editor-fold defaultstate="collapsed" desc="TextFields">
     @FXML
     private TextField txtItemId;
@@ -84,6 +85,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TextField txtSellingPrice;
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Comboboxes">
     @FXML
     private ComboBox<String> cmbBatchNo;
@@ -93,9 +95,15 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private ComboBox<String> cmbSubCategory;
+    
+    @FXML
+    private ComboBox<String> cmbUnit;
+    @FXML
+    private ComboBox<String> cmbUnitQty;
 
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Labels">
     @FXML
     private Label lblItemId;
@@ -126,6 +134,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private Label lblUnitQty;
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Buttons">
     @FXML
     private Button btnDelete;
@@ -158,6 +167,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     private Button btnUnitQty;
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Table Components">
     @FXML
     private TableColumn<Item, String> tcPartNo;
@@ -188,7 +198,9 @@ public class ItemsController extends AnchorPane implements Initializable,
     private TableView<Item> tblItemList;
 
 //</editor-fold>
+    
     //</editor-fold> 
+    
     private final ValidationSupport validationSupportTableData
             = new ValidationSupport();
     private final ValidationSupport validationSupportTable
@@ -219,12 +231,11 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ObservableList<ItemInfoPopup> itemData = FXCollections.
             observableArrayList();
     private ItemInfoPopup itemPopup = new ItemInfoPopup();
-    ObservableList<String> batchNoList;
+    private ObservableList<String> batchNoList;
     private ObservableList<String> subCategoryData;
-    @FXML
-    private ComboBox<String> cmbUnit;
-    @FXML
-    private ComboBox<String> cmbUnitQty;
+    private ObservableList<String> mainCategoryData;
+    private ObservableList<String> unitData;
+    
    
 
     @Override
@@ -374,9 +385,13 @@ public class ItemsController extends AnchorPane implements Initializable,
             }
         });
 
-        subCategoryData = cmbMainCategory.getItems();
+        mainCategoryData = cmbMainCategory.getItems();
+        subCategoryData = cmbSubCategory.getItems();
+        unitData = cmbUnit.getItems();
+        
         loadMainCategoryToCombobox();
         loadSubCategoryToCombobox();
+        loadUnitToCombobox();
 
         validatorInitialization();
     }
@@ -625,7 +640,7 @@ public class ItemsController extends AnchorPane implements Initializable,
             return;
         }
 
-        if (subCategoryData.contains(mainCategory)) {
+        if (mainCategoryData.contains(mainCategory)) {
             mb.ShowMessage(stage, "Duplicate Main Category", "Main Category",
                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                     MessageBox.MessageType.MSG_OK);
@@ -642,7 +657,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
 
         //success
-        subCategoryData.add(mainCategory);
+        mainCategoryData.add(mainCategory);
         loadMainCategoryToCombobox();
         cmbMainCategory.getSelectionModel().select(mainCategory);
 
@@ -705,6 +720,42 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void btnUnitOnAction(ActionEvent event) {
+        
+        String unit = InputDialog.inputForAddNew("Unit");
+        boolean isSaved = false;
+        if (unit == null) {
+            return;
+        }
+        if (!fav.validName(unit)) {
+            mb.ShowMessage(stage, "Invalid Unit", "Unit",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (unitData.contains(unit)) {
+            mb.ShowMessage(stage, "Duplicate Unit", "Unit",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        isSaved = itemDAO.insertUnit(unit);
+
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Unit",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        //success
+        unitData.add(unit);
+        loadUnitToCombobox();
+        cmbUnit.getSelectionModel().select(unit);
+
+        validatorInitialization();
+        
     }
 
     @FXML
@@ -713,6 +764,9 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     @FXML
     private void btnUnitQtyOnAction(ActionEvent event) {
+        
+        
+        
     }
 
 //</editor-fold>
@@ -964,6 +1018,40 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         
     }
+    
+     @FXML
+    private void cmbUnitOnKeyReleased(KeyEvent event) {
+        
+          if (event.getCode() == KeyCode.DELETE | event.getCode()
+                == KeyCode.BACK_SPACE) {
+
+            if (cmbUnit.getValue() != null) {
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        "Are you sure you want \nto remove the unit ? ",
+                        "Unit",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    boolean isRemoved = itemDAO.deleteUnit(
+                            cmbUnit.getValue());
+
+                    if (isRemoved == true) {
+                        loadUnitToCombobox();
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyDeleted,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+                }
+            }
+            loadUnitToCombobox();
+            validatorInitialization();
+        }       
+        
+    }
 
 //</editor-fold>
     
@@ -996,6 +1084,8 @@ public class ItemsController extends AnchorPane implements Initializable,
        
         
     }
+
+   
 
     
 
@@ -1483,6 +1573,26 @@ public class ItemsController extends AnchorPane implements Initializable,
         txtSellingPrice.clear();
         
     
+    }
+    
+    private void loadUnitToCombobox() {
+
+        cmbUnit.setItems(null);
+        ArrayList<String> unitList = null;
+        unitList = itemDAO.loadUnit();
+        if (unitList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        unitList);
+                cmbUnit.setItems(List);
+                cmbUnit.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+               
+
     }
 
 //</editor-fold>

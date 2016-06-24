@@ -1473,4 +1473,116 @@ public class ItemDAO {
         return id;
     }
 
+    public ArrayList loadUnit() {
+
+        String unit = null;
+        ArrayList unitList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM item_unit");
+                while (r.next()) {
+                    unit = r.getString("unit");
+
+                    unitList.add(unit);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return unitList;
+    }
+    
+     public Boolean insertUnit(
+            String unit) {
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + "item_unit (unit) VALUES(?)");
+                ps.setString(1, unit);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement "+e);
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+     
+     public boolean deleteUnit(String unit) {
+        if (star.con == null) {
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        } else {
+            String encodedUnit = ESAPI.encoder().
+                    encodeForSQL(ORACLE_CODEC, unit);
+            try {
+                String sql = "DELETE FROM item_unit where `unit`= ? ";
+                PreparedStatement stmt = Starter.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                
+                stmt.setString(1, encodedUnit);
+                
+                int val = stmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                log.error("Exception tag --> " + "Invalid sql statement " + e.
+                        getMessage());
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+        }
+    }
+
 }
