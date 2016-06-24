@@ -58,7 +58,7 @@ CREATE TABLE `customer` (
   `cus_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`cus_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (11,'CUS0001','Ms.','Isper Catering Equpment & supplys (Pvt) Ltd','No 477, Nawala RD, Rajagiriya','456546565'),(12,'CUS0002','Mr.','nimal','colombo','Item 2');
+INSERT INTO `customer` VALUES (11,'CUS0001','Ms.','Isper Catering Equpment & supplys (Pvt) Ltd','No 477, Nawala RD, Rajagiriya','456546565'),(12,'CUS0002','Mr.','nimal','colombo','Item 2'),(13,'CUS0003','Mr.','kamal','hatton','Vehicle');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `customer_tel` (
   PRIMARY KEY (`id`),
   KEY `cus6` (`cus_id`),
   CONSTRAINT `cus6` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +148,7 @@ CREATE TABLE `customer_tel` (
 
 LOCK TABLES `customer_tel` WRITE;
 /*!40000 ALTER TABLE `customer_tel` DISABLE KEYS */;
-INSERT INTO `customer_tel` VALUES (124,'CUS0001','0778620956'),(125,'CUS0001','0778458167'),(126,'CUS0001','0312245741'),(127,'CUS0002','0312279041');
+INSERT INTO `customer_tel` VALUES (124,'CUS0001','0778620956'),(125,'CUS0001','0778458167'),(126,'CUS0001','0312245741'),(127,'CUS0002','0312279041'),(128,'CUS0003','0312279041');
 /*!40000 ALTER TABLE `customer_tel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +164,7 @@ CREATE TABLE `customer_type` (
   `customer_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,6 +173,7 @@ CREATE TABLE `customer_type` (
 
 LOCK TABLES `customer_type` WRITE;
 /*!40000 ALTER TABLE `customer_type` DISABLE KEYS */;
+INSERT INTO `customer_type` VALUES (1,'Vehicle');
 /*!40000 ALTER TABLE `customer_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +191,7 @@ CREATE TABLE `customer_vehicle_no` (
   PRIMARY KEY (`id`),
   KEY `cus2` (`cus_id`),
   CONSTRAINT `cus2` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +200,7 @@ CREATE TABLE `customer_vehicle_no` (
 
 LOCK TABLES `customer_vehicle_no` WRITE;
 /*!40000 ALTER TABLE `customer_vehicle_no` DISABLE KEYS */;
-INSERT INTO `customer_vehicle_no` VALUES (12,'CUS0001','0112506500');
+INSERT INTO `customer_vehicle_no` VALUES (12,'CUS0001','0112506500'),(13,'CUS0003','KD-3845');
 /*!40000 ALTER TABLE `customer_vehicle_no` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -556,7 +557,7 @@ CREATE TABLE `item_main_category` (
   `title` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -565,6 +566,7 @@ CREATE TABLE `item_main_category` (
 
 LOCK TABLES `item_main_category` WRITE;
 /*!40000 ALTER TABLE `item_main_category` DISABLE KEYS */;
+INSERT INTO `item_main_category` VALUES (1,'Oil');
 /*!40000 ALTER TABLE `item_main_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -610,8 +612,11 @@ DROP TABLE IF EXISTS `item_sub_category`;
 CREATE TABLE `item_sub_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemSubCatebory` varchar(45) DEFAULT NULL,
+  `item_main_category` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `item_sub_category_fk1_idx` (`item_main_category`),
+  CONSTRAINT `item_sub_category_fk1` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -795,7 +800,6 @@ CREATE TABLE `purchase_order` (
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES (1,'PHS0001','SUP0001','2014-09-19',0,'0','EM0001',NULL,NULL);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -951,7 +955,6 @@ CREATE TABLE `req_note` (
 
 LOCK TABLES `req_note` WRITE;
 /*!40000 ALTER TABLE `req_note` DISABLE KEYS */;
-INSERT INTO `req_note` VALUES (4,'RQV0001','2014-09-23','Wedding','Banquet',1,1,'EM0001','EM0001','2014-09-23'),(5,'RQV0002','2014-09-24','','Banquet',1,1,'EM0001','EM0001','2014-09-24'),(6,'RQV0003','2014-09-24','test 1','Banquet',1,1,'EM0001','EM0001','2014-09-24'),(7,'RQV0004','2014-09-24','test2','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(8,'RQV0005','2014-09-24','test','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(9,'RQV0006','2014-09-24','test4','Ala Carte',1,1,'EM0001','EM0001','2014-09-24'),(10,'RQV0007','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(11,'RQV0008','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(12,'RQV0009','2014-09-24','test','Reservation',1,1,'EM0001','EM0001','2014-09-24'),(13,'RQV0010','2014-09-25','Wedding','Banquet',1,1,'EM0001','EM0001','2014-09-25');
 /*!40000 ALTER TABLE `req_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1019,7 +1022,6 @@ CREATE TABLE `return_note` (
 
 LOCK TABLES `return_note` WRITE;
 /*!40000 ALTER TABLE `return_note` DISABLE KEYS */;
-INSERT INTO `return_note` VALUES (1,'IRN0001','Banquet','2014-09-24','bad goods',1,'EM0001','EM0001','2014-09-24',1),(2,'IRN0002','Banquet','2014-10-16','',0,'EM0001',NULL,NULL,0);
 /*!40000 ALTER TABLE `return_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1296,7 +1298,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'EM0001','Mr.','Kasun Dissanayake','kasun','Zmngf1gIHzA=',NULL,'Ultra User','Administrator',0),(8,'EM0004','Mr.','Kasper','saiton','3CRO+GzZlkI=',NULL,'Manager','Administrator',0);
+INSERT INTO `user` VALUES (8,'EM0004','Mr.','Saiton','saiton','3CRO+GzZlkI=',NULL,'Manager','Administrator',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1467,4 +1469,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-22 12:10:17
+-- Dump completed on 2016-06-24 12:19:48
