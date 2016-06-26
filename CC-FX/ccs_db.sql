@@ -504,7 +504,7 @@ CREATE TABLE `item` (
   CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_fk3` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `item_fk4` FOREIGN KEY (`item_sub_category`) REFERENCES `item_sub_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,7 +513,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3);
+INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3),(2,'ITM0002','mm',6,'EM0004','ss','DF456',2,4);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,7 +529,7 @@ CREATE TABLE `item_main_category` (
   `title` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -538,7 +538,7 @@ CREATE TABLE `item_main_category` (
 
 LOCK TABLES `item_main_category` WRITE;
 /*!40000 ALTER TABLE `item_main_category` DISABLE KEYS */;
-INSERT INTO `item_main_category` VALUES (2,'gear oil');
+INSERT INTO `item_main_category` VALUES (2,'gear oil'),(4,'hyt');
 /*!40000 ALTER TABLE `item_main_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -557,12 +557,14 @@ CREATE TABLE `item_sub` (
   `buying_price` double DEFAULT NULL,
   `reorder_level` double NOT NULL DEFAULT '0',
   `selling_price` double DEFAULT NULL,
-  `unit` varchar(45) DEFAULT NULL,
+  `unit` int(11) NOT NULL,
   PRIMARY KEY (`item_id`,`batch_no`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_fk1` (`item_id`),
+  KEY `item_sub_fk2_idx` (`unit`),
+  CONSTRAINT `item_sub_fk2` FOREIGN KEY (`unit`) REFERENCES `item_unit_value` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -571,7 +573,7 @@ CREATE TABLE `item_sub` (
 
 LOCK TABLES `item_sub` WRITE;
 /*!40000 ALTER TABLE `item_sub` DISABLE KEYS */;
-INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,NULL);
+INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,1),(3,'ITM0002','BAT0001',6,500,10,600,1);
 /*!40000 ALTER TABLE `item_sub` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,7 +592,7 @@ CREATE TABLE `item_sub_category` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_category_fk1_idx` (`item_main_category`),
   CONSTRAINT `item_sub_category_fk1` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -599,7 +601,7 @@ CREATE TABLE `item_sub_category` (
 
 LOCK TABLES `item_sub_category` WRITE;
 /*!40000 ALTER TABLE `item_sub_category` DISABLE KEYS */;
-INSERT INTO `item_sub_category` VALUES (3,'ioc',2);
+INSERT INTO `item_sub_category` VALUES (3,'ioc',2),(4,'lanka oil',2),(5,'tt',2),(6,'kk',4);
 /*!40000 ALTER TABLE `item_sub_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -614,7 +616,7 @@ CREATE TABLE `item_unit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `unit` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -623,6 +625,7 @@ CREATE TABLE `item_unit` (
 
 LOCK TABLES `item_unit` WRITE;
 /*!40000 ALTER TABLE `item_unit` DISABLE KEYS */;
+INSERT INTO `item_unit` VALUES (1,'ml'),(2,'L');
 /*!40000 ALTER TABLE `item_unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -640,7 +643,7 @@ CREATE TABLE `item_unit_value` (
   PRIMARY KEY (`id`),
   KEY `item_unit_value_fk1_idx` (`item_unit`),
   CONSTRAINT `item_unit_value_fk1` FOREIGN KEY (`item_unit`) REFERENCES `item_unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -649,6 +652,7 @@ CREATE TABLE `item_unit_value` (
 
 LOCK TABLES `item_unit_value` WRITE;
 /*!40000 ALTER TABLE `item_unit_value` DISABLE KEYS */;
+INSERT INTO `item_unit_value` VALUES (1,'4',1),(2,'1',2),(3,'2',2);
 /*!40000 ALTER TABLE `item_unit_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -814,7 +818,7 @@ CREATE TABLE `purchase_order` (
   KEY `purchase_order_fk2` (`supplier_id`),
   CONSTRAINT `purchase_order_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `purchase_order_fk2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`sid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -969,7 +973,7 @@ CREATE TABLE `req_note` (
   KEY `req_note_fk2` (`user_id`),
   CONSTRAINT `req_note_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `req_note_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1036,7 +1040,7 @@ CREATE TABLE `return_note` (
   KEY `return_note_fk2` (`approve_user_id`),
   CONSTRAINT `return_note_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `return_note_fk2` FOREIGN KEY (`approve_user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1492,4 +1496,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-24 17:55:43
+-- Dump completed on 2016-06-26 14:31:19
