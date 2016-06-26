@@ -2045,6 +2045,71 @@ public class ItemDAO {
         return list;
     }
      
+     public String getUnitQtyId(String unitQty,String unit) {
+
+        String encodedUnitQty = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                unitQty);
+        
+        String encodedUnit = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                unit);
+       
+
+        String id = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_unit u JOIN item_unit_value v "
+                        + " ON u.id = v.item_unit "
+                        + " Where u.unit = ? AND v.unit_qty = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                
+                pstmt.setString(1, encodedUnit);
+                pstmt.setString(2, encodedUnitQty);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    id = r.getString("v.id");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    );
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return id;
+    }
+     
      
 
 }

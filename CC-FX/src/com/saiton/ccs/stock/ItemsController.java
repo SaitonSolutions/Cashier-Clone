@@ -237,8 +237,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private ComboBox<String> cmbSubCategory;
     
-   
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
                
@@ -301,7 +299,16 @@ public class ItemsController extends AnchorPane implements Initializable,
         isupdate = false;
         txtItemId.setText(itemDAO.generateID());
         txtItemName.clear();
-
+        txtPartNo.clear();
+        txtQty.clear();
+        txtSellingPrice.clear();
+        txtBuyingPrice.clear();
+        cmbBatchNo.getSelectionModel().selectFirst();
+        cmbMainCategory.getSelectionModel().selectFirst();
+        cmbSubCategory.getSelectionModel().selectFirst();
+        cmbUnit.getSelectionModel().selectFirst();
+        cmbUnitQty.getSelectionModel().selectFirst();
+        txtItemDescription.clear();
         loadBatch();
         validatorInitialization();
     }
@@ -465,7 +472,8 @@ public class ItemsController extends AnchorPane implements Initializable,
                                     Double.parseDouble(itemTable.getColBuyingPrice()),
                                     10,//this needs to be updated in the interface
                                     Double.parseDouble(itemTable.getColSellingPrice()),
-                                    itemTable.getColUnit());
+                                    itemDAO.getUnitQtyId(itemTable.getColUnitQty(),
+                                            itemTable.getColUnit()));
 
                         }
                     }
@@ -498,13 +506,23 @@ public class ItemsController extends AnchorPane implements Initializable,
                                     i++) {
                                 itemTable = (Item) tblItemList.getItems().get(i);
 
-//                                isTableContentSaved = itemDAO.additem(
-//                                        itemTable.getColItemId(),
-//                                        itemTable.getColItemName(),
-//                                        userId,
-//                                        itemTable.getColBatchNo(),
-//                                        Double.parseDouble(
-//                                                itemTable.getColPrice()));
+                                isTableContentSaved = itemDAO.additem(
+                                    itemTable.getColItemId(),
+                                    itemTable.getColItemName(),
+                                    Double.parseDouble(itemTable.getColQty()),
+                                    userId,
+                                    itemTable.getColItemDescripton(),
+                                    itemTable.getColPartNo(),
+                                    itemDAO.getMainCategoryId(itemTable.getColMainCategory()),
+                                    itemDAO.getSubCategoryId(itemTable.getColSubCategory(),
+                                            Integer.parseInt(itemDAO.getMainCategoryId(itemTable.getColMainCategory()))),
+                                    itemTable.getColBatchNo(),
+                                    Double.parseDouble(itemTable.getColBuyingPrice()),
+                                    10,//this needs to be updated in the interface
+                                    Double.parseDouble(itemTable.getColSellingPrice()),
+                                    itemDAO.getUnitQtyId(itemTable.getColUnitQty(),
+                                            itemTable.getColUnit()));
+
                             }
                         }
                         if (isTableContentSaved == true) {
@@ -903,6 +921,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                             
                             //Clear item components for new entry
                             clearComponentsForNewEntry();
+//                            txtItemId.setText(itemDAO.generateID());
 
                         } else {
                             mb.ShowMessage(stage,
@@ -957,8 +976,8 @@ public class ItemsController extends AnchorPane implements Initializable,
                         //Resetting fields for next item
                         txtItemId.setText(itemDAO.generateID());
                         loadBatchNoToCombobox(txtItemId.getText());
-                        txtItemName.clear();
                         
+                        clearComponentsForNewEntry();
 
                         update = true;
                         btnSave.setVisible(true);
@@ -1670,7 +1689,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     
     private void clearComponentsForNewEntry(){
     
-        txtItemId.clear();
         txtItemName.clear();
         txtItemDescription.clear();
         txtPartNo.clear();
@@ -1683,7 +1701,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         txtBuyingPrice.clear();
         txtSellingPrice.clear();
         
-    
+        
     }
     
     private void loadUnitToCombobox() {
