@@ -349,6 +349,9 @@ public class ItemsController extends AnchorPane implements Initializable,
                         txtItemName.setText(p.getColItemName());
                         txtUserId.setText(itemDAO.getUserName(
                                 txtItemId.getText()));
+                        
+                        loadItemData(txtItemId.getText());
+                        
                         batchNoList.clear();
                         loadBatchNoToCombobox(p.getColItemID());
                     }
@@ -1359,6 +1362,7 @@ public class ItemsController extends AnchorPane implements Initializable,
                     itemPopup = new ItemInfoPopup();
                     itemPopup.colItemID.setValue(itemInfo.get(i).get(0));
                     itemPopup.colItemName.setValue(itemInfo.get(i).get(1));
+                    
                     itemData.add(itemPopup);
                 }
             }
@@ -1391,11 +1395,31 @@ public class ItemsController extends AnchorPane implements Initializable,
 
         }
         try {
-//            if (itemDAO.getPrice(txtItemId.getText(),
-//                    cmbBatchNo.getValue().toString()) != null) {
-//                txtPrice.setText(itemDAO.getPrice(txtItemId.getText(),
-//                        cmbBatchNo.getValue().toString()));
-//            }
+            
+            ArrayList<String> batchList = null;
+            ArrayList<String> unitList = null;
+        batchList = itemDAO.getPrice(txtItemId.getText(),
+                        cmbBatchNo.getValue().toString());
+        
+            if (batchList!=null) {
+                
+                 ObservableList<String> List = FXCollections.observableArrayList(
+                        batchList);
+                           
+                unitList = itemDAO.loadUnitValue(List.get(2));
+                 ObservableList<String> unitValueList = FXCollections.observableArrayList(
+                        unitList);
+                
+                txtBuyingPrice.setText(List.get(0));
+                txtSellingPrice.setText(List.get(1));
+                cmbUnit.getSelectionModel().select(unitValueList.get(0));
+                cmbUnitQty.getSelectionModel().select(unitValueList.get(1));
+                txtQty.setText(List.get(3));
+                
+            
+            }
+       
+            
         } catch (Exception e) {
 
         }
@@ -1404,6 +1428,8 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     private void loadBatch() {
         boolean value = false;
+        
+        
         if (isupdate == false) {
             batchNoList.clear();
         }
@@ -1702,6 +1728,36 @@ public class ItemsController extends AnchorPane implements Initializable,
             }
 
         }
+
+    }
+    
+    private void loadItemData(String itemId) {
+
+        ArrayList<String> itemList = null;
+        itemList = itemDAO.loadItemData(itemId);
+        if (itemList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        itemList);
+                
+                txtItemDescription.setText(List.get(0));
+                txtPartNo.setText(List.get(1));
+                cmbMainCategory.getSelectionModel().
+                        select(itemDAO.getMainCategory(List.get(2)));
+                
+                cmbSubCategory.setValue(itemDAO.getSubCategory(
+                        List.get(2),
+                        List.get(3)
+                ));
+                
+                txtItemDescription.setText(List.get(0));
+                
+            } catch (Exception e) {
+
+            }
+
+        }
+               
 
     }
 

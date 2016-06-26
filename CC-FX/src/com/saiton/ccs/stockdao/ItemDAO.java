@@ -439,6 +439,7 @@ public class ItemDAO {
 
         String itemId = null;
         String itemName = null;
+        String itemDesc = null;
         String qty = null;
 
         String price = null;
@@ -469,9 +470,12 @@ public class ItemDAO {
 
                     itemId = r.getString("item_id");
                     itemName = r.getString("item_name");
+                    itemDesc = r.getString("item_description");
 
+                    
                     list.add(itemId);
                     list.add(itemName);
+                    list.add(itemDesc);
 
                     Mainlist.add(list);
 
@@ -512,7 +516,8 @@ public class ItemDAO {
         String encodedItem = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, item);
 
         String batchNo = null;
-        String price = null;
+        String buyingPrice = null;
+        String sellingPrice = null;
 
         ArrayList<ArrayList<String>> Mainlist
                 = new ArrayList<ArrayList<String>>();
@@ -538,10 +543,13 @@ public class ItemDAO {
                     ArrayList<String> list = new ArrayList<String>();
 
                     batchNo = r.getString("batch_no");
-                    price = r.getString("price");
+                    buyingPrice = r.getString("buying_price");
+                    sellingPrice = r.getString("selling_price");
+                    
 
                     list.add(batchNo);
-                    list.add(price);
+                    list.add(buyingPrice);
+                    list.add(sellingPrice);
 
                     Mainlist.add(list);
 
@@ -577,13 +585,18 @@ public class ItemDAO {
         return Mainlist;
     }
 
-    public String getPrice(String item, String batchNo) {
+    public ArrayList getPrice(String item, String batchNo) {
 
         String encodedItem = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, item);
         String encodedBatchNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 batchNo);
 
-        String price = null;
+        String buyingPrice = null;
+        String sellingPrice = null;
+        String unitValue = null;
+        String qty = null;
+        
+        ArrayList batchList = new ArrayList();
 
         if (star.con == null) {
 
@@ -594,8 +607,9 @@ public class ItemDAO {
             try {
 
                 String query = "SELECT * "
-                        + "From item_sub "
-                        + "Where item_id = ? and batch_no=? ";
+                        + " From item_sub s JOIN item_unit_value u ON "
+                        + " s.unit = u.id "
+                        + "Where s.item_id = ? and s.batch_no = ? ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedItem);
@@ -603,7 +617,17 @@ public class ItemDAO {
                 ResultSet r = pstmt.executeQuery();
 
                 while (r.next()) {
-                    price = r.getString("price");
+                    buyingPrice = r.getString("s.buying_price");
+                    sellingPrice = r.getString("s.selling_price");
+                    unitValue = r.getString("s.unit");
+                    qty = r.getString("s.qty");
+                    
+                    batchList.add(buyingPrice);
+                    batchList.add(sellingPrice);
+                    batchList.add(unitValue);
+                    batchList.add(qty);
+                    
+                    
                 }
 
             } catch (ArrayIndexOutOfBoundsException | SQLException |
@@ -633,7 +657,7 @@ public class ItemDAO {
                 return null;
             }
         }
-        return price;
+        return batchList;
     }
 
     public boolean deleteItem(String item) {
@@ -1777,5 +1801,250 @@ public class ItemDAO {
             }
         }
     }
+     
+     public ArrayList<String> loadItemData(String itemId) {
+         
+          String encodedItemId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                itemId);
+       
+
+        String itemDesc = null;
+        String itemPartNo = null;
+        String itemMainCat = null;
+        String itemSubCat = null;
+        ArrayList list = new ArrayList();
+
+        if (star.con == null) {
+            log.error(" Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+               String query = "SELECT * "
+                        + "From item "
+                        + "Where item_id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedItemId);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    
+                    itemDesc = r.getString("item_description");
+                    itemPartNo = r.getString("part_no");
+                    itemMainCat = r.getString("item_main_category");
+                    itemSubCat = r.getString("item_sub_category");
+                    
+                    list.add(itemDesc);
+                    list.add(itemPartNo);
+                    list.add(itemMainCat);
+                    list.add(itemSubCat);
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement");
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return list;
+    }
+     
+     public String getMainCategory(String mainId) {
+
+        String encodedMainId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                mainId);
+       
+
+        String title = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_main_category "
+                        + "Where id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedMainId);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    title = r.getString("title");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return title;
+    }
+     
+     public String getSubCategory(String mainId ,String subId) {
+
+        String encodedMainId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                mainId);
+        String encodedSubId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                subId);
+       
+
+        String title = null;
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From item_sub_category "
+                        + "Where id = ? AND item_main_category = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedSubId);
+                pstmt.setString(2, encodedMainId);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    title = r.getString("item_sub_category");
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return title;
+    }
+     
+     public ArrayList<String> loadUnitValue(String unitValueId) {
+         
+          String encodedUnitValueId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                unitValueId);
+       
+
+        String unit = null;
+        String unitValue = null;
+     
+        ArrayList list = new ArrayList();
+
+        if (star.con == null) {
+            log.error(" Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+               String query = "SELECT * "
+                        + " From item_unit u JOIN item_unit_value v ON "
+                       + " u.id = v.item_unit "
+                        + "Where v.id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedUnitValueId);
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    
+                    unit = r.getString("u.unit");
+                    unitValue = r.getString("v.unit_qty");
+                  
+                    
+                    list.add(unit);
+                    list.add(unitValue);
+              
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "+e);
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return list;
+    }
+     
+     
 
 }
