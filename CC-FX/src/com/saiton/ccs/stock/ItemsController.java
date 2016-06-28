@@ -586,8 +586,10 @@ public class ItemsController extends AnchorPane implements Initializable,
                             itemTable = (Item) tblItemList.getItems().get(i);
                             if (itemDAO.checkingItemAvailability(
                                     itemTable.getColItemId())) {
+                                
                                 isDeleted = itemDAO.deleteItem(
                                         itemTable.getColItemId());
+                                
                             } else {
                                 mb.ShowMessage(stage,
                                         ErrorMessages.InvalidId, "Error",
