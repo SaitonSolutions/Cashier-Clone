@@ -152,17 +152,13 @@ public class InvoiceController implements Initializable, Validatable,
     private Button btnInvoiceNoSearch;
     @FXML
     private TextField txtDate;
-    @FXML
     private TextField txtPONumber;
     @FXML
     private TextField txtCustomerName;
-    @FXML
     private TextField txtAddress;
-    @FXML
-    private ComboBox<String> cmbPaymentType;
+//    private ComboBox<String> cmbPaymentType;
     @FXML
     private TextField txtItemCode;
-    @FXML
     private TextField txtDescription;
     @FXML
     private TextField txtUnitPrice;
@@ -196,19 +192,12 @@ public class InvoiceController implements Initializable, Validatable,
     private TextArea txtAreaAmountInWrds;
     @FXML
     private Button btnNameSearch;
-    @FXML
     private DatePicker dtpPODate;
     @FXML
-    private ToggleGroup tax;
-    @FXML
     private TextField txtSalesExecutive;
-    @FXML
     private TextField txtNBT;
-    @FXML
     private TextField txtVAT;
-    @FXML
     private TextField txtValueNBT;
-    @FXML
     private TextField txtValueVAT;
     @FXML
     private TextField txtNetTotal;
@@ -216,30 +205,38 @@ public class InvoiceController implements Initializable, Validatable,
     private Button btnItemCodeSearch;
     @FXML
     private TextField txtDiscount;
-    @FXML
-    private ComboBox<String> cmbWarrentyPeriods;
-    @FXML
-    private TextField txtWarrentyPeriod;
+//    private ComboBox<String> cmbWarrentyPeriods;
+//    private TextField txtWarrentyPeriod;
     @FXML
     private TextField txtItemDiscount;
     @FXML
     private Label lblBachNo;
-    @FXML
     private TextField txtBatchNo;
     @FXML
     private Label lblInvoiceNo;
-    @FXML
     private CheckBox chkPODetails;
     @FXML
     private CheckBox chkUnitPrice;
-    @FXML
     private RadioButton radioTax;
-    @FXML
     private RadioButton radioNonTax;
     @FXML
     private Button btnRefresh;
     @FXML
     private Button btnClose;
+    @FXML
+    private ComboBox<?> cmbCustomerType;
+    @FXML
+    private TextField txtVehicleNo;
+    @FXML
+    private TextField txtItemSearch;
+    @FXML
+    private Button btnRefresh1;
+    @FXML
+    private ComboBox<?> cmbBatchNo;
+    @FXML
+    private ComboBox<?> cmbUnit;
+    @FXML
+    private ComboBox<?> cmbUnit1;
 
 //</editor-fold>
     @Override
@@ -274,10 +271,10 @@ public class InvoiceController implements Initializable, Validatable,
 
 //</editor-fold>
         //Combo Box Items
-        cmbPaymentType.setItems(paymentTypes);
-        cmbPaymentType.getSelectionModel().selectFirst();
-        cmbWarrentyPeriods.setItems(WarrentyPeriods);
-        cmbWarrentyPeriods.getSelectionModel().selectFirst();
+//        cmbPaymentType.setItems(paymentTypes);
+//        cmbPaymentType.getSelectionModel().selectFirst();
+//        cmbWarrentyPeriods.setItems(WarrentyPeriods);
+//        cmbWarrentyPeriods.getSelectionModel().selectFirst();
 
         dateFormatter("yyyy-MM-dd", dtpPODate);
         dtpPODate.setValue(LocalDate.now());
@@ -330,7 +327,7 @@ public class InvoiceController implements Initializable, Validatable,
         txtItemCode.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
-        txtWarrentyPeriod.clear();
+//        txtWarrentyPeriod.clear();
         txtCustomerName.clear();
         txtNetTotal.clear();
         itemData.clear();
@@ -519,7 +516,6 @@ public class InvoiceController implements Initializable, Validatable,
         clearInput();
     }
 
-    @FXML
     private void radioTaxOnAction(ActionEvent event) {
         generateId();
 
@@ -533,7 +529,6 @@ public class InvoiceController implements Initializable, Validatable,
 
     }
 
-    @FXML
     private void radioNonTaxOnAction(ActionEvent event) {
 
         generateId();
@@ -598,9 +593,9 @@ public class InvoiceController implements Initializable, Validatable,
                                 dtpPODate.getValue().toString(),
                                 customerId,
                                 txtSalesExecutive.getText(),
-                                cmbPaymentType.getValue(),
-                                txtWarrentyPeriod.getText(),
-                                cmbWarrentyPeriods.getValue(),
+                                "Payment Type",
+                                "Warrenty",
+                                "Wattenty",
                                 Double.parseDouble(txtTotalAmount.getText()),
                                 Double.parseDouble(txtValueNBT.getText()),
                                 Double.parseDouble(txtValueVAT.getText()),
@@ -620,9 +615,9 @@ public class InvoiceController implements Initializable, Validatable,
                                 null,
                                 customerId,
                                 txtSalesExecutive.getText(),
-                                cmbPaymentType.getValue(),
-                                txtWarrentyPeriod.getText(),
-                                cmbWarrentyPeriods.getValue(),
+                                "Payment Type",
+                                "warrenty",
+                                "warrenty",
                                 Double.parseDouble(txtTotalAmount.getText()),
                                 Double.parseDouble(txtValueNBT.getText()),
                                 Double.parseDouble(txtValueVAT.getText()),
@@ -675,7 +670,6 @@ public class InvoiceController implements Initializable, Validatable,
         stage.close();
     }
 
-    @FXML
     private void chkPODetailsOnAction(ActionEvent event) {
         if (chkPODetails.isSelected() == false) {
             txtPONumber.setDisable(true);
@@ -833,7 +827,6 @@ public class InvoiceController implements Initializable, Validatable,
         }
     }
 
-    @FXML
     private void txtPONumberOnKeyReleased(KeyEvent event
     ) {
         validatorInitialization();
@@ -853,7 +846,6 @@ public class InvoiceController implements Initializable, Validatable,
 
     }
 
-    @FXML
     private void txtAddressOnKeyRelesed(KeyEvent event
     ) {
         validatorInitialization();
@@ -880,7 +872,6 @@ public class InvoiceController implements Initializable, Validatable,
         }
     }
 
-    @FXML
     private void txtDescriptionOnKeyReleased(KeyEvent event) {
         validatorInitialization();
     }
@@ -890,7 +881,6 @@ public class InvoiceController implements Initializable, Validatable,
         validatorInitialization();
     }
 
-    @FXML
     private void txtBatchNoOnKeyReleased(KeyEvent event) {
         validatorInitialization();
     }
@@ -1162,9 +1152,9 @@ public class InvoiceController implements Initializable, Validatable,
                 txtCustomerName.setText(cusDataList.get(0).toString());
                 txtAddress.setText(cusDataList.get(1).toString());
                 txtSalesExecutive.setText(cusDataList.get(2).toString());
-                txtWarrentyPeriod.setText(cusDataList.get(3).toString());
-                cmbWarrentyPeriods.setValue(cusDataList.get(4).toString());
-                cmbPaymentType.setValue(cusDataList.get(5).toString());
+//                txtWarrentyPeriod.setText(cusDataList.get(3).toString());
+//                cmbWarrentyPeriods.setValue(cusDataList.get(4).toString());
+//                cmbPaymentType.setValue(cusDataList.get(5).toString());
 
             }
         }
@@ -1291,11 +1281,11 @@ public class InvoiceController implements Initializable, Validatable,
                         !fav.validName(txtCustomerName.getText()),
                         ErrorMessages.InvalidCustomerName));
 
-        validationSupport.registerValidator(txtWarrentyPeriod,
-                new CustomTextFieldValidationImpl(txtWarrentyPeriod,
-                        !fav.
-                        validNumberWithoutSpace(txtWarrentyPeriod.getText()),
-                        ErrorMessages.InvalidWarrentyPeriod));
+//        validationSupport.registerValidator(txtWarrentyPeriod,
+//                new CustomTextFieldValidationImpl(txtWarrentyPeriod,
+//                        !fav.
+//                        validNumberWithoutSpace(txtWarrentyPeriod.getText()),
+//                        ErrorMessages.InvalidWarrentyPeriod));
 
         validationSupportDiscount.registerValidator(txtItemDiscount,
                 new CustomTextFieldValidationImpl(txtItemDiscount,
@@ -1810,6 +1800,10 @@ public class InvoiceController implements Initializable, Validatable,
         txtAreaAmountInWrds.setVisible(!state);
         txtAreaAmountInWrds.setDisable(state);
 
+    }
+
+    @FXML
+    private void txtItemSearchOnKeyReleased(KeyEvent event) {
     }
 
 //</editor-fold>    
