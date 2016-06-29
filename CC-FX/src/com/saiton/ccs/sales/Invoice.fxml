@@ -369,6 +369,12 @@
                               <ComboBox fx:id="cmbUnit1" prefHeight="25.0" prefWidth="210.0" />
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="13">
+                           <children>
+                              <Label prefWidth="120.0" text="Payment Terms" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="cmbPaymentType" maxHeight="-Infinity" prefWidth="210.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                           </children>
+                        </HBox>
                      </children>
                   </GridPane>
                </children>
