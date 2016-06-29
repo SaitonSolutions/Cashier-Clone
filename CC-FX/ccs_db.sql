@@ -381,24 +381,17 @@ DROP TABLE IF EXISTS `invoice`;
 CREATE TABLE `invoice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `inv_no` varchar(45) NOT NULL,
-  `is_tax_inv` int(11) DEFAULT '0',
   `date` date DEFAULT NULL,
-  `po_no` varchar(45) DEFAULT NULL,
-  `po_date` date DEFAULT NULL,
-  `cus_id` varchar(45) NOT NULL,
   `salse_executive` varchar(45) DEFAULT NULL,
+  `cus_type` varchar(100) DEFAULT NULL,
+  `cus_id` varchar(45) NOT NULL,
+  `vehicle_no` varchar(100) DEFAULT NULL,
+  `total_discount` decimal(10,0) DEFAULT NULL,
   `payment_term` varchar(45) DEFAULT NULL,
-  `warrenty_period` int(11) DEFAULT NULL,
-  `warrenty_month_year` varchar(45) DEFAULT NULL,
   `total` double DEFAULT NULL,
-  `nbt` double DEFAULT NULL,
-  `vat` double DEFAULT NULL,
   `net_amount` double DEFAULT NULL,
   `net_amount_word` varchar(500) DEFAULT NULL,
   `user_id` varchar(45) NOT NULL,
-  `total_discount` decimal(10,0) DEFAULT NULL,
-  `nbt_rate` double DEFAULT NULL,
-  `vat_rate` double DEFAULT NULL,
   `status` int(11) DEFAULT '0',
   `time_stamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`inv_no`),
@@ -416,32 +409,8 @@ CREATE TABLE `invoice` (
 
 LOCK TABLES `invoice` WRITE;
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-INSERT INTO `invoice` VALUES (5,'INT0001',1,'2015-04-20','','2015-04-20','CUS0001','','Cash',1,'Month(s)',19720,394.4,2212.58,22326.98,'twenty two thousand three hundred twenty six','EM0004',80,2,11,0,NULL),(6,'INT0002',1,'2015-06-08','','2015-06-08','CUS0001','','Cash',1,'Year(s)',25000,500,3060,28560,'twenty eight thousand five hundred sixty','EM0004',0,2,12,0,NULL);
+INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80,'Cash',19720,22326.98,'twenty two thousand three hundred twenty six','EM0004',0,NULL),(6,'INT0002','2015-06-08','',NULL,'CUS0001',NULL,0,'Cash',25000,28560,'twenty eight thousand five hundred sixty','EM0004',0,NULL);
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `invoice_id_reset`
---
-
-DROP TABLE IF EXISTS `invoice_id_reset`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `invoice_id_reset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `reset_invoice_id` varchar(45) DEFAULT NULL,
-  `is_tax_invoice` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoice_id_reset`
---
-
-LOCK TABLES `invoice_id_reset` WRITE;
-/*!40000 ALTER TABLE `invoice_id_reset` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_id_reset` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -455,7 +424,10 @@ CREATE TABLE `invoice_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `inv_no` varchar(45) NOT NULL,
   `item_id` varchar(45) NOT NULL,
+  `part_no` varchar(45) DEFAULT NULL,
   `batch_no` varchar(45) NOT NULL,
+  `unit` varchar(45) DEFAULT NULL,
+  `unit_qty` int(11) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL,
   `qty` double DEFAULT NULL,
   `price` double DEFAULT NULL,
@@ -504,7 +476,7 @@ CREATE TABLE `item` (
   CONSTRAINT `item_fk2` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_fk3` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `item_fk4` FOREIGN KEY (`item_sub_category`) REFERENCES `item_sub_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,7 +485,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3),(2,'ITM0002','mm',6,'EM0004','ss','DF456',2,4);
+INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3),(2,'ITM0002','mm',6,'EM0004','ss','DF456',2,4),(4,'ITM0004','ty',6,'EM0004','rt','YSD4584',2,4);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,7 +501,7 @@ CREATE TABLE `item_main_category` (
   `title` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -538,7 +510,7 @@ CREATE TABLE `item_main_category` (
 
 LOCK TABLES `item_main_category` WRITE;
 /*!40000 ALTER TABLE `item_main_category` DISABLE KEYS */;
-INSERT INTO `item_main_category` VALUES (2,'gear oil'),(4,'hyt');
+INSERT INTO `item_main_category` VALUES (2,'gear oil'),(4,'hyt'),(5,'nn');
 /*!40000 ALTER TABLE `item_main_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -562,9 +534,9 @@ CREATE TABLE `item_sub` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_fk1` (`item_id`),
   KEY `item_sub_fk2_idx` (`unit`),
-  CONSTRAINT `item_sub_fk2` FOREIGN KEY (`unit`) REFERENCES `item_unit_value` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  CONSTRAINT `item_sub_fk1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `item_sub_fk2` FOREIGN KEY (`unit`) REFERENCES `item_unit_value` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -573,7 +545,7 @@ CREATE TABLE `item_sub` (
 
 LOCK TABLES `item_sub` WRITE;
 /*!40000 ALTER TABLE `item_sub` DISABLE KEYS */;
-INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,1),(3,'ITM0002','BAT0001',6,500,10,600,1);
+INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,1),(3,'ITM0002','BAT0001',6,500,10,600,1),(5,'ITM0004','BAT0001',6,800,10,900,1);
 /*!40000 ALTER TABLE `item_sub` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -592,7 +564,7 @@ CREATE TABLE `item_sub_category` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `item_sub_category_fk1_idx` (`item_main_category`),
   CONSTRAINT `item_sub_category_fk1` FOREIGN KEY (`item_main_category`) REFERENCES `item_main_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -601,7 +573,7 @@ CREATE TABLE `item_sub_category` (
 
 LOCK TABLES `item_sub_category` WRITE;
 /*!40000 ALTER TABLE `item_sub_category` DISABLE KEYS */;
-INSERT INTO `item_sub_category` VALUES (3,'ioc',2),(4,'lanka oil',2),(5,'tt',2),(6,'kk',4);
+INSERT INTO `item_sub_category` VALUES (3,'ioc',2),(4,'lanka oil',2),(5,'tt',2),(6,'kk',4),(7,'rte',5);
 /*!40000 ALTER TABLE `item_sub_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1496,4 +1468,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-26 14:31:19
+-- Dump completed on 2016-06-29 12:52:23
