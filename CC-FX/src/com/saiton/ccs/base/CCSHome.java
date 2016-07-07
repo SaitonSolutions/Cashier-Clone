@@ -324,11 +324,13 @@ public class CCSHome extends Application implements HomeCallback {
                         "/com/saiton/ccs/sales/Invoice.fxml",
                         "Invoice"));
         
-         home.createTileButton("Service",
+         home.createTileButton("Service \nRegistration",
          TileColors.TILE_COLOR_BLUEVIOLET,
          "/com/saiton/ccs/res/img-hall.png", FxHome.SALES,
          e -> FxmlUiLauncher.launchOnNewStage(
-         "/com/saiton/ccs/sales/Service.fxml", "Service"));
+         "/com/saiton/ccs/sales/Services.fxml",
+                 "Service Registration"));
+         
 //         home.createTileButton("Banquet\nKitchen \nOrder Ticket",
 //         TileColors.TILE_COLOR_CORAL,
 //         "/com/saiton/ihm/res/img-kot.png", FxHome.SALES,

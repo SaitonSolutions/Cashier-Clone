@@ -357,6 +357,7 @@ public class InvoiceController implements Initializable, Validatable,
     @Override
     public void setStage(Stage stage, Object[] obj) {
         this.stage = stage;
+        
         disablePODetails();
         setUserAccessLevel();
         validatorInitialization();
