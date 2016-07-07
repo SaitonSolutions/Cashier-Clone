@@ -10,15 +10,15 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.sales.ServiceController">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saiton.ccs.sales.ServiceController">
   <children>
-    <StackPane prefHeight="478.0" prefWidth="732.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <StackPane prefHeight="400.0" prefWidth="732.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <AnchorPane prefHeight="200.0" prefWidth="200.0">
           <children>
-            <GridPane prefHeight="478.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane prefHeight="400.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+                <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="5" GridPane.rowIndex="1">
                   <children>
                     <Label fx:id="lblItemId" prefWidth="100.0" text="Service ID">
                                  <HBox.margin>
@@ -33,9 +33,12 @@
                               <Insets left="15.0" right="10.0" />
                            </GridPane.margin>
                 </HBox>
-                <HBox id="HBox" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                <HBox id="HBox" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="5" GridPane.rowIndex="2" GridPane.rowSpan="2">
                   <children>
-                    <Label prefWidth="100.0" text="Service" />
+                    <Label prefWidth="100.0" text="Service">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin></Label>
                               <TextArea fx:id="txtService" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#txtItemNameOnKeyReleased" prefHeight="73.0" prefWidth="190.0" promptText="Service" />
                     <Button fx:id="btnServiceSearch" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnServiceSearchOnAction" prefHeight="24.0" prefWidth="24.0" text="">
                       <graphic>
@@ -54,31 +57,52 @@
                               <Insets left="15.0" right="10.0" />
                            </GridPane.margin>
                 </HBox>
-                        <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="4" GridPane.rowIndex="4">
+                        <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="5" GridPane.rowIndex="4">
                            <children>
-                              <Label prefWidth="80.0" text="Selling Price" />
+                              <Label prefWidth="100.0" text="Selling Price" />
                               <TextField fx:id="txtPrice" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#txtSellingPriceOnKeyReleased" prefWidth="220.0" promptText="Price" />
                            </children>
                            <GridPane.margin>
                               <Insets left="15.0" right="10.0" />
                            </GridPane.margin>
                         </HBox>
-                <AnchorPane prefHeight="32.0" prefWidth="731.0" GridPane.columnSpan="6" GridPane.rowIndex="5">
+                <AnchorPane prefHeight="40.0" prefWidth="700.0" GridPane.columnSpan="8" GridPane.rowIndex="5">
                   <children>
-                    <Label alignment="CENTER" layoutX="14.0" layoutY="5.0" prefHeight="31.0" prefWidth="526.0" styleClass="header-label" text="Service List" />
+                    <Label alignment="CENTER" layoutX="14.0" prefHeight="31.0" prefWidth="673.0" styleClass="header-label" text="Service List" />
                   </children>
                 </AnchorPane>
-              <TableView id="tbl" fx:id="tblItemList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#tblRequestNoteListOnMouseClicked" prefHeight="340.0" prefWidth="532.0" GridPane.rowIndex="10">
+                        <HBox id="HBox" spacing="5.0" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                           <children>
+                              <Label prefWidth="100.0" text="Description">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextArea fx:id="txtDescription" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#txtItemNameOnKeyReleased" prefHeight="73.0" prefWidth="215.0" promptText="Description">
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </TextArea>
+                           </children>
+                           <opaqueInsets>
+                              <Insets bottom="10.0" />
+                           </opaqueInsets>
+                        </HBox>
+              <TableView id="tbl" fx:id="tblItemList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#tblRequestNoteListOnMouseClicked" prefHeight="340.0" prefWidth="680.0" GridPane.rowIndex="10">
                 <columns>
                   <TableColumn fx:id="tcItemId" maxWidth="5000.0" minWidth="10.0" prefWidth="200.0" text="Service ID" />
                               <TableColumn fx:id="tcItemName" maxWidth="5000.0" minWidth="10.0" prefWidth="200.0" text="Service" />
-                              <TableColumn fx:id="tcItemDescripton" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" text="Service Price" />
+                              <TableColumn fx:id="tcItemPrice" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" text="Service Price" />
+                              <TableColumn fx:id="tcItemDescripton" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" text="Service Description" />
                 </columns>
                            <GridPane.margin>
                               <Insets bottom="50.0" left="10.0" />
                            </GridPane.margin>
               </TableView>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="13" GridPane.rowSpan="2">
+                        <HBox alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="170.0" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.rowSpan="2">
                            <children>
                               <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="31.0" prefWidth="118.0" text="Delete">
                                  <graphic>
@@ -100,7 +124,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </HBox>
-                <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="13" GridPane.rowSpan="2">
+                <HBox id="HBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="14" GridPane.rowSpan="2">
                   <children>
                     <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="118.0" text="Save">
                       <graphic>
@@ -122,15 +146,15 @@
                     </Button>
                   </children>
                   <GridPane.margin>
-                    <Insets left="40.0" />
+                    <Insets right="10.0" />
                   </GridPane.margin>
                 </HBox>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="12">
                            <children>
-                              <Label alignment="CENTER" layoutX="14.0" layoutY="0.0" prefHeight="31.0" prefWidth="526.0" styleClass="header-label" text="Services" />
+                              <Label alignment="CENTER" layoutX="14.0" layoutY="0.0" prefHeight="31.0" prefWidth="673.0" styleClass="header-label" text="Services" />
                            </children>
                         </AnchorPane>
-                        <HBox id="HBox" alignment="TOP_RIGHT" layoutX="25.0" layoutY="87.0" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                        <HBox id="HBox" alignment="TOP_RIGHT" layoutX="25.0" layoutY="87.0" spacing="5.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="2">
                            <children>
                               <Button fx:id="btnRefresh" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnRefreshOnAction" prefHeight="24.0" prefWidth="24.0" text="">
                                  <graphic>
@@ -149,17 +173,26 @@
                               <Insets />
                            </opaqueInsets>
                            <GridPane.margin>
-                              <Insets right="10.0" top="30.0" />
+                              <Insets right="19.0" top="30.0" />
                            </GridPane.margin>
+                        </HBox>
+                        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="3">
+                           <children>
+                              <Label prefWidth="100.0" text="User Name" />
+                              <TextField fx:id="txtUserName" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#txtSellingPriceOnKeyReleased" prefWidth="215.0" promptText="User Name" />
+                           </children>
                         </HBox>
               </children>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="86.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="85.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="85.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="85.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints />
                         <ColumnConstraints />
                         <ColumnConstraints />
