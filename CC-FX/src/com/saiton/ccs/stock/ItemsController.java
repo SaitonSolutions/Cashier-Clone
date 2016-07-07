@@ -62,41 +62,29 @@ public class ItemsController extends AnchorPane implements Initializable,
     //<editor-fold defaultstate="collapsed" desc="initcomponents">
     
     //<editor-fold defaultstate="collapsed" desc="TextFields">
-    @FXML
     private TextField txtItemId;
 
-    @FXML
     private TextArea txtItemName;
 
-    @FXML
     private TextField txtUserId;
 
-    @FXML
     private TextField txtPartNo;
-    @FXML
     private TextField txtBuyingPrice;
-    @FXML
     private TextArea txtItemDescription;
 
-    @FXML
     private TextField txtQty;
 
-    @FXML
     private TextField txtSellingPrice;
 
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Comboboxes">
-    @FXML
     private ComboBox<String> cmbBatchNo;
 
-    @FXML
     private ComboBox<String> cmbMainCategory;
 
-    @FXML
     private ComboBox<String> cmbUnitQty;
     
-    @FXML
     private ComboBox<String> cmbUnit;
    
 
@@ -106,30 +94,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private Label lblItemId;
     private Label lblItemId1;
-    @FXML
     private Label lblItemName;
-    @FXML
-    private Label lblUserName;
-    @FXML
-    private Label lblBatchNo;
-    @FXML
-    private Label lblSellingPrice;
-    @FXML
-    private Label lblPartNo;
-    @FXML
-    private Label lblBuyingPrice;
-    @FXML
-    private Label lblItemDescription;
-    @FXML
-    private Label lblMainCategory;
-    @FXML
-    private Label lblSubCategory;
-    @FXML
-    private Label lblUnit;
-    @FXML
-    private Label lblQty;
-    @FXML
-    private Label lblUnitQty;
 
 //</editor-fold>
     
@@ -140,7 +105,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private Button btnRefresh;
 
-    @FXML
     private Button btnItemNameSearch;
 
     @FXML
@@ -149,48 +113,27 @@ public class ItemsController extends AnchorPane implements Initializable,
     @FXML
     private Button btnSave;
 
-    @FXML
     private Button btnBatchNo;
 
-    @FXML
-    private Button btnMainCategory;
-
-    @FXML
-    private Button btnSubCategory;
-
-    @FXML
-    private Button btnUnit;
-
-    @FXML
-    private Button btnUnitQty;
 
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Table Components">
-    @FXML
     private TableColumn<Item, String> tcPartNo;
     @FXML
     private TableColumn<Item, String> tcItemId;
     @FXML
     private TableColumn<Item, String> tcItemName;
-    @FXML
     private TableColumn<Item, String> tcBatchNo;
-    @FXML
     private TableColumn<Item, String> tcBuyingPrice;
 
-    @FXML
     private TableColumn<Item, String> tcSellingPrice;
-    @FXML
     private TableColumn<Item, String> tcQty;
-    @FXML
     private TableColumn<Item, String> tcMainCategory;
-    @FXML
     private TableColumn<Item, String> tcSubCategory;
      @FXML
     private TableColumn<Item, String> tcItemDescripton;
-    @FXML
     private TableColumn<Item, String> tcUnit;
-    @FXML
     private TableColumn<Item, String> tcUnitQty;
     @FXML
     private TableView<Item> tblItemList;
@@ -234,8 +177,15 @@ public class ItemsController extends AnchorPane implements Initializable,
     private ObservableList<String> mainCategoryData;
     private ObservableList<String> unitData;
     private ObservableList<String> unitQtyData;
-    @FXML
     private ComboBox<String> cmbSubCategory;
+    @FXML
+    private TextField txtServiceId;
+    @FXML
+    private TextArea txtService;
+    @FXML
+    private Button btnServiceSearch;
+    @FXML
+    private TextField txtPrice;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -410,7 +360,6 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     //<editor-fold defaultstate="collapsed" desc="Action Events">
-    @FXML
     void btnItemNameSearchOnAction(ActionEvent event) {
         itemTableDataLoader(txtItemName.getText());
         itemTable.setItems(itemData);
@@ -425,7 +374,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         clearInput();
     }
 
-    @FXML
     void btnBatchNoOnAction(ActionEvent event) {
         loadBatch();
 
@@ -628,7 +576,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
     }
 
-    @FXML
     void cmbBatchNoOnAction(ActionEvent event) {
 
 //        try {
@@ -645,14 +592,12 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
 
-    @FXML
     private void cmbMainCategoryNoOnAction(ActionEvent event) {
                 
             loadSubCategoryToCombobox();
               
     }
 
-    @FXML
     private void btnMainCategoryOnAction(ActionEvent event) {
 
         String mainCategory = InputDialog.inputForAddNew("Main Category");
@@ -692,15 +637,7 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     }
 
-    @FXML
-    private void cmbSubCategoryNoOnAction(ActionEvent event) {
-        
-                
 
-        
-    }
-
-    @FXML
     private void btnSubCategoryOnAction(ActionEvent event) {
         
          String subCategory = InputDialog.inputForAddNew("Sub Category");
@@ -741,13 +678,11 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
 
-    @FXML
     private void cmbBUnitOnAction(ActionEvent event) {
         
         loadUnitQtyToCombobox();
     }
 
-    @FXML
     private void btnUnitOnAction(ActionEvent event) {
         
         String unit = InputDialog.inputForAddNew("Unit");
@@ -787,13 +722,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
 
-    @FXML
-    private void cmbBUnitQtyOnAction(ActionEvent event) {
-        
-        
-    }
 
-    @FXML
     private void btnUnitQtyOnAction(ActionEvent event) {
         
          String unitQty = InputDialog.inputForAddNew("Unit-Qty");
@@ -995,23 +924,7 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
 
-    @FXML
-    private void txtPartNoOnKeyReleased(KeyEvent event) {
-    }
 
-    @FXML
-    private void txtSuppliersPriceOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtItemDescriptionKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtQtyOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
     private void cmbMainCategoryOnKeyReleased(KeyEvent event) {
 
         if (event.getCode() == KeyCode.DELETE | event.getCode()
@@ -1045,7 +958,6 @@ public class ItemsController extends AnchorPane implements Initializable,
 
     }
     
-    @FXML
     private void cmbSubCategoryNoOnKeyReleased(KeyEvent event) {
         
          if (event.getCode() == KeyCode.DELETE | event.getCode()
@@ -1085,7 +997,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
     
-     @FXML
     private void cmbUnitOnKeyReleased(KeyEvent event) {
         
           if (event.getCode() == KeyCode.DELETE | event.getCode()
@@ -1119,7 +1030,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         
     }
     
-      @FXML
     private void cmbUnitQtyOnKeyReleased(KeyEvent event) {
         
         if (event.getCode() == KeyCode.DELETE | event.getCode()
@@ -1186,7 +1096,7 @@ public class ItemsController extends AnchorPane implements Initializable,
     }
 
     @FXML
-    private void cmbMainCategoryOnMouseReleased(MouseEvent event) {
+    private void btnServiceSearchOnAction(ActionEvent event) {
         
        
         
