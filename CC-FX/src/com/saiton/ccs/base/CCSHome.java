@@ -326,7 +326,7 @@ public class CCSHome extends Application implements HomeCallback {
         
          home.createTileButton("Service \nRegistration",
          TileColors.TILE_COLOR_BLUEVIOLET,
-         "/com/saiton/ccs/res/img-hall.png", FxHome.SALES,
+         "/com/saiton/ccs/res/img-stock_approve.png", FxHome.SALES,
          e -> FxmlUiLauncher.launchOnNewStage(
          "/com/saiton/ccs/sales/Services.fxml",
                  "Service Registration"));
