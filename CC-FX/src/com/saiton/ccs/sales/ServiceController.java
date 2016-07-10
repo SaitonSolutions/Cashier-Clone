@@ -11,6 +11,7 @@ import com.saiton.ccs.validations.CustomTableViewValidationImpl;
 import com.saiton.ccs.validations.CustomTextAreaValidationImpl;
 import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
 import com.saiton.ccs.validations.ErrorMessages;
+import com.saiton.ccs.validations.FormatAndValidate;
 import com.saiton.ccs.validations.Validatable;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -87,6 +88,8 @@ public class ServiceController implements Initializable, Validatable,
 
     private final ValidationSupport validationSupportTableData
             = new ValidationSupport();
+    private final ValidationSupport validationSupportTable
+            = new ValidationSupport();
 
     private MessageBox mb;
     boolean isupdate = false;
@@ -103,6 +106,9 @@ public class ServiceController implements Initializable, Validatable,
     private TableColumn<Item, String> tcServicePrice;
     @FXML
     private TableColumn<Item, String> tcServiceDescription;
+    
+    private final FormatAndValidate fav = new FormatAndValidate();
+    
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Key Events">
 
@@ -113,7 +119,7 @@ public class ServiceController implements Initializable, Validatable,
 
     @FXML
     void txtSellingPriceOnKeyReleased(KeyEvent event) {
-
+        
         validatorInitialization();
         boolean validationSupportResult = false;
         boolean isAvalible = false;
@@ -264,6 +270,99 @@ public class ServiceController implements Initializable, Validatable,
     @FXML
     private void btnSaveOnAction(ActionEvent event) {
 
+        validatorInitialization();
+        boolean validationSupportTableResult = false;
+        boolean isTableContentSaved = false;
+        Item itemTable;
+
+        ValidationResult v = validationSupportTable.getValidationResult();
+
+        if (v != null) {
+            validationSupportTableResult = validationSupportTable.isInvalid();
+
+            if (validationSupportTableResult == true) {
+
+                mb.ShowMessage(stage, ErrorMessages.MandatoryError,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+
+            } else if (validationSupportTableResult == false) {
+                if (isupdate == false) {
+
+                    if (tblItemList.getItems().size() != 0) {
+                        for (int i = 0; i < tblItemList.getItems().size(); i++) {
+                            itemTable = (Item) tblItemList.getItems().get(i);
+
+                            
+                            isTableContentSaved = serviceDAO.addServiceItem(
+                                     itemTable.getColServiceId(),
+                                     itemTable.getColServiceName(),
+                                     itemTable.getColServiceDescription(),
+                                    Double.parseDouble(itemTable.getColServicePrice()),
+                                    userId);
+
+                        }
+                    }
+
+                    if (isTableContentSaved == true) {
+
+                        mb.ShowMessage(stage,
+                                ErrorMessages.SuccesfullyCreated, "Information",
+                                MessageBox.MessageIcon.MSG_ICON_SUCCESS,
+                                MessageBox.MessageType.MSG_OK);
+                        clearInput();
+
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyCreated, "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+                    //Save Action Event
+                } else {
+
+                    MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                            ErrorMessages.Update, "Information",
+                            MessageBox.MessageIcon.MSG_ICON_NONE,
+                            MessageBox.MessageType.MSG_YESNO);
+                    if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                        if (tblItemList.getItems().size() != 0) {
+                            for (int i = 0; i < tblItemList.getItems().size();
+                                    i++) {
+                                itemTable = (Item) tblItemList.getItems().get(i);
+
+                            isTableContentSaved = serviceDAO.addServiceItem(
+                                     itemTable.getColServiceId(),
+                                     itemTable.getColServiceName(),
+                                     itemTable.getColServiceDescription(),
+                                    Double.parseDouble(itemTable.getColServicePrice()),
+                                    userId);
+
+                            }
+                        }
+                        if (isTableContentSaved == true) {
+
+                            mb.ShowMessage(this.stage,
+                                    ErrorMessages.SuccesfullyUpdated,
+                                    "Information",
+                                    MessageBox.MessageIcon.MSG_ICON_SUCCESS,
+                                    MessageBox.MessageType.MSG_OK);
+                            clearInput();
+
+                        } else {
+                            mb.ShowMessage(stage,
+                                    ErrorMessages.NotSuccesfullyUpdated, "Error",
+                                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                    MessageBox.MessageType.MSG_OK);
+                        }
+                    }
+                }
+            }
+        }
+        
+        
     }
 
     @FXML
@@ -310,7 +409,7 @@ public class ServiceController implements Initializable, Validatable,
         txtServiceId.setText(serviceDAO.generateID());
 
         btnDelete.setVisible(false);
-
+        
     }
 
     @Override
@@ -547,15 +646,31 @@ public class ServiceController implements Initializable, Validatable,
 
         this.stage = stage;
         setUserAccessLevel();
+         validatorInitialization();
     }
 
     private void validatorInitialization() {
-//        
-//         validationSupportTableData.registerValidator(txtItemName,
-//                new CustomTextAreaValidationImpl(txtItemName,
-//                        !fav.validName(txtItemName.getText()),
-//                        ErrorMessages.Error));
+        
+         validationSupportTableData.registerValidator(txtService,
+                new CustomTextAreaValidationImpl(txtService,
+                        !fav.validName(txtService.getText()),
+                        ErrorMessages.Error));
+         
+         validationSupportTableData.registerValidator(txtDescription,
+                new CustomTextAreaValidationImpl(txtDescription,
+                        !fav.validName(txtDescription.getText()),
+                        ErrorMessages.Error));
+         
+           validationSupportTableData.registerValidator(txtDescription,
+                new CustomTextAreaValidationImpl(txtDescription,
+                        !fav.validName(txtDescription.getText()),
+                        ErrorMessages.Error));
 
+            validationSupportTableData.registerValidator(txtPrice,
+                new CustomTextFieldValidationImpl(txtPrice,
+                        !fav.chkPrice(txtPrice.getText()),
+                        ErrorMessages.InvalidPrice));
+        
     }
 
     public class Item {
