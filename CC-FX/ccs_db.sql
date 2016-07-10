@@ -1158,8 +1158,11 @@ CREATE TABLE `services` (
   `service` varchar(100) DEFAULT NULL,
   `service_description` varchar(400) DEFAULT NULL,
   `price` double DEFAULT NULL,
+  `user_id` varchar(45) NOT NULL,
   PRIMARY KEY (`service_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `services_fk1_idx` (`user_id`),
+  CONSTRAINT `services_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1523,4 +1526,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-10 15:36:09
+-- Dump completed on 2016-07-10 22:20:00
