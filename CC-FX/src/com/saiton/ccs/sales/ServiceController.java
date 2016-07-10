@@ -2,12 +2,21 @@ package com.saiton.ccs.sales;
 
 import com.saiton.ccs.base.UserPermission;
 import com.saiton.ccs.base.UserSession;
+import com.saiton.ccs.msgbox.MessageBox;
+import com.saiton.ccs.msgbox.SimpleMessageBoxFactory;
 import com.saiton.ccs.salesdao.ServiceDAO;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
+import com.saiton.ccs.validations.CustomTableViewValidationImpl;
+import com.saiton.ccs.validations.CustomTextAreaValidationImpl;
+import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
+import com.saiton.ccs.validations.ErrorMessages;
 import com.saiton.ccs.validations.Validatable;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,9 +26,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.ValidationSupport;
 
 public class ServiceController implements Initializable, Validatable,
         StagePassable {
@@ -29,19 +42,10 @@ public class ServiceController implements Initializable, Validatable,
     private Button btnClose;
 
     @FXML
-    private TableColumn<?, ?> tcItemId;
-
-    @FXML
-    private TableColumn<?, ?> tcItemName;
-
-    @FXML
     private Button btnServiceSearch;
 
     @FXML
     private TableView<?> tblItemList;
-
-    @FXML
-    private TableColumn<?, ?> tcItemDescripton;
 
     @FXML
     private Label lblItemId;
@@ -63,7 +67,7 @@ public class ServiceController implements Initializable, Validatable,
 
     @FXML
     private TextField txtPrice;
-    
+
     ServiceDAO serviceDAO = new ServiceDAO();
 
     private Stage stage;
@@ -77,30 +81,174 @@ public class ServiceController implements Initializable, Validatable,
     private boolean view = false;
     @FXML
     private TextArea txtDescription;
-    @FXML
-    private TableColumn<?, ?> tcItemPrice;
+
     @FXML
     private TextField txtUserName;
 
+    private final ValidationSupport validationSupportTableData
+            = new ValidationSupport();
+
+    private MessageBox mb;
+    boolean isupdate = false;
+    int no = 1;
+
+    Item item = new Item();
+    private ObservableList TableItemData = FXCollections.observableArrayList();
+
+    @FXML
+    private TableColumn<Item, String> tcServiceId;
+    @FXML
+    private TableColumn<Item, String> tcServiceName;
+    @FXML
+    private TableColumn<Item, String> tcServicePrice;
+    @FXML
+    private TableColumn<Item, String> tcServiceDescription;
 //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Key Events">
-    void txtItemNameOnKeyReleased(ActionEvent event) {
 
-    }
-
-    void txtSellingPriceOnKeyReleased(ActionEvent event) {
+    @FXML
+    void txtItemNameOnKeyReleased(KeyEvent event) {
 
     }
 
     @FXML
-    private void txtItemNameOnKeyReleased(KeyEvent event) {
+    void txtSellingPriceOnKeyReleased(KeyEvent event) {
+
+        validatorInitialization();
+        boolean validationSupportResult = false;
+        boolean isAvalible = false;
+
+        if (event.getCode() == KeyCode.ENTER) {
+
+            ValidationResult v = validationSupportTableData.
+                    getValidationResult();
+            if (v != null) {
+
+                validationSupportResult = validationSupportTableData.isInvalid();
+                if (validationSupportResult == true) {
+                    mb.ShowMessage(stage, ErrorMessages.MandatoryError,
+                            "Error",
+                            MessageBox.MessageIcon.MSG_ICON_FAIL,
+                            MessageBox.MessageType.MSG_OK);
+
+                } else if (validationSupportResult == false) {
+
+                    if (isupdate == false) {
+
+                        isAvalible = serviceDAO.checkingItemNameAvailability(
+                                txtService.getText()
+                        );
+
+                        if (isAvalible == false) {
+                            if (tblItemList.getItems().size() != 0) {
+                                int n = tblItemList.getItems().size();
+                                for (int s = 0; s < n; s++) {
+
+                                    item = (Item) tblItemList.getItems().get(s);
+
+                                    if ((txtServiceId.getText()).equals(
+                                            (item.getColServiceId()))
+                                            && tblItemList.getItems().size() > 0) {
+                                        TableItemData.remove(s);
+                                        n--;
+
+                                    }
+
+                                    if (txtServiceId.getText().equals(
+                                            item.getColServiceId())
+                                            && tblItemList.getItems().size() > 0) {
+                                        if (!item.getColServiceName().equals(
+                                                txtService.getText())) {
+                                            item.setColServiceName(
+                                                    txtService.getText());
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            item = new Item();
+
+                            item.colServiceId.setValue(txtServiceId.getText());
+                            item.colServiceName.setValue(txtService.getText());
+                            item.colServicePrice.setValue(txtDescription.
+                                    getText());
+                            item.colServiceDescription.setValue(txtPrice.
+                                    getText());
+
+                            TableItemData.add(item);
+
+                            no = no + 1;
+                            txtServiceId.setText(serviceDAO.generateIDOOnDemand(
+                                    no));
+
+                            //Clear item components for new entry
+                            clearComponentsForNewEntry();
+//                            txtItemId.setText(itemDAO.generateID());
+
+                        } else {
+                            mb.ShowMessage(stage,
+                                    ErrorMessages.InvalidItemName,
+                                    "Error",
+                                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                    MessageBox.MessageType.MSG_OK);
+                        }
+
+                    } else {
+                        if (tblItemList.getItems().size() != 0) {
+                            //Removing existing item for update or new addition
+                            int n = tblItemList.getItems().size();
+                            for (int s = 0; s < n; s++) {
+                                item = (Item) tblItemList.getItems().get(s);
+                                if ((txtServiceId.getText()).
+                                        equals(
+                                                (item.getColServiceId()))
+                                        && tblItemList.getItems().size() > 0) {
+                                    TableItemData.remove(s);
+                                    n--;
+                                }
+
+                                if (txtServiceId.getText().equals(
+                                        item.getColServiceId())
+                                        && tblItemList.getItems().size() > 0) {
+                                    if (!item.getColServiceName().equals(
+                                            txtService.getText())) {
+                                        item.colServiceName.setValue(
+                                                txtService.getText());
+                                    }
+                                }
+                            }
+                        }
+                        //Adding items to the table
+                        item = new Item();
+                        item.colServiceId.setValue(txtServiceId.getText());
+
+                        TableItemData.add(item);
+
+                        //Resetting fields for next item
+                        txtServiceId.setText(serviceDAO.generateID());
+
+                        clearComponentsForNewEntry();
+
+                        update = true;
+                        btnSave.setVisible(true);
+
+                    }
+
+                }
+            }
+        }
+        validatorInitialization();
+
     }
 
-    @FXML
-    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
-    }
-
+//    @FXML
+//    private void txtItemNameOnKeyReleased(KeyEvent event) {
+//    }
+//
+//    @FXML
+//    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
+//    }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Action Events">
     @FXML
@@ -120,7 +268,8 @@ public class ServiceController implements Initializable, Validatable,
 
     @FXML
     private void btnCloseOnAction(ActionEvent event) {
-
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -128,15 +277,13 @@ public class ServiceController implements Initializable, Validatable,
 
     }
 
-  
-
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Click Events">
     void tblRequestNoteListOnMouseClicked(ActionEvent event) {
 
     }
-    
-      @FXML
+
+    @FXML
     private void tblRequestNoteListOnMouseClicked(MouseEvent event) {
     }
 
@@ -144,6 +291,25 @@ public class ServiceController implements Initializable, Validatable,
     //<editor-fold defaultstate="collapsed" desc="Methods">
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        tcServiceId.setCellValueFactory(new PropertyValueFactory<Item, String>(
+                "colServiceId"));
+        tcServiceName.setCellValueFactory(
+                new PropertyValueFactory<Item, String>(
+                        "colServiceName"));
+        tcServicePrice.setCellValueFactory(
+                new PropertyValueFactory<Item, String>(
+                        "colServicePrice"));
+        tcServiceDescription.setCellValueFactory(
+                new PropertyValueFactory<Item, String>(
+                        "colServiceDescription"));
+
+        tblItemList.setItems(TableItemData);
+
+        mb = SimpleMessageBoxFactory.createMessageBox();
+        txtServiceId.setText(serviceDAO.generateID());
+
+        btnDelete.setVisible(false);
 
     }
 
@@ -159,12 +325,21 @@ public class ServiceController implements Initializable, Validatable,
 
     }
 
+    private void clearComponentsForNewEntry() {
+
+        txtDescription.clear();
+        txtPrice.clear();
+        txtService.clear();
+        txtServiceId.clear();
+
+    }
+
     @Override
     public void clearValidations() {
 
     }
 
-     private void setUserAccessLevel() {
+    private void setUserAccessLevel() {
 
         userId = UserSession.getInstance().getUserInfo().getEid();
 
@@ -366,7 +541,7 @@ public class ServiceController implements Initializable, Validatable,
 //        componentControl.controlCComboBox(lblItemId1, cmbBatchNo, btnBatchNo,
 //                220.00, 0.0, true);
     }
-    
+
     @Override
     public void setStage(Stage stage, Object[] obj) {
 
@@ -374,8 +549,49 @@ public class ServiceController implements Initializable, Validatable,
         setUserAccessLevel();
     }
 
-//</editor-fold>
-   
+    private void validatorInitialization() {
+//        
+//         validationSupportTableData.registerValidator(txtItemName,
+//                new CustomTextAreaValidationImpl(txtItemName,
+//                        !fav.validName(txtItemName.getText()),
+//                        ErrorMessages.Error));
 
-    
+    }
+
+    public class Item {
+
+        public SimpleStringProperty colServiceId = new SimpleStringProperty(
+                "tcServiceId");
+        public SimpleStringProperty colServiceName = new SimpleStringProperty(
+                "tcServiceName");
+        public SimpleStringProperty colServicePrice
+                = new SimpleStringProperty(
+                        "tcServicePrice");
+        public SimpleStringProperty colServiceDescription
+                = new SimpleStringProperty(
+                        "tcServiceDescription");
+
+        public String getColServiceId() {
+            return colServiceId.get();
+        }
+
+        public String getColServiceName() {
+            return colServiceName.get();
+        }
+
+        public String getColServicePrice() {
+            return colServicePrice.get();
+        }
+
+        public String getColServiceDescription() {
+            return colServiceDescription.get();
+        }
+
+        public void setColServiceName(String serviceName) {
+            colServiceName.setValue(serviceName);
+        }
+
+    }
+
+//</editor-fold>
 }
