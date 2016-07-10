@@ -452,6 +452,34 @@ LOCK TABLES `invoice_item` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `invoice_service`
+--
+
+DROP TABLE IF EXISTS `invoice_service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_service` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_id` varchar(45) NOT NULL,
+  `service_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`invoice_id`,`service_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `invoice_service_fk2_idx` (`service_id`),
+  CONSTRAINT `invoice_service_fk1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`inv_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `invoice_service_fk2` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice_service`
+--
+
+LOCK TABLES `invoice_service` WRITE;
+/*!40000 ALTER TABLE `invoice_service` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice_service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `item`
 --
 
@@ -1118,6 +1146,33 @@ INSERT INTO `server_config` VALUES (1,'127.0.0.1',1099);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `services`
+--
+
+DROP TABLE IF EXISTS `services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `services` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `service_id` varchar(45) NOT NULL,
+  `service` varchar(100) DEFAULT NULL,
+  `service_description` varchar(400) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  PRIMARY KEY (`service_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services`
+--
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `slow_log`
 --
 
@@ -1468,4 +1523,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-07 23:51:33
+-- Dump completed on 2016-07-10 15:36:09
