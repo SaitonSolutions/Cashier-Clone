@@ -83,6 +83,7 @@ public class ServiceController implements Initializable, Validatable,
     private TextField txtUserName;
 
 //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Key Events">
     void txtItemNameOnKeyReleased(ActionEvent event) {
 
