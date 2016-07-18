@@ -4,6 +4,7 @@ import com.saiton.ccs.base.UserPermission;
 import com.saiton.ccs.base.UserSession;
 import com.saiton.ccs.msgbox.MessageBox;
 import com.saiton.ccs.msgbox.SimpleMessageBoxFactory;
+import com.saiton.ccs.popup.ItemInfoPopup;
 import com.saiton.ccs.salesdao.ServiceDAO;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
@@ -30,8 +31,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.controlsfx.control.PopOver;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 
@@ -186,6 +189,7 @@ public class ServiceController implements Initializable, Validatable,
                             TableItemData.add(item);
 
                             no = no + 1;
+                            System.out.println("No "+no);
                             txtServiceId.setText(serviceDAO.generateIDOOnDemand(
                                     no));
 
@@ -427,6 +431,8 @@ public class ServiceController implements Initializable, Validatable,
             txtServiceId.clear();
             TableItemData.clear();
             txtServiceId.setText(serviceDAO.generateID());
+            no = 1;
+                   
             
     }
 
@@ -652,6 +658,71 @@ public class ServiceController implements Initializable, Validatable,
 
         this.stage = stage;
         setUserAccessLevel();
+        /*
+        //item popup------------------------
+        itemTable = itemPopup.tableViewLoader(itemData);
+
+        itemTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                try {
+                    btnDelete.setVisible(true);
+                    ItemInfoPopup p = null;
+                    p = (ItemInfoPopup) itemTable.getSelectionModel().
+                            getSelectedItem();
+                    if (p.getColItemID() != null) {
+                        clearValidations();
+
+                        txtItemId.setText(p.getColItemID());
+                        txtItemName.setText(p.getColItemName());
+                        txtUserId.setText(itemDAO.getUserName(
+                                txtItemId.getText()));
+                        
+                        loadItemData(txtItemId.getText());
+                        
+                        batchNoList.clear();
+                        loadBatchNoToCombobox(p.getColItemID());
+                    }
+
+                } catch (NullPointerException n) {
+
+                }
+
+                itemPop.hide();
+                validatorInitialization();
+
+            }
+
+        });
+
+        itemTable.setOnMousePressed(e -> {
+
+            if (e.getButton() == MouseButton.SECONDARY) {
+
+                itemPop.hide();
+                validatorInitialization();
+
+            }
+
+        });
+
+        itemPop = new PopOver(itemTable);
+
+        stage.setOnCloseRequest(e -> {
+
+            if (itemPop.isShowing()) {
+                e.consume();
+                itemPop.hide();
+
+            }
+        });
+
+        mainCategoryData = cmbMainCategory.getItems();
+        subCategoryData = cmbUnitQty.getItems();
+        unitData = cmbUnit.getItems();
+        unitQtyData = cmbUnitQty.getItems();
+        
+        */
+        
         validatorInitialization();
     }
 

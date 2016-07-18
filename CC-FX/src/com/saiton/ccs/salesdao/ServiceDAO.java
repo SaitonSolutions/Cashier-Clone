@@ -212,7 +212,7 @@ public class ServiceDAO {
         
          String encodedServiceDesc =  ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, serviceDesc);
-
+ 
         String encodeduserId = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, userId);
         
