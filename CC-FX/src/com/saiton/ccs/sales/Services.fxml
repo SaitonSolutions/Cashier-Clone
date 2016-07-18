@@ -96,7 +96,7 @@
                   <TableColumn fx:id="tcServiceId" maxWidth="5000.0" minWidth="10.0" prefWidth="200.0" text="Service ID" />
                               <TableColumn fx:id="tcServiceName" maxWidth="5000.0" minWidth="10.0" prefWidth="200.0" text="Service" />
                               <TableColumn fx:id="tcServicePrice" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" text="Service Price" />
-                              <TableColumn fx:id="tcServiceDescription" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" text="Service Description" />
+                              <TableColumn fx:id="tcServiceDescription" maxWidth="5000.0" minWidth="10.0" prefWidth="150.0" text="Service Description" />
                 </columns>
                            <GridPane.margin>
                               <Insets bottom="50.0" left="10.0" />
@@ -179,7 +179,7 @@
                         <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="3">
                            <children>
                               <Label prefWidth="100.0" text="User Name" />
-                              <TextField fx:id="txtUserName" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#txtSellingPriceOnKeyReleased" prefWidth="215.0" promptText="User Name" />
+                              <TextField fx:id="txtUserName" editable="false" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#txtSellingPriceOnKeyReleased" prefWidth="215.0" promptText="User Name" />
                            </children>
                         </HBox>
               </children>
