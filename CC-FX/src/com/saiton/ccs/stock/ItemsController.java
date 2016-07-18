@@ -1067,8 +1067,6 @@ public class ItemsController extends AnchorPane implements Initializable,
         }
         
     }
-
-   
     
 //</editor-fold>
     

@@ -108,6 +108,8 @@ public class ServiceController implements Initializable, Validatable,
     private TableColumn<Item, String> tcServiceDescription;
 
     private final FormatAndValidate fav = new FormatAndValidate();
+    
+//    int no = 1;
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Key Events">
@@ -176,9 +178,9 @@ public class ServiceController implements Initializable, Validatable,
 
                             item.colServiceId.setValue(txtServiceId.getText());
                             item.colServiceName.setValue(txtService.getText());
-                            item.colServicePrice.setValue(txtDescription.
+                            item.colServicePrice.setValue(txtPrice.
                                     getText());
-                            item.colServiceDescription.setValue(txtPrice.
+                            item.colServiceDescription.setValue(txtDescription.
                                     getText());
 
                             TableItemData.add(item);
@@ -252,13 +254,6 @@ public class ServiceController implements Initializable, Validatable,
         validatorInitialization();
     }
 
-//    @FXML
-//    private void txtItemNameOnKeyReleased(KeyEvent event) {
-//    }
-//
-//    @FXML
-//    private void txtSellingPriceOnKeyReleased(KeyEvent event) {
-//    }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Action Events">
     @FXML
@@ -377,7 +372,7 @@ public class ServiceController implements Initializable, Validatable,
 
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
-
+        
     }
 
 //</editor-fold>
@@ -425,7 +420,13 @@ public class ServiceController implements Initializable, Validatable,
 
     @Override
     public void clearInput() {
-
+            txtDescription.clear();
+            txtPrice.clear();
+            txtService.clear();
+            txtServiceId.clear();
+            TableItemData.clear();
+            txtServiceId.setText(serviceDAO.generateID());
+            
     }
 
     private void clearComponentsForNewEntry() {
@@ -433,7 +434,7 @@ public class ServiceController implements Initializable, Validatable,
         txtDescription.clear();
         txtPrice.clear();
         txtService.clear();
-        txtServiceId.clear();
+//        txtServiceId.clear();
 
     }
 
