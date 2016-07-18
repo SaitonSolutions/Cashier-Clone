@@ -106,20 +106,19 @@ public class ServiceController implements Initializable, Validatable,
     private TableColumn<Item, String> tcServicePrice;
     @FXML
     private TableColumn<Item, String> tcServiceDescription;
-    
+
     private final FormatAndValidate fav = new FormatAndValidate();
-    
+
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Key Events">
-
     @FXML
     void txtItemNameOnKeyReleased(KeyEvent event) {
-
+        validatorInitialization();
     }
 
     @FXML
     void txtSellingPriceOnKeyReleased(KeyEvent event) {
-        
+
         validatorInitialization();
         boolean validationSupportResult = false;
         boolean isAvalible = false;
@@ -248,6 +247,11 @@ public class ServiceController implements Initializable, Validatable,
 
     }
 
+    @FXML
+    private void txtItemDescOnKeyReleased(KeyEvent event) {
+        validatorInitialization();
+    }
+
 //    @FXML
 //    private void txtItemNameOnKeyReleased(KeyEvent event) {
 //    }
@@ -283,9 +287,9 @@ public class ServiceController implements Initializable, Validatable,
             if (validationSupportTableResult == true) {
 
                 mb.ShowMessage(stage, ErrorMessages.MandatoryError,
-                                "Error",
-                                MessageBox.MessageIcon.MSG_ICON_FAIL,
-                                MessageBox.MessageType.MSG_OK);
+                        "Error",
+                        MessageBox.MessageIcon.MSG_ICON_FAIL,
+                        MessageBox.MessageType.MSG_OK);
 
             } else if (validationSupportTableResult == false) {
                 if (isupdate == false) {
@@ -294,12 +298,12 @@ public class ServiceController implements Initializable, Validatable,
                         for (int i = 0; i < tblItemList.getItems().size(); i++) {
                             itemTable = (Item) tblItemList.getItems().get(i);
 
-                            
                             isTableContentSaved = serviceDAO.addServiceItem(
-                                     itemTable.getColServiceId(),
-                                     itemTable.getColServiceName(),
-                                     itemTable.getColServiceDescription(),
-                                    Double.parseDouble(itemTable.getColServicePrice()),
+                                    itemTable.getColServiceId(),
+                                    itemTable.getColServiceName(),
+                                    itemTable.getColServiceDescription(),
+                                    Double.parseDouble(itemTable.
+                                            getColServicePrice()),
                                     userId);
 
                         }
@@ -333,12 +337,13 @@ public class ServiceController implements Initializable, Validatable,
                                     i++) {
                                 itemTable = (Item) tblItemList.getItems().get(i);
 
-                            isTableContentSaved = serviceDAO.addServiceItem(
-                                     itemTable.getColServiceId(),
-                                     itemTable.getColServiceName(),
-                                     itemTable.getColServiceDescription(),
-                                    Double.parseDouble(itemTable.getColServicePrice()),
-                                    userId);
+                                isTableContentSaved = serviceDAO.addServiceItem(
+                                        itemTable.getColServiceId(),
+                                        itemTable.getColServiceName(),
+                                        itemTable.getColServiceDescription(),
+                                        Double.parseDouble(itemTable.
+                                                getColServicePrice()),
+                                        userId);
 
                             }
                         }
@@ -361,8 +366,7 @@ public class ServiceController implements Initializable, Validatable,
                 }
             }
         }
-        
-        
+
     }
 
     @FXML
@@ -409,7 +413,7 @@ public class ServiceController implements Initializable, Validatable,
         txtServiceId.setText(serviceDAO.generateID());
 
         btnDelete.setVisible(false);
-        
+
     }
 
     @Override
@@ -646,31 +650,31 @@ public class ServiceController implements Initializable, Validatable,
 
         this.stage = stage;
         setUserAccessLevel();
-         validatorInitialization();
+        validatorInitialization();
     }
 
     private void validatorInitialization() {
-        
-         validationSupportTableData.registerValidator(txtService,
+
+        validationSupportTableData.registerValidator(txtService,
                 new CustomTextAreaValidationImpl(txtService,
                         !fav.validName(txtService.getText()),
                         ErrorMessages.Error));
-         
-         validationSupportTableData.registerValidator(txtDescription,
-                new CustomTextAreaValidationImpl(txtDescription,
-                        !fav.validName(txtDescription.getText()),
-                        ErrorMessages.Error));
-         
-           validationSupportTableData.registerValidator(txtDescription,
+
+        validationSupportTableData.registerValidator(txtDescription,
                 new CustomTextAreaValidationImpl(txtDescription,
                         !fav.validName(txtDescription.getText()),
                         ErrorMessages.Error));
 
-            validationSupportTableData.registerValidator(txtPrice,
+        validationSupportTableData.registerValidator(txtDescription,
+                new CustomTextAreaValidationImpl(txtDescription,
+                        !fav.validName(txtDescription.getText()),
+                        ErrorMessages.Error));
+
+        validationSupportTableData.registerValidator(txtPrice,
                 new CustomTextFieldValidationImpl(txtPrice,
                         !fav.chkPrice(txtPrice.getText()),
                         ErrorMessages.InvalidPrice));
-        
+
     }
 
     public class Item {

@@ -81,7 +81,7 @@
                                     <Insets top="10.0" />
                                  </padding>
                               </Label>
-                              <TextArea fx:id="txtDescription" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#txtItemNameOnKeyReleased" prefHeight="73.0" prefWidth="215.0" promptText="Description">
+                              <TextArea fx:id="txtDescription" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#txtItemDescOnKeyReleased" prefHeight="73.0" prefWidth="215.0" promptText="Description">
                                  <HBox.margin>
                                     <Insets top="10.0" />
                                  </HBox.margin>
