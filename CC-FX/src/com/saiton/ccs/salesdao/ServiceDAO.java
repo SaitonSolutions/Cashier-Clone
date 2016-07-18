@@ -252,7 +252,7 @@ public class ServiceDAO {
 
                 } else if (e instanceof SQLException) {
 
-                    log.error("Exception tag --> " + "Invalid sql statement");
+                    log.error("Exception tag --> " + "Invalid sql statement "+e);
 
                 }
                 return false;

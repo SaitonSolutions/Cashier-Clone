@@ -373,7 +373,7 @@ public class ServiceController implements Initializable, Validatable,
 
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
-        
+        clearInput();
     }
 
 //</editor-fold>
