@@ -280,13 +280,14 @@ public class ServiceController implements Initializable, Validatable,
             validationSupportTableResult = validationSupportTable.isInvalid();
 
             if (validationSupportTableResult == true) {
-
+                
                 mb.ShowMessage(stage, ErrorMessages.MandatoryError,
                         "Error",
                         MessageBox.MessageIcon.MSG_ICON_FAIL,
                         MessageBox.MessageType.MSG_OK);
 
             } else if (validationSupportTableResult == false) {
+                
                 if (isupdate == false) {
 
                     if (tblItemList.getItems().size() != 0) {
@@ -675,6 +676,11 @@ public class ServiceController implements Initializable, Validatable,
                 new CustomTextFieldValidationImpl(txtPrice,
                         !fav.chkPrice(txtPrice.getText()),
                         ErrorMessages.InvalidPrice));
+        
+        validationSupportTable.registerValidator(tblItemList,
+                new CustomTableViewValidationImpl(tblItemList,
+                        !fav.validTableView(tblItemList),
+                        ErrorMessages.EmptyListView));
 
     }
 
