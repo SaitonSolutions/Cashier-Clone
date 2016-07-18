@@ -228,7 +228,7 @@ public class ServiceDAO {
 
                 PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
                         + "services "
-                        + "(service_id,service,service_description,price,userid)"
+                        + "(service_id,service,service_description,price,user_id)"
                         + " VALUES(?,?,?,?,?)");
                 
                 ps.setString(1, encodedServiceId);
