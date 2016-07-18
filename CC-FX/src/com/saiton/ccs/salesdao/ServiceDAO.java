@@ -367,7 +367,7 @@ public class ServiceDAO {
                         + "`service_description`=? ,"
                         + "`price`=? , "
                         + "`user_id`=?  "
-                        + " WHERE `serivce_id`=? ");
+                        + " WHERE `service_id`=? ");
 
                 ps.setString(1, serviceName);
                 ps.setString(2, serviceDesc);
@@ -397,4 +397,199 @@ public class ServiceDAO {
             }
         }
     }
+      
+    public ArrayList<ArrayList<String>> searchItemDetails(String item) {
+
+        String encodedItem = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, item);
+
+        String itemId = null;
+        String itemName = null;
+        String itemDesc = null;
+        String itemPrice = null;
+
+        
+
+        ArrayList<ArrayList<String>> Mainlist
+                = new ArrayList<ArrayList<String>>();
+
+        if (star.con == null) {
+
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                String query = "SELECT * "
+                        + "From services "
+                        + "Where service_id LIKE ? or service LIKE ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedItem + "%");
+                pstmt.setString(2, encodedItem + "%");
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+
+                    ArrayList<String> list = new ArrayList<String>();
+
+                    itemId = r.getString("service_id");
+                    itemName = r.getString("service");
+                    itemDesc = r.getString("service_description");
+                    itemPrice = r.getString("price");
+
+                    
+                    list.add(itemId);
+                    list.add(itemName);
+                    list.add(itemDesc);
+                    list.add(itemPrice);
+
+                    Mainlist.add(list);
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+        }
+        return Mainlist;
+    }
+      
+    public String getUserName(String ItemId) {
+
+        String encodedItemId = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, ItemId);
+        String userName = null;
+        if (star.con == null) {
+            log.error("Databse connection failiure.");
+            return null;
+        } else {
+            try {
+
+                String query = "select u.user_name "
+                        + "from services i "
+                        + "left join user u "
+                        + "on u.eid = i.user_id "
+                        + "where i.service_id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedItemId);
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    userName = r.getString("u.user_name");
+                }
+
+                return userName;
+            } catch (ArrayIndexOutOfBoundsException | NumberFormatException |
+                    SQLException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> " + "Split character error");
+                } else if (e instanceof NumberFormatException) {
+                    log.error("Exception tag --> "
+                            + "Invalid number found in current id");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                }
+                return null;
+
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+    }  
+    
+    public boolean checkingItemAvailability(String serviceId) {
+
+        String encodedServiceId = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, serviceId);
+        boolean available = false;
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Databse connection failiure. ");
+
+        } else {
+            try {
+
+                String query = "SELECT * FROM services where service_id= ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedServiceId);
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+                    available = true;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+                if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement");
+                }
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+        }
+        return available;
+    }
+    public boolean deleteItem(String service) {
+
+        String encodedService = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, service);
+        if (star.con == null) {
+            log.info(" Exception tag --> " + "Databse connection failiure. ");
+            return false;
+        } else {
+            try {
+                String sql = "DELETE FROM services WHERE service_id='" + encodedService
+                        + "' ";
+                PreparedStatement stmt = star.con.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+//                stmt.setString(1, encodedItem);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+
+                if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                }
+                return false;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return false;
+            }
+            return true;
+        }
+    }
+      
    }

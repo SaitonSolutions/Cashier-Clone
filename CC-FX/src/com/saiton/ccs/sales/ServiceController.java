@@ -5,6 +5,7 @@ import com.saiton.ccs.base.UserSession;
 import com.saiton.ccs.msgbox.MessageBox;
 import com.saiton.ccs.msgbox.SimpleMessageBoxFactory;
 import com.saiton.ccs.popup.ItemInfoPopup;
+import com.saiton.ccs.popup.ServiceInfoPopup;
 import com.saiton.ccs.salesdao.ServiceDAO;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
@@ -15,6 +16,7 @@ import com.saiton.ccs.validations.ErrorMessages;
 import com.saiton.ccs.validations.FormatAndValidate;
 import com.saiton.ccs.validations.Validatable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -111,6 +113,12 @@ public class ServiceController implements Initializable, Validatable,
     private TableColumn<Item, String> tcServiceDescription;
 
     private final FormatAndValidate fav = new FormatAndValidate();
+    
+    private TableView itemTable = new TableView();
+    private PopOver itemPop;
+    private ServiceInfoPopup itemPopup = new ServiceInfoPopup();
+    private ObservableList<ServiceInfoPopup> itemData = FXCollections.
+            observableArrayList();
     
 //    int no = 1;
 
@@ -233,6 +241,11 @@ public class ServiceController implements Initializable, Validatable,
                         //Adding items to the table
                         item = new Item();
                         item.colServiceId.setValue(txtServiceId.getText());
+                        item.colServiceName.setValue(txtService.getText());
+                            item.colServicePrice.setValue(txtPrice.
+                                    getText());
+                            item.colServiceDescription.setValue(txtDescription.
+                                    getText());
 
                         TableItemData.add(item);
 
@@ -262,11 +275,86 @@ public class ServiceController implements Initializable, Validatable,
     //<editor-fold defaultstate="collapsed" desc="Action Events">
     @FXML
     private void btnServiceSearchOnAction(ActionEvent event) {
-
+            itemTableDataLoader(txtService.getText());
+        itemTable.setItems(itemData);
+        if (!itemData.isEmpty()) {
+            itemPop.show(btnServiceSearch);
+        }
     }
 
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
+        
+         boolean isDeleted = false;
+        Item itemTable;
+        validatorInitialization();
+        boolean validationSupportResult = false;
+
+        ValidationResult v = validationSupportTable.getValidationResult();
+
+        if (v != null) {
+            validationSupportResult = validationSupportTable.isInvalid();
+
+            if (validationSupportResult == true) {
+
+                mb.ShowMessage(stage, ErrorMessages.NoData, "Error",
+                        MessageBox.MessageIcon.MSG_ICON_FAIL,
+                        MessageBox.MessageType.MSG_OK);
+
+            } else if (validationSupportResult == false) {
+
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        ErrorMessages.Delete, "Information",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    if (tblItemList.getItems().size() != 0) {
+                        for (int i = 0; i < tblItemList.getItems().size(); i++) {
+                            itemTable = (Item) tblItemList.getItems().get(i);
+                            if (serviceDAO.checkingItemAvailability(
+                                    itemTable.getColServiceId())) {
+                                
+                                isDeleted = serviceDAO.deleteItem(
+                                        itemTable.getColServiceId());
+                                
+                            } else {
+                                mb.ShowMessage(stage,
+                                        ErrorMessages.InvalidId, "Error",
+                                        MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                        MessageBox.MessageType.MSG_OK);
+                            }
+
+                        }
+
+                        if (isDeleted == true) {
+
+                            mb.ShowMessage(stage,
+                                    ErrorMessages.SuccesfullyDeleted,
+                                    "Information",
+                                    MessageBox.MessageIcon.MSG_ICON_SUCCESS,
+                                    MessageBox.MessageType.MSG_OK);
+                            clearInput();
+
+                        } else {
+                            mb.ShowMessage(stage, ErrorMessages.Error,
+                                    "Error",
+                                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                    MessageBox.MessageType.MSG_OK);
+                        }
+
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NoData, "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
+
+                }
+
+            }
+        }
+        
 
     }
 
@@ -330,6 +418,7 @@ public class ServiceController implements Initializable, Validatable,
                             ErrorMessages.Update, "Information",
                             MessageBox.MessageIcon.MSG_ICON_NONE,
                             MessageBox.MessageType.MSG_YESNO);
+                    
                     if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
 
                         if (tblItemList.getItems().size() != 0) {
@@ -382,7 +471,9 @@ public class ServiceController implements Initializable, Validatable,
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Click Events">
-    void tblRequestNoteListOnMouseClicked(ActionEvent event) {
+    
+    @FXML
+    private void tblRequestNoteListOnMouseClicked(ActionEvent event) {
 
     }
 
@@ -447,6 +538,19 @@ public class ServiceController implements Initializable, Validatable,
 
     @Override
     public void clearValidations() {
+        
+        no = 1;
+        
+//        txtPrice.clear();
+        isupdate = true;
+
+        int count = TableItemData.size();
+        if (count == 0) {
+
+//            btnSave.setVisible(false);
+            btnDelete.setVisible(true);
+
+        }
 
     }
 
@@ -652,13 +756,45 @@ public class ServiceController implements Initializable, Validatable,
 //        componentControl.controlCComboBox(lblItemId1, cmbBatchNo, btnBatchNo,
 //                220.00, 0.0, true);
     }
+    
+    private void itemTableDataLoader(String keyword) {
+
+        itemData.clear();
+        ArrayList<ArrayList<String>> itemInfo
+                = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> list = serviceDAO.searchItemDetails(keyword);
+
+        if (list != null) {
+
+            for (int i = 0; i < list.size(); i++) {
+
+                itemInfo.add(list.get(i));
+            }
+
+            if (itemInfo != null && itemInfo.size() > 0) {
+                for (int i = 0; i < itemInfo.size(); i++) {
+
+                    itemPopup = new ServiceInfoPopup();
+                    itemPopup.colItemID.setValue(itemInfo.get(i).get(0));
+                    itemPopup.colItemName.setValue(itemInfo.get(i).get(1));
+                    itemPopup.colItemDesc.setValue(itemInfo.get(i).get(2));
+                    itemPopup.colItemPrice.setValue(itemInfo.get(i).get(3));
+                    
+                    
+                    itemData.add(itemPopup);
+                }
+            }
+
+        }
+
+    }
 
     @Override
     public void setStage(Stage stage, Object[] obj) {
 
         this.stage = stage;
         setUserAccessLevel();
-        /*
+        
         //item popup------------------------
         itemTable = itemPopup.tableViewLoader(itemData);
 
@@ -666,21 +802,20 @@ public class ServiceController implements Initializable, Validatable,
             if (e.getClickCount() == 2) {
                 try {
                     btnDelete.setVisible(true);
-                    ItemInfoPopup p = null;
-                    p = (ItemInfoPopup) itemTable.getSelectionModel().
+                    ServiceInfoPopup p = null;
+                    p = (ServiceInfoPopup) itemTable.getSelectionModel().
                             getSelectedItem();
                     if (p.getColItemID() != null) {
                         clearValidations();
 
-                        txtItemId.setText(p.getColItemID());
-                        txtItemName.setText(p.getColItemName());
-                        txtUserId.setText(itemDAO.getUserName(
-                                txtItemId.getText()));
+                        txtServiceId.setText(p.getColItemID());
+                        txtService.setText(p.getColItemName());
+                        txtDescription.setText(p.getColItemDesc());
+                        txtPrice.setText(p.getColItemPrice());
+                        txtUserName.setText(serviceDAO.getUserName(
+                                txtServiceId.getText()));
                         
-                        loadItemData(txtItemId.getText());
                         
-                        batchNoList.clear();
-                        loadBatchNoToCombobox(p.getColItemID());
                     }
 
                 } catch (NullPointerException n) {
@@ -716,12 +851,8 @@ public class ServiceController implements Initializable, Validatable,
             }
         });
 
-        mainCategoryData = cmbMainCategory.getItems();
-        subCategoryData = cmbUnitQty.getItems();
-        unitData = cmbUnit.getItems();
-        unitQtyData = cmbUnitQty.getItems();
         
-        */
+        
         
         validatorInitialization();
     }
