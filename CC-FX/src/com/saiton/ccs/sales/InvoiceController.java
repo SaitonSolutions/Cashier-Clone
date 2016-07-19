@@ -224,7 +224,7 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private Button btnClose;
     @FXML
-    private ComboBox<?> cmbCustomerType;
+    private ComboBox<String> cmbCustomerType;
     @FXML
     private TextField txtVehicleNo;
     @FXML
@@ -236,7 +236,11 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private ComboBox<?> cmbUnit;
     @FXML
-    private ComboBox<?> cmbUnit1;
+    private ComboBox<?> cmbUnitQty;
+    @FXML
+    private ComboBox<String> cmbPaymentType;
+    @FXML
+    private TextField txtPartNo;
 
 //</editor-fold>
     @Override
@@ -270,18 +274,22 @@ public class InvoiceController implements Initializable, Validatable,
         tableInvoice.setItems(itemData);
 
 //</editor-fold>
+        
         //Combo Box Items
-//        cmbPaymentType.setItems(paymentTypes);
-//        cmbPaymentType.getSelectionModel().selectFirst();
+        cmbPaymentType.setItems(paymentTypes);
+        cmbPaymentType.getSelectionModel().selectFirst();
+        
 //        cmbWarrentyPeriods.setItems(WarrentyPeriods);
 //        cmbWarrentyPeriods.getSelectionModel().selectFirst();
 
-        dateFormatter("yyyy-MM-dd", dtpPODate);
-        dtpPODate.setValue(LocalDate.now());
-        date = dtpPODate.getValue();
-        txtDate.setText(date.toString());
+//        dateFormatter("yyyy-MM-dd", dtpPODate);
+//        dtpPODate.setValue(LocalDate.now());
+//        date = dtpPODate.getValue();
+        
+        txtDate.setText(LocalDate.now().toString());
         btnCancel.setVisible(false);
         generateId();
+        loadMainCategoryToCombobox();
         disablePODetails();
         txtUnitPrice.setDisable(true);
 
@@ -294,25 +302,25 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     public void disablePODetails() {
-        chkPODetails.setSelected(false);
-        txtPONumber.setDisable(true);
-        dtpPODate.setDisable(true);
-        txtPONumber.setText(null);
-        dtpPODate.setValue(LocalDate.now());
+//        chkPODetails.setSelected(false);
+//        txtPONumber.setDisable(true);
+//        dtpPODate.setDisable(true);
+//        txtPONumber.setText(null);
+//        dtpPODate.setValue(LocalDate.now());
     }
 
     public void enablePODetails() {
 
-        chkPODetails.setSelected(true);
-        txtPONumber.setDisable(false);
-        dtpPODate.setDisable(false);
+//        chkPODetails.setSelected(true);
+//        txtPONumber.setDisable(false);
+//        dtpPODate.setDisable(false);
 
     }
 
     @Override
     public void clearInput() {
 
-        txtInvoiceNo.setText(invoiceDAO.generateTaxID());
+        txtInvoiceNo.setText(invoiceDAO.generateId());
         txtDiscount.clear();
         txtValueNBT.clear();
         txtItemDiscount.clear();
@@ -985,6 +993,27 @@ public class InvoiceController implements Initializable, Validatable,
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Methods">
+    
+    private void loadMainCategoryToCombobox() {
+
+        cmbCustomerType.setItems(null);
+        ArrayList<String> customerTypeList = null;
+        customerTypeList = invoiceDAO.loadCustomerType();
+        if (customerTypeList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        customerTypeList);
+                cmbCustomerType.setItems(List);
+                cmbCustomerType.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+             
+
+    }
+    
     private void calculateNetTotal() {
 
         String amount = calculateTableTotal() + "";
@@ -1308,10 +1337,10 @@ public class InvoiceController implements Initializable, Validatable,
                         !fav.validPositiveDoubleAmount(txtQuantity.getText()),
                         ErrorMessages.InvalidQty));
 
-        validationSupportTableData.registerValidator(txtBatchNo,
-                new CustomTextFieldValidationImpl(txtBatchNo,
-                        !fav.validName(txtBatchNo.getText()),
-                        ErrorMessages.InvalidBatchNo));
+//        validationSupportTableData.registerValidator(txtBatchNo,
+//                new CustomTextFieldValidationImpl(txtBatchNo,
+//                        !fav.validName(txtBatchNo.getText()),
+//                        ErrorMessages.InvalidBatchNo));
 
         //Table
         validationSupportTable.registerValidator(tableInvoice,
@@ -1319,10 +1348,10 @@ public class InvoiceController implements Initializable, Validatable,
                         !fav.validTableView(tableInvoice),
                         ErrorMessages.EmptyListView));
 
-        validationSupportDate.registerValidator(dtpPODate,
-                new CustomDatePickerValidationImpl(dtpPODate,
-                        dtpPODate.getValue().isAfter(LocalDate.now()),
-                        ErrorMessages.DateGraterThanToday));
+//        validationSupportDate.registerValidator(dtpPODate,
+//                new CustomDatePickerValidationImpl(dtpPODate,
+//                        dtpPODate.getValue().isAfter(LocalDate.now()),
+//                        ErrorMessages.DateGraterThanToday));
 
     }
 
@@ -1355,21 +1384,14 @@ public class InvoiceController implements Initializable, Validatable,
 
     private void generateId() {
 
-        if (radioTax.isSelected()) {
+      
 
-            String id = invoiceDAO.generateTaxID();
-
-            if (id != null) {
-                txtInvoiceNo.setText(id);
-            }
-        } else if (radioNonTax.isSelected()) {
-
-            String id = invoiceDAO.generateNoneTaxID();
+            String id = invoiceDAO.generateId();
 
             if (id != null) {
                 txtInvoiceNo.setText(id);
             }
-        }
+        
 
     }
 
@@ -1542,7 +1564,7 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     private void setUiMode(UiMode uiMode) {
-
+/*
         switch (uiMode) {
 
             case SAVE:
@@ -1604,7 +1626,7 @@ public class InvoiceController implements Initializable, Validatable,
                 break;
 
         }
-
+*/
     }
 
     private void setUserAccessLevel() {
@@ -1614,7 +1636,7 @@ public class InvoiceController implements Initializable, Validatable,
         userCategory = UserSession.getInstance().getUserInfo().getCategory();
         txtSalesExecutive.setText(userName);
         String title = stage.getTitle();
-
+/*
         if (!title.isEmpty()) {
 
             UserPermission userPermission = UserSession.getInstance().
@@ -1741,70 +1763,74 @@ public class InvoiceController implements Initializable, Validatable,
             setUiMode(UiMode.NO_ACCESS);
 
         }
-
+*/
     }
 
     private void disableUi(boolean state) {
 
-        chkPODetails.setDisable(state);
-        chkPODetails.setVisible(!state);
-
-        chkUnitPrice.setDisable(state);
-        chkUnitPrice.setVisible(!state);
-
-        btnCancel.setDisable(state);
-        btnCancel.setVisible(!state);
-        btnSave.setDisable(state);
-        btnSave.setVisible(!state);
-        btnCancel.setDisable(state);
-        btnCancel.setVisible(!state);
-        btnNameSearch.setDisable(state);
-        btnNameSearch.setVisible(!state);
-        btnInvoiceNoSearch.setDisable(state);
-        btnInvoiceNoSearch.setVisible(!state);
-        btnItemCodeSearch.setDisable(state);
-        btnItemCodeSearch.setVisible(!state);
-
-        txtInvoiceNo.setDisable(state);
-        txtInvoiceNo.setVisible(!state);
-        txtDate.setDisable(state);
-        txtDate.setVisible(!state);
-        txtPONumber.setVisible(!state);
-        txtPONumber.setDisable(state);
-        dtpPODate.setDisable(state);
-        dtpPODate.setVisible(!state);
-        txtDescription.setVisible(!state);
-        txtDescription.setDisable(state);
-        txtItemCode.setDisable(state);
-        txtItemCode.setVisible(!state);
-        txtBatchNo.setVisible(!state);
-        txtBatchNo.setDisable(state);
-        txtItemDiscount.setDisable(state);
-        txtItemDiscount.setVisible(!state);
-        txtUnitPrice.setVisible(!state);
-        txtUnitPrice.setDisable(state);
-        txtQuantity.setVisible(!state);
-        txtQuantity.setDisable(state);
-        tableInvoice.setVisible(!state);
-        tableInvoice.setDisable(state);
-        txtTotalAmount.setVisible(!state);
-        txtTotalAmount.setDisable(state);
-        txtValueNBT.setVisible(!state);
-        txtValueNBT.setDisable(state);
-        txtValueVAT.setVisible(!state);
-        txtValueVAT.setDisable(state);
-        txtDiscount.setVisible(!state);
-        txtDiscount.setDisable(state);
-        txtNetTotal.setVisible(!state);
-        txtNetTotal.setDisable(state);
-
-        txtAreaAmountInWrds.setVisible(!state);
-        txtAreaAmountInWrds.setDisable(state);
+//        chkPODetails.setDisable(state);
+//        chkPODetails.setVisible(!state);
+//
+//        chkUnitPrice.setDisable(state);
+//        chkUnitPrice.setVisible(!state);
+//
+//        btnCancel.setDisable(state);
+//        btnCancel.setVisible(!state);
+//        btnSave.setDisable(state);
+//        btnSave.setVisible(!state);
+//        btnCancel.setDisable(state);
+//        btnCancel.setVisible(!state);
+//        btnNameSearch.setDisable(state);
+//        btnNameSearch.setVisible(!state);
+//        btnInvoiceNoSearch.setDisable(state);
+//        btnInvoiceNoSearch.setVisible(!state);
+//        btnItemCodeSearch.setDisable(state);
+//        btnItemCodeSearch.setVisible(!state);
+//
+//        txtInvoiceNo.setDisable(state);
+//        txtInvoiceNo.setVisible(!state);
+//        txtDate.setDisable(state);
+//        txtDate.setVisible(!state);
+//        txtPONumber.setVisible(!state);
+//        txtPONumber.setDisable(state);
+//        dtpPODate.setDisable(state);
+//        dtpPODate.setVisible(!state);
+//        txtDescription.setVisible(!state);
+//        txtDescription.setDisable(state);
+//        txtItemCode.setDisable(state);
+//        txtItemCode.setVisible(!state);
+//        txtBatchNo.setVisible(!state);
+//        txtBatchNo.setDisable(state);
+//        txtItemDiscount.setDisable(state);
+//        txtItemDiscount.setVisible(!state);
+//        txtUnitPrice.setVisible(!state);
+//        txtUnitPrice.setDisable(state);
+//        txtQuantity.setVisible(!state);
+//        txtQuantity.setDisable(state);
+//        tableInvoice.setVisible(!state);
+//        tableInvoice.setDisable(state);
+//        txtTotalAmount.setVisible(!state);
+//        txtTotalAmount.setDisable(state);
+//        txtValueNBT.setVisible(!state);
+//        txtValueNBT.setDisable(state);
+//        txtValueVAT.setVisible(!state);
+//        txtValueVAT.setDisable(state);
+//        txtDiscount.setVisible(!state);
+//        txtDiscount.setDisable(state);
+//        txtNetTotal.setVisible(!state);
+//        txtNetTotal.setDisable(state);
+//
+//        txtAreaAmountInWrds.setVisible(!state);
+//        txtAreaAmountInWrds.setDisable(state);
 
     }
 
     @FXML
     private void txtItemSearchOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtPartNoOnKeyReleased(KeyEvent event) {
     }
 
 //</editor-fold>    

@@ -18,209 +18,47 @@ public class InvoiceDAO {
     Codec ORACLE_CODEC = new OracleCodec();
     private final Logger log = Logger.getLogger(this.getClass());
 
-    public String generateNoneTaxID() {
+    
 
-        Integer newId = null;
-        String newCid = null;
-        Integer resetId = null;
-        String resetCid = null;
+    public String generateId() {
+
+        Integer id = null;
+        String cid = null;
         String final_id = null;
         if (star.con == null) {
-            log.error("Databse connection failiure.");
+            log.error("Database connection failiure.");
             return null;
         } else {
             try {
 
                 Statement st = star.con.createStatement();
                 Statement ste = star.con.createStatement();
-                //New Id
-                ResultSet rs = st.executeQuery(
-                        "SELECT MAX(id) as ID FROM invoice WHERE is_tax_inv = '0'");
+                ResultSet rs = st.executeQuery("SELECT MAX(id) as ID FROM invoice ");
 
                 while (rs.next()) {
-                    newId = rs.getInt("id");
+                    id = rs.getInt("id");
                 }
                 ResultSet rss = ste.executeQuery(
-                        "SELECT inv_no FROM invoice WHERE id= " + newId
-                        + "");
+                        "SELECT inv_no FROM invoice WHERE id= " + id + "");
 
                 while (rss.next()) {
-                    newCid = rss.getString("inv_no");
+                    cid = rss.getString("inv_no");
                 }
 
-                //Reset Id
-                String query = "select max(id) as ID "
-                        + "from invoice_id_reset where is_tax_invoice = '0'";
-
-                Statement st1 = star.con.createStatement();
-                ResultSet rs1 = st1.executeQuery(query);
-
-                while (rs1.next()) {
-                    resetId = rs1.getInt("id");
-                }
-                String query2 = "select reset_invoice_id from "
-                        + "invoice_id_reset where id = " + resetId;
-
-                Statement st2 = star.con.createStatement();
-                ResultSet rs2 = st2.executeQuery(query2);
-                while (rs2.next()) {
-                    resetCid = rs2.getString("reset_invoice_id");
-                }
-                int convertedResetCid = 0;
-                if (resetCid != null) {
-                    String original = resetCid.split("V")[1];
-                    convertedResetCid = Integer.parseInt(original);
-                } else {
-                    resetCid = "INV0001";
-                }
-                //Check Conditions
-                if (newId != 0) {
-                    String original = newCid.split("V")[1];
+                if (id != 0) {
+                    String original = cid.split("T")[1];
                     int i = Integer.parseInt(original) + 1;
-                    if (convertedResetCid <= i) {
-                        if (i < 10) {
-                            final_id = "INV000" + i;
-                        } else if (i >= 10 && i < 100) {
-                            final_id = "INV00" + i;
-                        } else if (i >= 100 && i < 1000) {
-                            final_id = "INV0" + i;
-                        } else if (i >= 1000 && i < 10000) {
-                            final_id = "INV" + i;
-                        }
-                        return final_id;
-                    } else {
-                        if (resetCid != null) {
-                            original = resetCid.split("V")[1];
-                            i = Integer.parseInt(original);
-                            if (i < 10) {
-                                final_id = "INV000" + i;
-                            } else if (i >= 10 && i < 100) {
-                                final_id = "INV00" + i;
-                            } else if (i >= 100 && i < 1000) {
-                                final_id = "INV0" + i;
-                            } else if (i >= 1000 && i < 10000) {
-                                final_id = "INV" + i;
-                            }
-                            return final_id;
-                        } else {
-                            return "INV0001";
-                        }
+
+                    if (i < 10) {
+                        final_id = "INT000" + i;
+                    } else if (i >= 10 && i < 100) {
+                        final_id = "INT00" + i;
+                    } else if (i >= 100 && i < 1000) {
+                        final_id = "INT0" + i;
+                    } else if (i >= 1000 && i < 10000) {
+                        final_id = "INT" + i;
                     }
-
-                } else {
-                    return "INV0001";
-                }
-
-            } catch (ArrayIndexOutOfBoundsException | NumberFormatException |
-                    SQLException e) {
-
-                if (e instanceof ArrayIndexOutOfBoundsException) {
-                    log.error("Exception tag --> " + "Split character error");
-                } else if (e instanceof NumberFormatException) {
-                    log.error("Exception tag --> "
-                            + "Invalid number found in current id");
-                } else if (e instanceof SQLException) {
-                    log.error("Exception tag --> " + "Invalid sql statement "
-                            + e.getMessage());
-                }
-                return null;
-
-            } catch (Exception e) {
-                log.error("Exception tag --> " + "Error");
-                return null;
-            }
-        }
-
-    }
-
-    public String generateTaxID() {
-
-        Integer newId = null;
-        String newCid = null;
-        Integer resetId = null;
-        String resetCid = null;
-        String final_id = null;
-        if (star.con == null) {
-            log.error("Databse connection failiure.");
-            return null;
-        } else {
-            try {
-
-                Statement st = star.con.createStatement();
-                Statement ste = star.con.createStatement();
-                //New Id
-                ResultSet rs = st.executeQuery(
-                        "SELECT MAX(id) as ID FROM invoice WHERE is_tax_inv = '1'");
-
-                while (rs.next()) {
-                    newId = rs.getInt("id");
-                }
-                ResultSet rss = ste.executeQuery(
-                        "SELECT inv_no FROM invoice WHERE id= " + newId
-                        + "");
-
-                while (rss.next()) {
-                    newCid = rss.getString("inv_no");
-                }
-
-                //Reset Id
-                String query = "select max(id) as ID "
-                        + "from invoice_id_reset where is_tax_invoice = 1";
-
-                Statement st1 = star.con.createStatement();
-                ResultSet rs1 = st1.executeQuery(query);
-
-                while (rs1.next()) {
-                    resetId = rs1.getInt("id");
-                }
-                String query2 = "select reset_invoice_id from "
-                        + "invoice_id_reset where id = " + resetId;
-
-                Statement st2 = star.con.createStatement();
-                ResultSet rs2 = st2.executeQuery(query2);
-                while (rs2.next()) {
-                    resetCid = rs2.getString("reset_invoice_id");
-                }
-                int convertedResetCid = 0;
-                if (resetCid != null) {
-                    String original = resetCid.split("T")[1];
-                    convertedResetCid = Integer.parseInt(original);
-                } else {
-                    resetCid = "INT0001";
-                }
-                //Check Conditions
-                if (newId != 0) {
-                    String original = newCid.split("T")[1];
-                    int i = Integer.parseInt(original) + 1;
-                    if (convertedResetCid <= i) {
-                        if (i < 10) {
-                            final_id = "INT000" + i;
-                        } else if (i >= 10 && i < 100) {
-                            final_id = "INT00" + i;
-                        } else if (i >= 100 && i < 1000) {
-                            final_id = "INT0" + i;
-                        } else if (i >= 1000 && i < 10000) {
-                            final_id = "INT" + i;
-                        }
-                        return final_id;
-                    } else {
-                        if (resetCid != null) {
-                            original = resetCid.split("T")[1];
-                            i = Integer.parseInt(original);
-                            if (i < 10) {
-                                final_id = "INT000" + i;
-                            } else if (i >= 10 && i < 100) {
-                                final_id = "INT00" + i;
-                            } else if (i >= 100 && i < 1000) {
-                                final_id = "INT0" + i;
-                            } else if (i >= 1000 && i < 10000) {
-                                final_id = "INT" + i;
-                            }
-                            return final_id;
-                        } else {
-                            return "INT0001";
-                        }
-                    }
+                    return final_id;
 
                 } else {
                     return "INT0001";
@@ -244,75 +82,45 @@ public class InvoiceDAO {
                 return null;
             }
         }
-
     }
-    /*
-     public String generatePOID() {
+    
+    public ArrayList loadCustomerType() {
 
-     Integer id = null;
-     String cid = null;
-     String final_id = null;
-     if (star.con == null) {
-     log.error("Databse connection failiure.");
-     return null;
-     } else {
-     try {
+        String customerType = null;
+        ArrayList cutomerTypeList = new ArrayList();
 
-     Statement st = star.con.createStatement();
-     Statement ste = star.con.createStatement();
-     ResultSet rs = st.executeQuery(
-     "SELECT MAX(id) as ID FROM invoice");
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM customer_type");
+                while (r.next()) {
+                    customerType = r.getString("customer_type");
 
-     while (rs.next()) {
-     id = rs.getInt("id");
-     }
-     ResultSet rss = ste.executeQuery(
-     "SELECT po_no FROM invoice WHERE id= " + id
-     + "");
+                    cutomerTypeList.add(customerType);
+                }
 
-     while (rss.next()) {
-     cid = rss.getString("po_no");
-     }
-
-     if (id != 0) {
-     String original = cid.split("I")[1];
-     int i = Integer.parseInt(original) + 1;
-
-     if (i < 10) {
-     final_id = "POI000" + i;
-     } else if (i >= 10 && i < 100) {
-     final_id = "POI00" + i;
-     } else if (i >= 100 && i < 1000) {
-     final_id = "POI0" + i;
-     } else if (i >= 1000 && i < 10000) {
-     final_id = "POI" + i;
-     }
-     return final_id;
-
-     } else {
-     return "POI0001";
-     }
-     } catch (ArrayIndexOutOfBoundsException | NumberFormatException |
-     SQLException e) {
-
-     if (e instanceof ArrayIndexOutOfBoundsException) {
-     log.error("Exception tag --> " + "Split character error");
-     } else if (e instanceof NumberFormatException) {
-     log.error("Exception tag --> "
-     + "Invalid number found in current id");
-     } else if (e instanceof SQLException) {
-     log.error("Exception tag --> " + "Invalid sql statement "
-     + e.getMessage());
-     }
-     return null;
-
-     } catch (Exception e) {
-     log.error("Exception tag --> " + "Error");
-     return null;
-     }
-
-     }
-     }*/
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return cutomerTypeList;
+    }
 
     public Boolean insertInvoice(String InvoiceNo,
             String IsTaxInvoice,
