@@ -1013,6 +1013,26 @@ public class InvoiceController implements Initializable, Validatable,
              
 
     }
+    //working
+     private void loadVehicleToCombobox() {
+
+        cmbCustomerType.setItems(null);
+        ArrayList<String> customerTypeList = null;
+        customerTypeList = invoiceDAO.loadCustomerType();
+        if (customerTypeList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        customerTypeList);
+                cmbCustomerType.setItems(List);
+                cmbCustomerType.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+             
+
+    }
     
     private void calculateNetTotal() {
 

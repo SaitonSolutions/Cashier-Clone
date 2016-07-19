@@ -152,6 +152,8 @@ public class ServiceController implements Initializable, Validatable,
                 } else if (validationSupportResult == false) {
 
                     if (isupdate == false) {
+                        
+                       
 
                         isAvalible = serviceDAO.checkingItemNameAvailability(
                                 txtService.getText()
@@ -197,13 +199,16 @@ public class ServiceController implements Initializable, Validatable,
                             TableItemData.add(item);
 
                             no = no + 1;
-                            System.out.println("No "+no);
+                           
+                            //Clear item components for new entry
+                            clearComponentsForNewEntry();
+                            
                             txtServiceId.setText(serviceDAO.generateIDOOnDemand(
                                     no));
 
-                            //Clear item components for new entry
-                            clearComponentsForNewEntry();
-//                            txtItemId.setText(itemDAO.generateID());
+                            
+                            
+                            
 
                         } else {
                             mb.ShowMessage(stage,
@@ -214,6 +219,7 @@ public class ServiceController implements Initializable, Validatable,
                         }
 
                     } else {
+                      
                         if (tblItemList.getItems().size() != 0) {
                             //Removing existing item for update or new addition
                             int n = tblItemList.getItems().size();
@@ -250,9 +256,9 @@ public class ServiceController implements Initializable, Validatable,
                         TableItemData.add(item);
 
                         //Resetting fields for next item
-                        txtServiceId.setText(serviceDAO.generateID());
-
+                        
                         clearComponentsForNewEntry();
+                        txtServiceId.setText(serviceDAO.generateID());
 
                         update = true;
                         btnSave.setVisible(true);
@@ -335,6 +341,7 @@ public class ServiceController implements Initializable, Validatable,
                                     MessageBox.MessageIcon.MSG_ICON_SUCCESS,
                                     MessageBox.MessageType.MSG_OK);
                             clearInput();
+                           
 
                         } else {
                             mb.ShowMessage(stage, ErrorMessages.Error,
@@ -523,6 +530,7 @@ public class ServiceController implements Initializable, Validatable,
             TableItemData.clear();
             txtServiceId.setText(serviceDAO.generateID());
             no = 1;
+             isupdate = false;
                    
             
     }
@@ -532,7 +540,7 @@ public class ServiceController implements Initializable, Validatable,
         txtDescription.clear();
         txtPrice.clear();
         txtService.clear();
-//        txtServiceId.clear();
+       
 
     }
 
@@ -547,7 +555,6 @@ public class ServiceController implements Initializable, Validatable,
         int count = TableItemData.size();
         if (count == 0) {
 
-//            btnSave.setVisible(false);
             btnDelete.setVisible(true);
 
         }
