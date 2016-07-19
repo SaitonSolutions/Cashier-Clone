@@ -121,6 +121,54 @@ public class InvoiceDAO {
         }
         return cutomerTypeList;
     }
+    
+     public ArrayList loadVehicleNo(String customerId) {
+
+        String vehicleNo = null;
+        ArrayList vehicleNoList = new ArrayList();
+         String encodedSearch = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                customerId);
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+            
+                 String query = "SELECT * FROM customer_vehicle_no WHERE"
+                         + " cus_id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedSearch );
+                
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+
+                      vehicleNo = r.getString("vehicle_no");
+
+                    vehicleNoList.add(vehicleNo);
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return vehicleNoList;
+    }
 
     public Boolean insertInvoice(String InvoiceNo,
             String IsTaxInvoice,

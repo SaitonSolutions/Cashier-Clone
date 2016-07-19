@@ -226,8 +226,6 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private ComboBox<String> cmbCustomerType;
     @FXML
-    private TextField txtVehicleNo;
-    @FXML
     private TextField txtItemSearch;
     @FXML
     private Button btnRefresh1;
@@ -241,6 +239,8 @@ public class InvoiceController implements Initializable, Validatable,
     private ComboBox<String> cmbPaymentType;
     @FXML
     private TextField txtPartNo;
+    @FXML
+    private ComboBox<String> cmbVehicleNo;
 
 //</editor-fold>
     @Override
@@ -289,7 +289,7 @@ public class InvoiceController implements Initializable, Validatable,
         txtDate.setText(LocalDate.now().toString());
         btnCancel.setVisible(false);
         generateId();
-        loadMainCategoryToCombobox();
+        loadCustomerTypeToCombobox();
         disablePODetails();
         txtUnitPrice.setDisable(true);
 
@@ -385,11 +385,15 @@ public class InvoiceController implements Initializable, Validatable,
                         txtCustomerName.setText(p.getColName());
                         customerId = p.getColCustomerId();
 
+                        
                         loadCustomerDetails(customerId);
+                        System.out.println("#390 Customer id : "+customerId);
+                        loadVehicleToCombobox(customerId);
+                        
 
                     }
                 } catch (NullPointerException n) {
-
+                    n.printStackTrace();
                 }
 
                 customerPop.hide();
@@ -869,7 +873,6 @@ public class InvoiceController implements Initializable, Validatable,
         validatorInitialization();
     }
 
-    @FXML
     private void txtWarrentyCertificateNoOnKeyReleased(KeyEvent event) {
         validatorInitialization();
     }
@@ -994,7 +997,7 @@ public class InvoiceController implements Initializable, Validatable,
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    private void loadMainCategoryToCombobox() {
+    private void loadCustomerTypeToCombobox() {
 
         cmbCustomerType.setItems(null);
         ArrayList<String> customerTypeList = null;
@@ -1014,17 +1017,17 @@ public class InvoiceController implements Initializable, Validatable,
 
     }
     //working
-     private void loadVehicleToCombobox() {
+     private void loadVehicleToCombobox(String customerId) {
 
-        cmbCustomerType.setItems(null);
-        ArrayList<String> customerTypeList = null;
-        customerTypeList = invoiceDAO.loadCustomerType();
-        if (customerTypeList != null) {
+        cmbVehicleNo.setItems(null);
+        ArrayList<String> vehicleNo = null;
+        vehicleNo = invoiceDAO.loadVehicleNo(customerId);
+        if (vehicleNo != null) {
             try {
                 ObservableList<String> List = FXCollections.observableArrayList(
-                        customerTypeList);
-                cmbCustomerType.setItems(List);
-                cmbCustomerType.setValue(List.get(0));
+                        vehicleNo);
+                cmbVehicleNo.setItems(List);
+                cmbVehicleNo.setValue(List.get(0));
             } catch (Exception e) {
 
             }
@@ -1095,12 +1098,13 @@ public class InvoiceController implements Initializable, Validatable,
         ArrayList<String> customerDataList = null;
 
         customerDataList = invoiceDAO.loadingCustomerInfo(customerId);
-
+        
         if (customerDataList != null) {
 
             if (!customerDataList.isEmpty()) {
 
-                txtAddress.setText(customerDataList.get(0).toString());
+//                txtAddress.setText(customerDataList.get(0).toString());
+                
 
             }
         }
