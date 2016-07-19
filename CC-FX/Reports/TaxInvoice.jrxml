@@ -175,7 +175,7 @@ where n.inv_no=$P{inv_no}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Segoe UI Symbol" size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tax Invoice]]></text>
+				<text><![CDATA[Invoice]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="39" width="291" height="57" forecolor="#0099CC" uuid="e767dc37-65a3-4bf7-9caf-e17723ecb771"/>
