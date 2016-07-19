@@ -386,8 +386,8 @@ public class InvoiceController implements Initializable, Validatable,
                         customerId = p.getColCustomerId();
 
                         
-                        loadCustomerDetails(customerId);
-                        System.out.println("#390 Customer id : "+customerId);
+//                        loadCustomerDetails(customerId);
+                        
                         loadVehicleToCombobox(customerId);
                         
 
