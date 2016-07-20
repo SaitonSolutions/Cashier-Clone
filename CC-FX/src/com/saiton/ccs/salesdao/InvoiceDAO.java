@@ -122,6 +122,45 @@ public class InvoiceDAO {
         return cutomerTypeList;
     }
     
+    public ArrayList loadUnitType() {
+
+        String unitType = null;
+        ArrayList unitTypeList = new ArrayList();
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+                Statement stt = star.con.createStatement();
+                ResultSet r = stt.
+                        executeQuery("SELECT * FROM item_unit");
+                while (r.next()) {
+                    
+                    unitType = r.getString("unit");
+
+                    unitTypeList.add(unitType);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return unitTypeList;
+    }
+    
      public ArrayList loadVehicleNo(String customerId) {
 
         String vehicleNo = null;
@@ -277,9 +316,9 @@ public class InvoiceDAO {
                 encodeForSQL(ORACLE_CODEC, search);
 
         String itemId = null;
-        String batchNo = null;
+        String itemDescription = null;
         String itemName = null;
-        String unit = null;
+        String partNo = null;
 //        String cus_title = null;
 
         ArrayList<ArrayList<String>> Mainlist
@@ -293,28 +332,40 @@ public class InvoiceDAO {
         } else {
             try {
 
-                String query = "SELECT * FROM item "
-                        + "join item_sub on item.item_id = item_sub.item_id "
-                        + "WHERE (item.item_id LIKE ? OR item.item_name LIKE?)";
+                String query = "SELECT * FROM item i"
+                        + " join item_main_category m  ON"
+                        + " i.item_main_category = m.id join"
+                        + " item_sub_category s ON"
+                        + " i.item_sub_category = s.id"
+                        + " WHERE (i.item_id LIKE ?"
+                        + " OR i.item_name LIKE ? "
+                        + " OR i.item_description LIKE ? "
+                        + " OR i.part_no LIKE ? "
+                        + " OR m.title LIKE ?"
+                        + " OR s.item_sub_category LIKE ? )";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedSearch + "%");
                 pstmt.setString(2, encodedSearch + "%");
+                pstmt.setString(3, encodedSearch + "%");
+                pstmt.setString(4, encodedSearch + "%");
+                pstmt.setString(5, encodedSearch + "%");
+                pstmt.setString(6, encodedSearch + "%");
                 ResultSet r = pstmt.executeQuery();
 
                 while (r.next()) {
 
                     ArrayList<String> list = new ArrayList<String>();
 
-                    itemId = r.getString("item_id");
-                    batchNo = r.getString("batch_no");
-                    itemName = r.getString("item_name");
-                    unit = r.getString("price");
+                    itemId = r.getString("i.item_id");
+                    itemDescription = r.getString("i.item_description");
+                    itemName = r.getString("i.item_name");
+                    partNo = r.getString("i.part_no");
 
                     list.add(itemId);
-                    list.add(batchNo);
+                    list.add(itemDescription);
                     list.add(itemName);
-                    list.add(unit);
+                    list.add(partNo);
 
                     Mainlist.add(list);
 
@@ -330,7 +381,7 @@ public class InvoiceDAO {
 
                 } else if (e instanceof SQLException) {
 
-                    log.error("Exception tag --> " + "Invalid sql statement");
+                    log.error("Exception tag --> " + "Invalid sql statement "+e);
 
                 } else if (e instanceof NullPointerException) {
 

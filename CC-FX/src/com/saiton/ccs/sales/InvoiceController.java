@@ -230,11 +230,11 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private Button btnRefresh1;
     @FXML
-    private ComboBox<?> cmbBatchNo;
+    private ComboBox<String> cmbBatchNo;
     @FXML
-    private ComboBox<?> cmbUnit;
+    private ComboBox<String> cmbUnit;
     @FXML
-    private ComboBox<?> cmbUnitQty;
+    private ComboBox<String> cmbUnitQty;
     @FXML
     private ComboBox<String> cmbPaymentType;
     @FXML
@@ -290,6 +290,7 @@ public class InvoiceController implements Initializable, Validatable,
         btnCancel.setVisible(false);
         generateId();
         loadCustomerTypeToCombobox();
+        loadUnitsToCombobox();
         disablePODetails();
         txtUnitPrice.setDisable(true);
 
@@ -420,16 +421,17 @@ public class InvoiceController implements Initializable, Validatable,
             if (e.getClickCount() == 2) {
                 try {
 
-                    ItemInvoicePopup ISP = null;
-                    ISP = (ItemInvoicePopup) itemTable.getSelectionModel().
+                    ItemInvoicePopup itemInvoicePopup = null;
+                    itemInvoicePopup = (ItemInvoicePopup) itemTable.getSelectionModel().
                             getSelectedItem();
-                    if (ISP.getColItemID() != null) {
-                        txtItemCode.setText(ISP.getColItemID());
-                        txtDescription.setText(ISP.getColItemName());
-                        txtBatchNo.setText(ISP.getColBatchNo());
-                        txtUnitPrice.setText(ISP.getColUnit());
+                    if (itemInvoicePopup.getColItemID() != null) {
+                        
+                        txtItemCode.setText(itemInvoicePopup.getColItemID());
+                        txtDescription.setText(itemInvoicePopup.getColItemName());
+                        txtBatchNo.setText(itemInvoicePopup.getColBatchNo());
+                        txtUnitPrice.setText(itemInvoicePopup.getColUnit());
 
-                        loadItemDetails(ISP.getColItemID());
+                        loadItemDetails(itemInvoicePopup.getColItemID());
                     }
                 } catch (NullPointerException ex) {
 
@@ -705,7 +707,7 @@ public class InvoiceController implements Initializable, Validatable,
 
     @FXML
     private void btnItemSearchOnAction(javafx.event.ActionEvent event) {
-        itemTableDataLoader(txtDescription.getText().trim());
+        itemTableDataLoader(txtItemSearch.getText().trim());
         itemTable.setItems(itemPopData);
         if (!itemPop.isShowing()) {
             itemPop.show(btnItemCodeSearch);
@@ -1008,6 +1010,26 @@ public class InvoiceController implements Initializable, Validatable,
                         customerTypeList);
                 cmbCustomerType.setItems(List);
                 cmbCustomerType.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+             
+
+    }
+    
+    private void loadUnitsToCombobox() {
+
+        cmbUnit.setItems(null);
+        ArrayList<String> unitList = null;
+        unitList = invoiceDAO.loadUnitType();
+        if (unitList != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        unitList);
+                cmbUnit.setItems(List);
+                cmbUnit.setValue(List.get(0));
             } catch (Exception e) {
 
             }

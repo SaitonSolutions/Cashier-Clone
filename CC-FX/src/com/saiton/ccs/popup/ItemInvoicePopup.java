@@ -58,7 +58,7 @@ public class ItemInvoicePopup {
         tcItemID .setCellValueFactory(
                 new PropertyValueFactory<>("colItemID"));
         
-        TableColumn tcBatchNo = new TableColumn("Batch No");
+        TableColumn tcBatchNo = new TableColumn("Description");
         tcBatchNo.setMinWidth(100);
         tcBatchNo.setCellValueFactory(
                 new PropertyValueFactory<>("colBatchNo"));
@@ -68,7 +68,7 @@ public class ItemInvoicePopup {
         tcItemName.setCellValueFactory(
                 new PropertyValueFactory<>("colItemName"));
         
-        TableColumn tcUnit = new TableColumn("Unit");
+        TableColumn tcUnit = new TableColumn("Part No");
         tcUnit.setMinWidth(100);
         tcUnit.setCellValueFactory(
                 new PropertyValueFactory<>("colUnit"));
