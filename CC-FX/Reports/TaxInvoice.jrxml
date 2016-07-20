@@ -19,40 +19,28 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="inv_no" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="is_tax_inv" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="date" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="po_no" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="po_date" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="cus_id" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="salse_executive" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="cus_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cus_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vehicle_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_discount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="payment_term" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="warrenty_period" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="warrenty_month_year" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="total" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nbt" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="vat" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="net_amount" class="java.lang.Double">
@@ -64,16 +52,25 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="user_id" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="total_discount" class="java.math.BigDecimal">
+	<field name="status" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="nbt_rate" class="java.lang.Double">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="vat_rate" class="java.lang.Double">
+	<field name="time_stamp" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="item_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="part_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="batch_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit_qty" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="description" class="java.lang.String">
@@ -94,9 +91,6 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="discount_rate" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="batch_no" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="cus_title" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -106,21 +100,12 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="cus_address" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="vat_no" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<variable name="no" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[1+$V{no}]]></variableExpression>
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
 	<variable name="discount" class="java.lang.String">
 		<variableExpression><![CDATA[$F{discount_rate}==0 ? "":"Discount "+$F{discount_rate}+"%"]]></variableExpression>
-	</variable>
-	<variable name="nbt" class="java.lang.String">
-		<variableExpression><![CDATA["NBT "+$F{nbt_rate}+" % :"]]></variableExpression>
-	</variable>
-	<variable name="vat" class="java.lang.String">
-		<variableExpression><![CDATA["VAT "+$F{vat_rate}+" % :"]]></variableExpression>
 	</variable>
 	<background>
 		<band height="802" splitType="Stretch">
@@ -183,17 +168,16 @@ where n.inv_no=$P{inv_no}]]>
 					<font fontName="Segoe UI Symbol" size="16" isBold="true" isItalic="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Delanka ]]></text>
+				<text><![CDATA[View Bright Service Center]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="75" width="289" height="52" uuid="c369f924-cbdc-4f06-8542-b7f1556f4bfe"/>
+				<reportElement x="4" y="61" width="289" height="52" uuid="c369f924-cbdc-4f06-8542-b7f1556f4bfe"/>
 				<textElement>
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[477, Nawala Road, Rajagiriya, Sri Lanaka
-Tel : 0112877454 Fax:
-e-mail: d-kitchen@delanka.com
-VAT REG No. 114407267-7000]]></text>
+				<text><![CDATA[Auto Servicing
+No 07, Negombo Road, Kochchikade, Sri Lanaka
+Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="417" y="43" width="138" height="20" uuid="1b1834cb-ab20-4879-9e7b-6d3210987cd9"/>
@@ -207,32 +191,33 @@ VAT REG No. 114407267-7000]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[PO No]]></text>
+				<text><![CDATA[Vehicle No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="417" y="77" width="138" height="20" uuid="d9579980-f788-4d13-a036-89ac62da0882"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[PO Date]]></text>
+				<text><![CDATA[Payment Terms]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="118" width="286" height="18" uuid="e6308dff-cb05-4db5-98dc-7a8a52159b5b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Customer / Consignee]]></text>
+				<text><![CDATA[Customer]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="291" y="117" width="126" height="20" uuid="e710abdd-112b-4780-b0ab-d5ca2dcf90e5"/>
+				<reportElement x="293" y="116" width="123" height="21" uuid="e710abdd-112b-4780-b0ab-d5ca2dcf90e5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Payment Terms]]></text>
+				<text><![CDATA[Meater reading at service]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="308" y="153" width="110" height="20" uuid="f826bbd6-0695-4b17-9a7e-a46ff2733daf"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="291" y="153" width="125" height="20" uuid="f826bbd6-0695-4b17-9a7e-a46ff2733daf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Sales Executive]]></text>
@@ -242,7 +227,7 @@ VAT REG No. 114407267-7000]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Warrenty]]></text>
+				<text><![CDATA[Next service m. reading]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="42" width="555" height="1" uuid="b1dac48f-0c80-452f-b589-6c032b042bb2"/>
@@ -257,7 +242,7 @@ VAT REG No. 114407267-7000]]></text>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="0" y="193" width="555" height="1" uuid="d5a44bf5-1c41-46d8-9b78-691e5fbc2a69"/>
+				<reportElement x="0" y="192" width="555" height="1" uuid="d5a44bf5-1c41-46d8-9b78-691e5fbc2a69"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -275,7 +260,7 @@ VAT REG No. 114407267-7000]]></text>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="416" y="42" width="1" height="111" uuid="c363e09e-b693-4b5b-8d1c-325f9e14288f"/>
+				<reportElement x="416" y="42" width="1" height="150" uuid="c363e09e-b693-4b5b-8d1c-325f9e14288f"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -310,17 +295,17 @@ VAT REG No. 114407267-7000]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{po_no}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vehicle_no}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="417" y="92" width="137" height="20" uuid="27349007-09d8-437c-bea2-0c36bf43c77a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{po_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{payment_term}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="308" y="172" width="247" height="20" isPrintWhenDetailOverflows="true" uuid="a1f5c7da-d3b7-46c2-8c13-2e9c28c90246"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="294" y="172" width="122" height="20" isPrintWhenDetailOverflows="true" uuid="a1f5c7da-d3b7-46c2-8c13-2e9c28c90246"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
@@ -396,13 +381,6 @@ VAT REG No. 114407267-7000]]></text>
 				</textElement>
 				<text><![CDATA[No]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="48" y="177" width="238" height="17" uuid="1c6f8f48-4bb7-434c-8df5-82436fecac59"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{vat_no}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="290" y="43" width="126" height="20" uuid="6377bd93-962e-46a6-ab62-d814ec3cf110"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -410,37 +388,27 @@ VAT REG No. 114407267-7000]]></text>
 				</textElement>
 				<text><![CDATA[Invoice No]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="419" y="136" width="54" height="16" uuid="6a3ef2d7-9a60-4b1f-8d13-e254d0ee0d98"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{warrenty_period}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="475" y="136" width="60" height="16" uuid="235e17bf-9a2d-4229-945f-c3b7cc12db30"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{warrenty_month_year}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="6" y="177" width="42" height="16" uuid="a7255c0f-7e79-40bb-b68c-21191b9e0672"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="416" y="152" width="139" height="20" uuid="f4a08137-e049-4047-ab34-64673ddcfe4d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[VAT No :]]></text>
+				<text><![CDATA[Remarks]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="4" y="43" width="291" height="57" forecolor="#000000" uuid="06893942-5001-43c2-a9a0-3ec3b1946dd6"/>
-				<textElement>
-					<font fontName="Segoe UI Symbol" size="12" isBold="true" isItalic="false"/>
-					<paragraph lineSpacing="Single"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="419" y="172" width="136" height="20" isPrintWhenDetailOverflows="true" uuid="0c1bdb13-1536-4eea-913d-9c7b7a590220"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI Symbol" size="8"/>
 				</textElement>
-				<text><![CDATA[                  Hotel Catering Equipments &
-Service Supply (PVT) Ltd.
-]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{salse_executive}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="137" width="139" height="16" uuid="c801905b-a24c-4d10-bb6c-91d8e6c9921b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI Symbol" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment_term}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
@@ -499,11 +467,11 @@ Service Supply (PVT) Ltd.
 	<columnFooter>
 		<band height="296">
 			<staticText>
-				<reportElement x="7" y="78" width="466" height="14" uuid="b390fa42-80bc-4a82-9386-43a5801cd4aa"/>
+				<reportElement x="6" y="78" width="466" height="14" uuid="b390fa42-80bc-4a82-9386-43a5801cd4aa"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Amount in Words :]]></text>
+				<text><![CDATA[Grand Total :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="119" width="452" height="20" uuid="12f94260-4d36-41b0-a9b7-d00467e20a37"/>
@@ -595,20 +563,6 @@ Delanka Hotel Catering Equipments & Service Supply (Pvt) Ltd.]]></text>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
-			<textField pattern="#,##0.00">
-				<reportElement x="473" y="36" width="78" height="20" uuid="752cca99-1159-4c7b-a5ce-8432ea192911"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nbt}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="473" y="56" width="78" height="20" uuid="c66f0ce9-739f-4d53-aca5-b0bea92a96c5"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="6" y="92" width="467" height="26" uuid="c39ecfb7-04a7-4a4a-9fc5-6a80c8317a07"/>
 				<textElement>
@@ -658,20 +612,13 @@ Delanka Hotel Catering Equipments & Service Supply (Pvt) Ltd.]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total_discount}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="215" y="36" width="258" height="20" uuid="09b43e41-3693-4b9d-b6eb-0bc76816da12"/>
+			<staticText>
+				<reportElement x="376" y="2" width="96" height="18" uuid="67a00bd0-a270-49f6-a01b-a97a30d885e6"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
+					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{nbt}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="215" y="56" width="258" height="20" uuid="c51adebd-fe13-435a-8f5c-a18f673e035f"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{vat}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Sub Total :]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 </jasperReport>

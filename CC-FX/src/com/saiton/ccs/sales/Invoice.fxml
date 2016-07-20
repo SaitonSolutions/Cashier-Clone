@@ -77,7 +77,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="1132.0" styleClass="header-label" text="Tax Invoice" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.rowIndex="1">
+                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="1132.0" styleClass="header-label" text="Invoice" GridPane.columnIndex="1" GridPane.columnSpan="13" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -121,7 +121,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="3">
                            <children>
-                              <Label contentDisplay="RIGHT" prefWidth="70.0" text="Date" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                              <Label contentDisplay="RIGHT" prefWidth="250.0" text="Date" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin></Label>
@@ -379,6 +379,39 @@
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                           <children>
+                              <Label contentDisplay="RIGHT" prefWidth="250.0" text="Meater Reading at service" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtMeterReading" editable="false" prefHeight="25.0" prefWidth="250.0" promptText="Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
+                           <children>
+                              <Label contentDisplay="RIGHT" prefWidth="250.0" text="Next service m. reading" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtNextMeterReading" editable="false" prefHeight="25.0" prefWidth="250.0" promptText="Next Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="23">
+                           <children>
+                              <Label contentDisplay="RIGHT" prefWidth="100.0" text="Remarks" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtRemarks" editable="false" prefHeight="25.0" prefWidth="550.0" promptText="Remarks" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </HBox>
                      </children>
