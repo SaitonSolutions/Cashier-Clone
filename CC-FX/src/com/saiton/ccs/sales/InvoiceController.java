@@ -427,7 +427,7 @@ public class InvoiceController implements Initializable, Validatable,
                     if (itemInvoicePopup.getColItemID() != null) {
                         
                         txtItemCode.setText(itemInvoicePopup.getColItemID());
-                        txtDescription.setText(itemInvoicePopup.getColItemName());
+                        txtItemSearch.setText(itemInvoicePopup.getColItemName());
                         txtBatchNo.setText(itemInvoicePopup.getColBatchNo());
                         txtUnitPrice.setText(itemInvoicePopup.getColUnit());
 

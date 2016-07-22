@@ -928,7 +928,8 @@ public class InvoiceDAO {
     }
 
     public ArrayList<String> loadingItemInfo(String ItemID) {
-        String EncodedItemID = ESAPI.encoder().
+        
+        String encodedSearch = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, ItemID);
         ArrayList list = new ArrayList();
         String itemId = null;
@@ -942,15 +943,22 @@ public class InvoiceDAO {
         } else {
             try {
 
-                Statement stt = star.con.createStatement();
-                ResultSet r = stt.executeQuery("SELECT * FROM item "
-                        + "join item_sub on item.item_id = item_sub.item_id WHERE"
-                        + " item.item_id = '" + EncodedItemID + "'");
+                String query = "SELECT * FROM item i "
+                        + " join item_sub s on "
+                        + " i.item_id = s.item_id WHERE"
+                        + " i.item_id = ? ";
 
+                PreparedStatement ps = star.con.prepareStatement(query);
+
+                ps.setString(1, encodedSearch);
+
+                ResultSet r = ps.executeQuery();
+                
+                
                 while (r.next()) {
-                    itemName = r.getString("item_name");
-                    unit = r.getString("price");
-                    batchNo = r.getString("batch_no");
+                    itemName = r.getString("i.item_name");
+                    unit = r.getString("s.price");
+                    batchNo = r.getString("s.batch_no");
 
                     list.add(itemName);
                     list.add(unit);
