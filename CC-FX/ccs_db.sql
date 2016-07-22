@@ -99,6 +99,33 @@ INSERT INTO `customer_email` VALUES (22,'CUS0001','Niresh@gmail.com'),(23,'CUS00
 UNLOCK TABLES;
 
 --
+-- Table structure for table `customer_meter_reading`
+--
+
+DROP TABLE IF EXISTS `customer_meter_reading`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer_meter_reading` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cus_id` varchar(45) NOT NULL,
+  `meter_reading_at_service` varchar(60) DEFAULT NULL,
+  `next_service_meter_reading` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`cus_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  CONSTRAINT `customer_meter_reading_fk1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer_meter_reading`
+--
+
+LOCK TABLES `customer_meter_reading` WRITE;
+/*!40000 ALTER TABLE `customer_meter_reading` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_meter_reading` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customer_mobile`
 --
 
@@ -394,6 +421,7 @@ CREATE TABLE `invoice` (
   `user_id` varchar(45) NOT NULL,
   `status` int(11) DEFAULT '0',
   `time_stamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `remarks` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`inv_no`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `invoice_fk1_idx` (`user_id`),
@@ -409,7 +437,7 @@ CREATE TABLE `invoice` (
 
 LOCK TABLES `invoice` WRITE;
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80,'Cash',19720,22326.98,'twenty two thousand three hundred twenty six','EM0004',0,NULL),(6,'INT0002','2015-06-08','',NULL,'CUS0001',NULL,0,'Cash',25000,28560,'twenty eight thousand five hundred sixty','EM0004',0,NULL);
+INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80,'Cash',19720,22326.98,'twenty two thousand three hundred twenty six','EM0004',0,NULL,NULL),(6,'INT0002','2015-06-08','',NULL,'CUS0001',NULL,0,'Cash',25000,28560,'twenty eight thousand five hundred sixty','EM0004',0,NULL,NULL);
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1163,7 +1191,7 @@ CREATE TABLE `services` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `services_fk1_idx` (`user_id`),
   CONSTRAINT `services_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1172,6 +1200,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES (3,'SVC0007','uu','oo',400,'EM0004'),(4,'SVC0008','mmmm','iiiii',200,'EM0004'),(5,'SVC0009','ghgh','ghgh',300,'EM0004'),(6,'SVC0010','hjj','hjhj',400,'EM0004'),(7,'SVC0011','hjhjk','jhkjk',500,'EM0004');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1526,4 +1555,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-10 22:20:00
+-- Dump completed on 2016-07-22 19:22:14
