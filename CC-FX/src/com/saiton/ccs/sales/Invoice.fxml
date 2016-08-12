@@ -175,6 +175,18 @@
                            <children>
                               <Label prefWidth="120.0" text="Vehicle No" GridPane.columnIndex="10" GridPane.rowIndex="7" />
                               <ComboBox fx:id="cmbVehicleNo" maxHeight="-Infinity" prefWidth="210.0" />
+                              <Button fx:id="btnVehicle" maxHeight="24.0" maxWidth="24.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnVehicleOnAction" prefHeight="24.0" prefWidth="24.0">
+                                 <graphic>
+                                    <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../../Avanra%20Beach/IHMS-Common-AvenraBeach/src/com/kasper/ihm/res/img-add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                            <GridPane.margin>
                               <Insets />
@@ -388,7 +400,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txtMeterReading" editable="false" prefHeight="25.0" prefWidth="250.0" promptText="Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="txtMeterReading" prefHeight="25.0" prefWidth="250.0" promptText="Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                            <GridPane.margin>
                               <Insets right="5.0" />
@@ -411,7 +423,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txtRemarks" editable="false" prefHeight="25.0" prefWidth="550.0" promptText="Remarks" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="txtRemarks" prefHeight="25.0" prefWidth="550.0" promptText="Remarks" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </HBox>
                      </children>
