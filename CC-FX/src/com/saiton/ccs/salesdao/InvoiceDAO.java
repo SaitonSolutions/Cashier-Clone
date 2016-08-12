@@ -18,8 +18,6 @@ public class InvoiceDAO {
     Codec ORACLE_CODEC = new OracleCodec();
     private final Logger log = Logger.getLogger(this.getClass());
 
-    
-
     public String generateId() {
 
         Integer id = null;
@@ -33,7 +31,8 @@ public class InvoiceDAO {
 
                 Statement st = star.con.createStatement();
                 Statement ste = star.con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT MAX(id) as ID FROM invoice ");
+                ResultSet rs = st.executeQuery(
+                        "SELECT MAX(id) as ID FROM invoice ");
 
                 while (rs.next()) {
                     id = rs.getInt("id");
@@ -83,7 +82,7 @@ public class InvoiceDAO {
             }
         }
     }
-    
+
     public ArrayList loadCustomerType() {
 
         String customerType = null;
@@ -121,7 +120,7 @@ public class InvoiceDAO {
         }
         return cutomerTypeList;
     }
-    
+
     public ArrayList loadUnitType() {
 
         String unitType = null;
@@ -135,7 +134,7 @@ public class InvoiceDAO {
                 ResultSet r = stt.
                         executeQuery("SELECT * FROM item_unit");
                 while (r.next()) {
-                    
+
                     unitType = r.getString("unit");
 
                     unitTypeList.add(unitType);
@@ -160,30 +159,30 @@ public class InvoiceDAO {
         }
         return unitTypeList;
     }
-    
-     public ArrayList loadVehicleNo(String customerId) {
+
+    public ArrayList loadVehicleNo(String customerId) {
 
         String vehicleNo = null;
         ArrayList vehicleNoList = new ArrayList();
-         String encodedSearch = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+        String encodedSearch = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 customerId);
 
         if (star.con == null) {
             log.error("Database connection failiure.");
         } else {
             try {
-            
-                 String query = "SELECT * FROM customer_vehicle_no WHERE"
-                         + " cus_id = ? ";
+
+                String query = "SELECT * FROM customer_vehicle_no WHERE"
+                        + " cus_id = ? ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
-                pstmt.setString(1, encodedSearch );
-                
+                pstmt.setString(1, encodedSearch);
+
                 ResultSet r = pstmt.executeQuery();
 
                 while (r.next()) {
 
-                      vehicleNo = r.getString("vehicle_no");
+                    vehicleNo = r.getString("vehicle_no");
 
                     vehicleNoList.add(vehicleNo);
 
@@ -209,49 +208,41 @@ public class InvoiceDAO {
         return vehicleNoList;
     }
 
-    public Boolean insertInvoice(String InvoiceNo,
-            String IsTaxInvoice,
-            String Date,
-            String PONumber,
-            String PODate,
-            String CusID,
-            String SalesExecutive,
-            String PaymentTerm,
-            String WarrentyPeriod,
-            String Warrenty_Month_Year,
-            Double Total,
-            Double NBT,
-            Double VAT,
-            Double NetAmt,
-            String AmountInWords,
-            String UserID,
-            Double Totaldiscount,
-            Double nbtRate,
-            Double vatRate
+    public Boolean insertInvoice(
+            String invoiceNo,
+            String date,
+            String salesExecutive,
+            String customerType,
+            String cusID,
+            String vehicleNo,
+            Double totaldiscount,
+            String paymentTerm,
+            Double total,
+            Double netAmt,
+            String amountInWords,
+            String userID
     ) {
 
-        String EncodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
-                InvoiceNo);
-        String EncodedIsTaxInvoice = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
-                IsTaxInvoice);
-        String EncodedDate = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, Date);
-        String EncodedPONumber = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
-                PONumber);
-        String EncodedPODate = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, PODate);
-        String EncodedCusID = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, CusID);
-        String EncodedSalesExecutive = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, SalesExecutive);
-        String EncodedPaymentTerm = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
-                PaymentTerm);
-        String EncodedWarrentyPeriod = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, WarrentyPeriod);
-        String EncodedWarrenty_Month_Year = ESAPI.encoder().encodeForSQL(
-                ORACLE_CODEC, Warrenty_Month_Year);
-        String EncodedAmountInWords = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
-                AmountInWords);
-        String EncodedUserID = ESAPI.encoder().
-                encodeForSQL(ORACLE_CODEC, UserID);
+        String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                invoiceNo);
+
+        String encodedDate = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, date);
+
+        String encodedCusID = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, cusID);
+
+        String encodedCusType = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                customerType);
+        String encodedVehicleNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                vehicleNo);
+        String encodedSalesExecutive = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, salesExecutive);
+        String encodedPaymentTerm = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                paymentTerm);
+
+        String encodedAmountInWords = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                amountInWords);
+        String encodedUserID = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, userID);
 
         if (star.con == null) {
             log.error("Database Connection failure");
@@ -260,34 +251,35 @@ public class InvoiceDAO {
 
             try {
                 PreparedStatement ps = star.con.prepareStatement(
-                        "INSERT INTO `invoice` (`inv_no`, `is_tax_inv`, `date`, "
-                        + "`po_no`, `po_date`, `cus_id`, `salse_executive`,"
-                        + " `payment_term`, `warrenty_period`, "
-                        + "`warrenty_month_year`, `total`, `nbt`, `vat`, "
-                        + "`net_amount`, `net_amount_word`, `user_id`, "
-                        + "`total_discount`, `nbt_rate`, `vat_rate`) VALUES "
-                        + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
-                        + " ?, ?)");
+                        "INSERT INTO `invoice` ("
+                        + "`inv_no`,"
+                        + " `date`, "
+                        + " `salse_executive`,"
+                        + " `cus_type`,"
+                        + " `cus_id`,"
+                        + " `vehicle_no`,"
+                        + "`total_discount`,"
+                        + " `payment_term`,"
+                        + " `total`,"
+                        + "`net_amount`,"
+                        + " `net_amount_word`,"
+                        + " `user_id` "
+                        + " )"
+                        + " VALUES "
+                        + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                ps.setString(1, EncodedInvoiceNo);
-                ps.setString(2, EncodedIsTaxInvoice);
-                ps.setString(3, EncodedDate);
-                ps.setString(4, EncodedPONumber);
-                ps.setString(5, EncodedPODate);
-                ps.setString(6, EncodedCusID);
-                ps.setString(7, EncodedSalesExecutive);
-                ps.setString(8, EncodedPaymentTerm);
-                ps.setString(9, EncodedWarrentyPeriod);
-                ps.setString(10, EncodedWarrenty_Month_Year);
-                ps.setDouble(11, Total);
-                ps.setDouble(12, NBT);
-                ps.setDouble(13, VAT);
-                ps.setDouble(14, NetAmt);
-                ps.setString(15, AmountInWords);
-                ps.setString(16, UserID);
-                ps.setDouble(17, Totaldiscount);
-                ps.setDouble(18, nbtRate);
-                ps.setDouble(19, vatRate);
+                ps.setString(1, encodedInvoiceNo);
+                ps.setString(2, encodedDate);
+                ps.setString(3, encodedSalesExecutive);
+                ps.setString(4, encodedCusType);
+                ps.setString(5, encodedCusID);
+                ps.setString(6, encodedVehicleNo);
+                ps.setDouble(7, totaldiscount);
+                ps.setString(8, encodedPaymentTerm);
+                ps.setDouble(9, total);
+                ps.setDouble(10, netAmt);
+                ps.setString(11, amountInWords);
+                ps.setString(12, userID);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {
@@ -381,7 +373,8 @@ public class InvoiceDAO {
 
                 } else if (e instanceof SQLException) {
 
-                    log.error("Exception tag --> " + "Invalid sql statement "+e);
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e);
 
                 } else if (e instanceof NullPointerException) {
 
@@ -521,12 +514,12 @@ public class InvoiceDAO {
             String invoiceNo,
             String itemCode,
             String description,
+            String batchNo,
             double qty,
-            double price,
-            double netPrice,
-            double discount,
             double discountRate,
-            String batchNo
+            double discount,
+            double price,
+            double netPrice
     ) {
         String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 invoiceNo);
@@ -535,10 +528,21 @@ public class InvoiceDAO {
 //        String encodedDescription = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
 //                description);
         String encodedDescription = description;
-        
+
         String encodedBatchNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 batchNo);
 
+        System.out.println(" Values "
+                + "-"+invoiceNo
+                        + "-"+itemCode
+                        + "-"+description
+                        + "-"+batchNo
+                        + "-"+qty
+                        + "-"+discountRate
+                        + "-"+discount     
+                        + "-"+price
+                + "-"+netPrice
+        );
         if (star.con == null) {
             log.error("Databse connection failiure.");
             return false;
@@ -546,36 +550,55 @@ public class InvoiceDAO {
             try {
 
                 PreparedStatement ps = star.con.prepareStatement(
-                        "INSERT INTO `ccs_dl`.`invoice_item`(`inv_no`,"
-                        + " `item_id`"
-                        + ", `description`, `qty`, `price`, `net_price`, "
-                        + "`discount`,"
-                        + " `discount_rate`,`batch_no`) VALUES "
-                        + "(?, ?, ?,?, ?, ?, ?, ?,?)");
+                        "INSERT INTO `invoice_item`("
+                        + " `inv_no`,"
+                        + " `item_id`,"
+                        + " `description`,"
+                        + " `batch_no`,"
+                        + " `qty`,"
+                        + " `discount_rate`,"
+                        + " `discount`,"
+                        + " `price`,"
+                        + " `net_price`, "
+                        + " `part_no`,"
+                        + " `unit`,"
+                        + " `unit_qty`"
+                        + " )"
+                        + " VALUES "
+                        + "(?,?,?,?,?,?,?,?,?,?,?,?)");
 
                 ps.setString(1, encodedInvoiceNo);
                 ps.setString(2, encodedItemCode);
                 ps.setString(3, encodedDescription);
-                ps.setDouble(4, qty);
-                ps.setDouble(5, price);
-                ps.setDouble(6, netPrice);
+                ps.setString(4, batchNo);
+                ps.setDouble(5, qty);
+                ps.setDouble(6, discountRate);
                 ps.setDouble(7, discount);
-                ps.setDouble(8, discountRate);
-                ps.setString(9, batchNo);
-
-                int val = ps.executeUpdate();
-
+                ps.setDouble(8, price);
+                ps.setDouble(9, netPrice);
+                ps.setString(10, "partNo");
+                ps.setString(11, "unit");
+                ps.setInt(12, 00);
+                
+                
+                
+                
+              int val = ps.executeUpdate();
                 if (val == 1) {
                     return true;
                 } else {
                     return false;
                 }
 
+                
+                
+               
+
             } catch (SQLException e) {
 
                 if (e instanceof SQLException) {
                     log.error("Exception tag --> " + "Invalid sql statement "
-                            + e.getMessage());
+                            + e);
                 }
                 return false;
 
@@ -928,14 +951,16 @@ public class InvoiceDAO {
     }
 
     public ArrayList<String> loadingItemInfo(String ItemID) {
-        
+
         String encodedSearch = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, ItemID);
         ArrayList list = new ArrayList();
         String itemId = null;
         String batchNo = null;
         String itemName = null;
+        String sellingPrice = null;
         String unit = null;
+        String unitValue = null;
         //String description = null;
 
         if (star.con == null) {
@@ -944,8 +969,13 @@ public class InvoiceDAO {
             try {
 
                 String query = "SELECT * FROM item i "
-                        + " join item_sub s on "
-                        + " i.item_id = s.item_id WHERE"
+                        + " JOIN item_sub s on "
+                        + " i.item_id = s.item_id "
+                        + " JOIN item_unit_value uv "
+                        + " ON s.unit = uv.id "
+                        + " JOIN item_unit u "
+                        + " ON u.id = uv.item_unit "
+                        + " WHERE "
                         + " i.item_id = ? ";
 
                 PreparedStatement ps = star.con.prepareStatement(query);
@@ -953,16 +983,21 @@ public class InvoiceDAO {
                 ps.setString(1, encodedSearch);
 
                 ResultSet r = ps.executeQuery();
-                
-                
+
                 while (r.next()) {
+
                     itemName = r.getString("i.item_name");
-                    unit = r.getString("s.price");
+                    sellingPrice = r.getString("s.selling_price");
                     batchNo = r.getString("s.batch_no");
+                    unit = r.getString("u.unit");
+                    unitValue = r.getString("uv.unit_qty");
 
                     list.add(itemName);
-                    list.add(unit);
+                    list.add(sellingPrice);
                     list.add(batchNo);
+                    list.add(unit);
+                    list.add(unitValue);
+
                 }
 
             } catch (NullPointerException | SQLException e) {

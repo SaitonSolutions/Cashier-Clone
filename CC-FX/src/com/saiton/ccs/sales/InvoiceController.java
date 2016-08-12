@@ -217,8 +217,7 @@ public class InvoiceController implements Initializable, Validatable,
     private CheckBox chkPODetails;
     @FXML
     private CheckBox chkUnitPrice;
-    private RadioButton radioTax;
-    private RadioButton radioNonTax;
+
     @FXML
     private Button btnRefresh;
     @FXML
@@ -274,18 +273,15 @@ public class InvoiceController implements Initializable, Validatable,
         tableInvoice.setItems(itemData);
 
 //</editor-fold>
-        
         //Combo Box Items
         cmbPaymentType.setItems(paymentTypes);
         cmbPaymentType.getSelectionModel().selectFirst();
-        
+
 //        cmbWarrentyPeriods.setItems(WarrentyPeriods);
 //        cmbWarrentyPeriods.getSelectionModel().selectFirst();
-
 //        dateFormatter("yyyy-MM-dd", dtpPODate);
 //        dtpPODate.setValue(LocalDate.now());
 //        date = dtpPODate.getValue();
-        
         txtDate.setText(LocalDate.now().toString());
         btnCancel.setVisible(false);
         generateId();
@@ -315,7 +311,6 @@ public class InvoiceController implements Initializable, Validatable,
 //        chkPODetails.setSelected(true);
 //        txtPONumber.setDisable(false);
 //        dtpPODate.setDisable(false);
-
     }
 
     @Override
@@ -358,7 +353,7 @@ public class InvoiceController implements Initializable, Validatable,
         chkPODetails.setSelected(false);
         chkUnitPrice.setSelected(false);
 //        txtUnitPrice.setDisable(true);
-        radioTax.setSelected(true);
+
         chkPODetails.setDisable(false);
 //        chkUnitPrice.setDisable(false);
     }
@@ -366,7 +361,7 @@ public class InvoiceController implements Initializable, Validatable,
     @Override
     public void setStage(Stage stage, Object[] obj) {
         this.stage = stage;
-        
+
         disablePODetails();
         setUserAccessLevel();
         validatorInitialization();
@@ -386,11 +381,8 @@ public class InvoiceController implements Initializable, Validatable,
                         txtCustomerName.setText(p.getColName());
                         customerId = p.getColCustomerId();
 
-                        
 //                        loadCustomerDetails(customerId);
-                        
                         loadVehicleToCombobox(customerId);
-                        
 
                     }
                 } catch (NullPointerException n) {
@@ -422,15 +414,16 @@ public class InvoiceController implements Initializable, Validatable,
                 try {
 
                     ItemInvoicePopup itemInvoicePopup = null;
-                    itemInvoicePopup = (ItemInvoicePopup) itemTable.getSelectionModel().
+                    itemInvoicePopup = (ItemInvoicePopup) itemTable.
+                            getSelectionModel().
                             getSelectedItem();
                     if (itemInvoicePopup.getColItemID() != null) {
-                        
-                        txtItemCode.setText(itemInvoicePopup.getColItemID());
-                        txtItemSearch.setText(itemInvoicePopup.getColItemName());
-                        txtBatchNo.setText(itemInvoicePopup.getColBatchNo());
-                        txtUnitPrice.setText(itemInvoicePopup.getColUnit());
 
+                        txtItemCode.setText(itemInvoicePopup.getColItemID());
+                        txtPartNo.setText(itemInvoicePopup.getColUnit());
+                        searchControl(false, itemInvoicePopup.getColItemName());
+
+//                      txtUnitPrice.setText(itemInvoicePopup.getColUnit());
                         loadItemDetails(itemInvoicePopup.getColItemID());
                     }
                 } catch (NullPointerException ex) {
@@ -529,6 +522,8 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
         clearInput();
+        searchControl(true, "");
+
     }
 
     private void radioTaxOnAction(ActionEvent event) {
@@ -591,60 +586,30 @@ public class InvoiceController implements Initializable, Validatable,
 
                 } else {
 
-                    int isTaxInvoice = 0;
-                    if (radioTax.isSelected()) {
-                        isTaxInvoice = 1;
-                    } else {
-                        isTaxInvoice = 0;
+//                    int isTaxInvoice = 0;
+//                    if (radioTax.isSelected()) {
+//                        isTaxInvoice = 1;
+//                    } else {
+//                        isTaxInvoice = 0;
+//
+//                    }
+                    isInvoiceInserted = invoiceDAO.insertInvoice(
+                            txtInvoiceNo.getText(),
+                            txtDate.getText(),
+                            txtSalesExecutive.getText(),
+                            cmbCustomerType.getValue(),
+                            customerId,
+                            cmbVehicleNo.getValue(),
+                            Double.parseDouble(txtDiscount.getText()),
+                            cmbPaymentType.getValue(),
+                            Double.parseDouble(txtTotalAmount.getText()),
+                            Double.parseDouble(txtNetTotal.getText()),
+                            txtAreaAmountInWrds.getText(),
+                            userId
+                    );
 
-                    }
-
-                    if (chkPODetails.isSelected()) {
-                        isInvoiceInserted = invoiceDAO.insertInvoice(
-                                txtInvoiceNo.getText(),
-                                isTaxInvoice + "",
-                                txtDate.getText(),
-                                txtPONumber.getText(),
-                                dtpPODate.getValue().toString(),
-                                customerId,
-                                txtSalesExecutive.getText(),
-                                "Payment Type",
-                                "Warrenty",
-                                "Wattenty",
-                                Double.parseDouble(txtTotalAmount.getText()),
-                                Double.parseDouble(txtValueNBT.getText()),
-                                Double.parseDouble(txtValueVAT.getText()),
-                                Double.parseDouble(txtNetTotal.getText()),
-                                txtAreaAmountInWrds.getText(),
-                                userId,
-                                Double.parseDouble(txtDiscount.getText()),
-                                Double.parseDouble(txtNBT.getText()),
-                                Double.parseDouble(txtVAT.getText())
-                        );
-                    } else {
-                        isInvoiceInserted = invoiceDAO.insertInvoice(
-                                txtInvoiceNo.getText(),
-                                isTaxInvoice + "",
-                                txtDate.getText(),
-                                null,
-                                null,
-                                customerId,
-                                txtSalesExecutive.getText(),
-                                "Payment Type",
-                                "warrenty",
-                                "warrenty",
-                                Double.parseDouble(txtTotalAmount.getText()),
-                                Double.parseDouble(txtValueNBT.getText()),
-                                Double.parseDouble(txtValueVAT.getText()),
-                                Double.parseDouble(txtNetTotal.getText()),
-                                txtAreaAmountInWrds.getText(),
-                                userId,
-                                Double.parseDouble(txtDiscount.getText()),
-                                Double.parseDouble(txtNBT.getText()),
-                                Double.parseDouble(txtVAT.getText()));
-                    }
                     saveTableContent();
-                    updateItemTable();
+                    updateItemTable();      
 
                     if (isInvoiceInserted == true && isTableContentSaved == true) {
 
@@ -970,12 +935,11 @@ public class InvoiceController implements Initializable, Validatable,
                             getText());
                     item.colUnitPrice.setValue(txtUnitPrice.
                             getText());
-                    item.colBatchNo.setValue(txtBatchNo.
-                            getText());
+                    item.colBatchNo.setValue(cmbBatchNo.
+                            getValue());
                     item.colQuantity.setValue(txtQuantity.
                             getText());
-                    item.colDescription.setValue(txtDescription.
-                            getText());
+                    item.colDescription.setValue(txtItemSearch.getText());
 
                     item.colDiscountPercentage.setValue(txtItemDiscount.
                             getText());
@@ -983,6 +947,7 @@ public class InvoiceController implements Initializable, Validatable,
                     item.colValue.setValue(itemTotal + "");
 
                     itemData.add(item);
+                    searchControl(true, "");
 
                     //Calculation part---------------------
                     calculateNetTotal();
@@ -998,7 +963,6 @@ public class InvoiceController implements Initializable, Validatable,
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Methods">
-    
     private void loadCustomerTypeToCombobox() {
 
         cmbCustomerType.setItems(null);
@@ -1015,10 +979,9 @@ public class InvoiceController implements Initializable, Validatable,
             }
 
         }
-             
 
     }
-    
+
     private void loadUnitsToCombobox() {
 
         cmbUnit.setItems(null);
@@ -1035,11 +998,10 @@ public class InvoiceController implements Initializable, Validatable,
             }
 
         }
-             
 
     }
-    //working
-     private void loadVehicleToCombobox(String customerId) {
+
+    private void loadVehicleToCombobox(String customerId) {
 
         cmbVehicleNo.setItems(null);
         ArrayList<String> vehicleNo = null;
@@ -1055,10 +1017,9 @@ public class InvoiceController implements Initializable, Validatable,
             }
 
         }
-             
 
     }
-    
+
     private void calculateNetTotal() {
 
         String amount = calculateTableTotal() + "";
@@ -1066,18 +1027,10 @@ public class InvoiceController implements Initializable, Validatable,
         String discountAmt = calculateTotalDiscountAmt() + "";
 
         double value = Double.parseDouble(amount);
-        double nbtVal = Double.parseDouble(txtNBT.getText());
-        double vatVal = Double.parseDouble(txtVAT.getText());
 
         txtDiscount.setText(discountAmt);//Set Total Discount
 
-        double nbt = (value * nbtVal) / 100;
-
-        double vat = ((value + nbt) * vatVal) / 100;
-        double netTotal = value + (nbt + vat);
-
-        txtValueVAT.setText(decimal.format(vat));
-        txtValueNBT.setText(decimal.format(nbt));
+        double netTotal = value;
 
         txtTotalAmount.setText(amount);
 
@@ -1106,10 +1059,9 @@ public class InvoiceController implements Initializable, Validatable,
     private void clearItem() {
 
         txtItemCode.clear();
-        txtDescription.clear();
         txtUnitPrice.clear();
         txtQuantity.clear();
-        txtBatchNo.clear();
+        cmbBatchNo.getSelectionModel().selectFirst();
         txtItemDiscount.clear();
         generateId();
 
@@ -1120,14 +1072,12 @@ public class InvoiceController implements Initializable, Validatable,
         ArrayList<String> customerDataList = null;
 
         customerDataList = invoiceDAO.loadingCustomerInfo(customerId);
-        
+
         if (customerDataList != null) {
 
             if (!customerDataList.isEmpty()) {
 
 //                txtAddress.setText(customerDataList.get(0).toString());
-                
-
             }
         }
     }
@@ -1139,9 +1089,12 @@ public class InvoiceController implements Initializable, Validatable,
 
         if (itemDataList != null) {
             if (!itemDataList.isEmpty()) {
-                txtDescription.setText(itemDataList.get(0).toString());
-                txtUnitPrice.setText(itemDataList.get(1).toString());
-                txtBatchNo.setText(itemDataList.get(2).toString());
+
+                txtUnitPrice.setText(itemDataList.get(1));
+                cmbBatchNo.setValue(itemDataList.get(2));
+                cmbUnit.setValue(itemDataList.get(3));
+                cmbUnitQty.setValue(itemDataList.get(4));
+
             }
         }
     }
@@ -1164,15 +1117,14 @@ public class InvoiceController implements Initializable, Validatable,
                 txtDiscount.setText(invoiceDataList.get(8));
                 txtAreaAmountInWrds.setText(invoiceDataList.get(9));
 
-                int isTaxInvoiced = Integer.parseInt(invoiceDataList.get(0));
-                if (isTaxInvoiced == 1) {
-                    radioTax.setSelected(true);
-                    radioNonTax.setSelected(false);
-                } else {
-                    radioNonTax.setSelected(true);
-                    radioTax.setSelected(false);
-                }
-
+//                3456   int isTaxInvoiced = Integer.parseInt(invoiceDataList.get(0));
+//                if (isTaxInvoiced == 1) {
+//                    radioTax.setSelected(true);
+//                    radioNonTax.setSelected(false);
+//                } else {
+//                    radioNonTax.setSelected(true);
+//                    radioTax.setSelected(false);
+//                }
             }
         }
     }
@@ -1362,7 +1314,6 @@ public class InvoiceController implements Initializable, Validatable,
 //                        !fav.
 //                        validNumberWithoutSpace(txtWarrentyPeriod.getText()),
 //                        ErrorMessages.InvalidWarrentyPeriod));
-
         validationSupportDiscount.registerValidator(txtItemDiscount,
                 new CustomTextFieldValidationImpl(txtItemDiscount,
                         !fav.validDiscountPercentage(txtItemDiscount.getText()),
@@ -1387,7 +1338,6 @@ public class InvoiceController implements Initializable, Validatable,
 //                new CustomTextFieldValidationImpl(txtBatchNo,
 //                        !fav.validName(txtBatchNo.getText()),
 //                        ErrorMessages.InvalidBatchNo));
-
         //Table
         validationSupportTable.registerValidator(tableInvoice,
                 new CustomTableViewValidationImpl(tableInvoice,
@@ -1398,7 +1348,6 @@ public class InvoiceController implements Initializable, Validatable,
 //                new CustomDatePickerValidationImpl(dtpPODate,
 //                        dtpPODate.getValue().isAfter(LocalDate.now()),
 //                        ErrorMessages.DateGraterThanToday));
-
     }
 
     private void saveTableContent() {
@@ -1415,14 +1364,12 @@ public class InvoiceController implements Initializable, Validatable,
                         txtInvoiceNo.getText(),
                         itemTable.getColItemCode(),
                         itemTable.getColDescription(),
+                        itemTable.getColBatchNo(),
                         Double.parseDouble(itemTable.getColQuantity()),
-                        Double.parseDouble(itemTable.getColUnitPrice()),
-                        Double.parseDouble(itemTable.getColValue()),
-                        Double.parseDouble(itemTable.getColDiscountAmount()),
                         Double.parseDouble(itemTable.getColDiscountPercentage()),
-                        itemTable.getColBatchNo()
-                );
-
+                        Double.parseDouble(itemTable.getColDiscountAmount()),
+                        Double.parseDouble(itemTable.getColUnitPrice()),
+                        Double.parseDouble(itemTable.getColValue()));
             }
         }
 
@@ -1430,14 +1377,11 @@ public class InvoiceController implements Initializable, Validatable,
 
     private void generateId() {
 
-      
+        String id = invoiceDAO.generateId();
 
-            String id = invoiceDAO.generateId();
-
-            if (id != null) {
-                txtInvoiceNo.setText(id);
-            }
-        
+        if (id != null) {
+            txtInvoiceNo.setText(id);
+        }
 
     }
 
@@ -1610,69 +1554,69 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     private void setUiMode(UiMode uiMode) {
-/*
-        switch (uiMode) {
+        /*
+         switch (uiMode) {
 
-            case SAVE:
-                disableUi(false);
-                component.deactivateSearch(lblInvoiceNo, txtInvoiceNo,
-                        btnInvoiceNoSearch, 140.0, USE_PREF_SIZE);
-                txtUnitPrice.setDisable(true);
-                chkUnitPrice.setDisable(true);
-                break;
+         case SAVE:
+         disableUi(false);
+         component.deactivateSearch(lblInvoiceNo, txtInvoiceNo,
+         btnInvoiceNoSearch, 140.0, USE_PREF_SIZE);
+         txtUnitPrice.setDisable(true);
+         chkUnitPrice.setDisable(true);
+         break;
 
-            case DELETE:
-                disableUi(false);
+         case DELETE:
+         disableUi(false);
 
-                btnCancel.setVisible(false);
+         btnCancel.setVisible(false);
 
-                txtPONumber.setDisable(true);
-                dtpPODate.setDisable(true);
-                txtUnitPrice.setDisable(true);
+         txtPONumber.setDisable(true);
+         dtpPODate.setDisable(true);
+         txtUnitPrice.setDisable(true);
 
-                break;
+         break;
 
-            case READ_ONLY:
-                disableUi(false);
+         case READ_ONLY:
+         disableUi(false);
 
-                btnSave.setDisable(true);
-                btnSave.setVisible(false);
+         btnSave.setDisable(true);
+         btnSave.setVisible(false);
 
-                btnCancel.setVisible(false);
-                chkUnitPrice.setDisable(true);
-                txtPONumber.setDisable(true);
-                dtpPODate.setDisable(true);
-                txtUnitPrice.setDisable(true);
+         btnCancel.setVisible(false);
+         chkUnitPrice.setDisable(true);
+         txtPONumber.setDisable(true);
+         dtpPODate.setDisable(true);
+         txtUnitPrice.setDisable(true);
 
-                break;
+         break;
 
-            case ALL_BUT_DELETE:
-                disableUi(false);
+         case ALL_BUT_DELETE:
+         disableUi(false);
 
-                btnCancel.setVisible(false);
+         btnCancel.setVisible(false);
 
-                txtPONumber.setDisable(true);
-                dtpPODate.setDisable(true);
-                txtUnitPrice.setDisable(true);
+         txtPONumber.setDisable(true);
+         dtpPODate.setDisable(true);
+         txtUnitPrice.setDisable(true);
 
-                break;
+         break;
 
-            case FULL_ACCESS:
-                disableUi(false);
-                btnCancel.setVisible(false);
+         case FULL_ACCESS:
+         disableUi(false);
+         btnCancel.setVisible(false);
 
-                txtPONumber.setDisable(true);
-                dtpPODate.setDisable(true);
-                txtUnitPrice.setDisable(true);
-                break;
+         txtPONumber.setDisable(true);
+         dtpPODate.setDisable(true);
+         txtUnitPrice.setDisable(true);
+         break;
 
-            case NO_ACCESS:
-                disableUi(true);
+         case NO_ACCESS:
+         disableUi(true);
 
-                break;
+         break;
 
-        }
-*/
+         }
+         */
     }
 
     private void setUserAccessLevel() {
@@ -1682,134 +1626,134 @@ public class InvoiceController implements Initializable, Validatable,
         userCategory = UserSession.getInstance().getUserInfo().getCategory();
         txtSalesExecutive.setText(userName);
         String title = stage.getTitle();
-/*
-        if (!title.isEmpty()) {
+        /*
+         if (!title.isEmpty()) {
 
-            UserPermission userPermission = UserSession.getInstance().
-                    findPermission(title);
+         UserPermission userPermission = UserSession.getInstance().
+         findPermission(title);
 
-            if (userPermission.canInsert() == true) {
-                insert = true;
+         if (userPermission.canInsert() == true) {
+         insert = true;
 
-            }
+         }
 
-            if (userPermission.canDelete() == true) {
-                delete = true;
+         if (userPermission.canDelete() == true) {
+         delete = true;
 
-            }
+         }
 
-            if (userPermission.canUpdate() == true) {
-                update = true;
+         if (userPermission.canUpdate() == true) {
+         update = true;
 
-            }
+         }
 
-            if (userPermission.canView() == true) {
-                view = true;
+         if (userPermission.canView() == true) {
+         view = true;
 
-            }
+         }
 
-            if (insert == true && delete == true && update == true && view
-                    == true) {
+         if (insert == true && delete == true && update == true && view
+         == true) {
 
-                setUiMode(UiMode.FULL_ACCESS);
+         setUiMode(UiMode.FULL_ACCESS);
 
-            } else if (insert == false && delete == true && update == true
-                    && view
-                    == true) {
+         } else if (insert == false && delete == true && update == true
+         && view
+         == true) {
 
-                setUiMode(UiMode.FULL_ACCESS);
+         setUiMode(UiMode.FULL_ACCESS);
 
-            } else if (insert == true && delete == false && update == true
-                    && view
-                    == true) {
+         } else if (insert == true && delete == false && update == true
+         && view
+         == true) {
 
-                setUiMode(UiMode.ALL_BUT_DELETE);
+         setUiMode(UiMode.ALL_BUT_DELETE);
 
-            } else if (insert == true && delete == true && update == false
-                    && view
-                    == true) {
+         } else if (insert == true && delete == true && update == false
+         && view
+         == true) {
 
-                setUiMode(UiMode.FULL_ACCESS);
+         setUiMode(UiMode.FULL_ACCESS);
 
-            } else if (insert == true && delete == true && update == true
-                    && view
-                    == false) {
+         } else if (insert == true && delete == true && update == true
+         && view
+         == false) {
 
-                setUiMode(UiMode.SAVE);
+         setUiMode(UiMode.SAVE);
 
-            } else if (insert == false && delete == false && update == true
-                    && view
-                    == true) {
+         } else if (insert == false && delete == false && update == true
+         && view
+         == true) {
 
-                setUiMode(UiMode.FULL_ACCESS);
+         setUiMode(UiMode.FULL_ACCESS);
 
-            } else if (insert == false && delete == true && update == false
-                    && view
-                    == true) {
+         } else if (insert == false && delete == true && update == false
+         && view
+         == true) {
 
-                setUiMode(UiMode.DELETE);
+         setUiMode(UiMode.DELETE);
 
-            } else if (insert == false && delete == true && update == true
-                    && view
-                    == false) {
+         } else if (insert == false && delete == true && update == true
+         && view
+         == false) {
 
-                setUiMode(UiMode.NO_ACCESS);
+         setUiMode(UiMode.NO_ACCESS);
 
-            } else if (insert == true && delete == false && update == false
-                    && view
-                    == true) {
+         } else if (insert == true && delete == false && update == false
+         && view
+         == true) {
 
-                setUiMode(UiMode.ALL_BUT_DELETE);
+         setUiMode(UiMode.ALL_BUT_DELETE);
 
-            } else if (insert == true && delete == false && update == true
-                    && view
-                    == false) {
+         } else if (insert == true && delete == false && update == true
+         && view
+         == false) {
 
-                setUiMode(UiMode.SAVE);
+         setUiMode(UiMode.SAVE);
 
-            } else if (insert == true && delete == true && update == false
-                    && view
-                    == false) {
+         } else if (insert == true && delete == true && update == false
+         && view
+         == false) {
 
-                setUiMode(UiMode.SAVE);
+         setUiMode(UiMode.SAVE);
 
-            } else if (insert == false && delete == false && update == false
-                    && view
-                    == true) {
+         } else if (insert == false && delete == false && update == false
+         && view
+         == true) {
 
-                setUiMode(UiMode.READ_ONLY);
+         setUiMode(UiMode.READ_ONLY);
 
-            } else if (insert == false && delete == false && update == true
-                    && view
-                    == false) {
+         } else if (insert == false && delete == false && update == true
+         && view
+         == false) {
 
-                setUiMode(UiMode.NO_ACCESS);
+         setUiMode(UiMode.NO_ACCESS);
 
-            } else if (insert == false && delete == true && update == false
-                    && view
-                    == false) {
+         } else if (insert == false && delete == true && update == false
+         && view
+         == false) {
 
-                setUiMode(UiMode.NO_ACCESS);
+         setUiMode(UiMode.NO_ACCESS);
 
-            } else if (insert == true && delete == false && update == false
-                    && view
-                    == false) {
+         } else if (insert == true && delete == false && update == false
+         && view
+         == false) {
 
-                setUiMode(UiMode.SAVE);
+         setUiMode(UiMode.SAVE);
 
-            } else if (insert == false && delete == false && update == false
-                    && view
-                    == false) {
+         } else if (insert == false && delete == false && update == false
+         && view
+         == false) {
 
-                setUiMode(UiMode.NO_ACCESS);
+         setUiMode(UiMode.NO_ACCESS);
 
-            }
-        } else {
+         }
+         } else {
 
-            setUiMode(UiMode.NO_ACCESS);
+         setUiMode(UiMode.NO_ACCESS);
 
-        }
-*/
+         }
+         */
     }
 
     private void disableUi(boolean state) {
@@ -1868,7 +1812,6 @@ public class InvoiceController implements Initializable, Validatable,
 //
 //        txtAreaAmountInWrds.setVisible(!state);
 //        txtAreaAmountInWrds.setDisable(state);
-
     }
 
     @FXML
@@ -1887,20 +1830,21 @@ public class InvoiceController implements Initializable, Validatable,
                 "tcItemCode");
         public SimpleStringProperty colDescription = new SimpleStringProperty(
                 "tcDescription");
+        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
+                "tcBatchNo");
         public SimpleStringProperty colQuantity = new SimpleStringProperty(
                 "tcQuantity");
-        public SimpleStringProperty colUnitPrice = new SimpleStringProperty(
-                "tcUnitPrice");
-        public SimpleStringProperty colValue = new SimpleStringProperty(
-                "tcValue");
         public SimpleStringProperty colDiscountPercentage
                 = new SimpleStringProperty(
                         "tcDiscountPercentage");
         public SimpleStringProperty colDiscountAmount
                 = new SimpleStringProperty(
                         "tcDiscountAmount");
-        public SimpleStringProperty colBatchNo = new SimpleStringProperty(
-                "tcBatchNo");
+
+        public SimpleStringProperty colUnitPrice = new SimpleStringProperty(
+                "tcUnitPrice");
+        public SimpleStringProperty colValue = new SimpleStringProperty(
+                "tcValue");
 
         public String getColItemCode() {
             return colItemCode.get();
@@ -1933,6 +1877,13 @@ public class InvoiceController implements Initializable, Validatable,
         public String getColValue() {
             return colValue.get();
         }
+
+    }
+
+    private void searchControl(boolean isEditable, String ItemDesc) {
+
+        txtItemSearch.setText(ItemDesc);
+        txtItemSearch.setEditable(isEditable);
 
     }
 
