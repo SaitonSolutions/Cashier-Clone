@@ -413,7 +413,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txtNextMeterReading" editable="false" prefHeight="25.0" prefWidth="250.0" promptText="Next Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="txtNextMeterReading" prefHeight="25.0" prefWidth="250.0" promptText="Next Meter reading" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="23">

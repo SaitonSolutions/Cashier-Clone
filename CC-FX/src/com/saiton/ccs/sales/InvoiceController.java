@@ -240,6 +240,14 @@ public class InvoiceController implements Initializable, Validatable,
     private TextField txtPartNo;
     @FXML
     private ComboBox<String> cmbVehicleNo;
+    @FXML
+    private Button btnVehicle;
+    @FXML
+    private TextField txtMeterReading;
+    @FXML
+    private TextField txtNextMeterReading;
+    @FXML
+    private TextField txtRemarks;
 
 //</editor-fold>
     @Override
@@ -519,6 +527,10 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     //<editor-fold defaultstate="collapsed" desc="ActionEvent">
+    
+       @FXML
+    private void btnVehicleOnAction(ActionEvent event) {
+    }
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
         clearInput();
@@ -736,6 +748,16 @@ public class InvoiceController implements Initializable, Validatable,
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="KeyEvents">
+    
+      @FXML
+    private void txtItemSearchOnKeyReleased(KeyEvent event) {
+    }
+
+    @FXML
+    private void txtPartNoOnKeyReleased(KeyEvent event) {
+    }
+
+    
     @FXML
     private void txtDiscountOnKeyReleased(KeyEvent event) {
     }
@@ -1814,13 +1836,6 @@ public class InvoiceController implements Initializable, Validatable,
 //        txtAreaAmountInWrds.setDisable(state);
     }
 
-    @FXML
-    private void txtItemSearchOnKeyReleased(KeyEvent event) {
-    }
-
-    @FXML
-    private void txtPartNoOnKeyReleased(KeyEvent event) {
-    }
 
 //</editor-fold>    
     //<editor-fold defaultstate="collapsed" desc="Class">
