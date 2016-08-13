@@ -11,6 +11,8 @@ left join invoice_item i
 on i.inv_no=n.inv_no
 left join customer c
 on c.cus_id=n.cus_id
+left join invoice_meater m
+on m.invoice_no=n.inv_no
 where n.inv_no=$P{inv_no}]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
@@ -58,6 +60,9 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="time_stamp" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="remarks" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="item_id" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -100,6 +105,15 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="cus_address" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="invoice_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="service_meter_reading" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="next_service_meter_reading" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<variable name="no" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[1+$V{no}]]></variableExpression>
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
@@ -110,19 +124,19 @@ where n.inv_no=$P{inv_no}]]>
 	<background>
 		<band height="802" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="209" width="555" height="301" uuid="36cdf80b-f4b0-4423-99d2-90c91f6b0970"/>
+				<reportElement x="0" y="209" width="555" height="345" uuid="36cdf80b-f4b0-4423-99d2-90c91f6b0970"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="510" width="555" height="70" uuid="cfaef2cc-6fe3-4706-a7a1-b75307ca294f"/>
+				<reportElement x="0" y="554" width="555" height="44" uuid="cfaef2cc-6fe3-4706-a7a1-b75307ca294f"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="580" width="555" height="43" uuid="87196810-0d44-4abf-a569-01b10f70ac75"/>
+				<reportElement x="0" y="598" width="555" height="38" uuid="87196810-0d44-4abf-a569-01b10f70ac75"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -134,19 +148,19 @@ where n.inv_no=$P{inv_no}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="31" y="209" width="70" height="301" backcolor="#FFFFFF" uuid="715e2ff5-4ca5-417f-8a9b-df3f1eb51f8b"/>
+				<reportElement mode="Transparent" x="31" y="209" width="70" height="345" backcolor="#FFFFFF" uuid="715e2ff5-4ca5-417f-8a9b-df3f1eb51f8b"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="353" y="209" width="58" height="301" backcolor="#FFFFFF" uuid="a9ecc083-0fb7-4f51-b7f1-653f7c8852c6"/>
+				<reportElement mode="Transparent" x="353" y="209" width="58" height="345" backcolor="#FFFFFF" uuid="a9ecc083-0fb7-4f51-b7f1-653f7c8852c6"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="481" y="209" width="74" height="414" backcolor="#FFFFFF" uuid="4434eb25-9aaf-4b6d-9ac2-3be037e1d869"/>
+				<reportElement mode="Transparent" x="481" y="209" width="74" height="427" backcolor="#FFFFFF" uuid="4434eb25-9aaf-4b6d-9ac2-3be037e1d869"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -182,35 +196,35 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 			<staticText>
 				<reportElement x="417" y="43" width="138" height="20" uuid="1b1834cb-ab20-4879-9e7b-6d3210987cd9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="291" y="77" width="126" height="20" uuid="0e336fc8-045c-4c83-b15e-804901aed227"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Vehicle No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="417" y="77" width="138" height="20" uuid="d9579980-f788-4d13-a036-89ac62da0882"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Payment Terms]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="118" width="286" height="18" uuid="e6308dff-cb05-4db5-98dc-7a8a52159b5b"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Customer]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="293" y="116" width="123" height="21" uuid="e710abdd-112b-4780-b0ab-d5ca2dcf90e5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Meater reading at service]]></text>
@@ -218,14 +232,14 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 			<staticText>
 				<reportElement x="291" y="153" width="125" height="20" uuid="f826bbd6-0695-4b17-9a7e-a46ff2733daf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Sales Executive]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="417" y="116" width="138" height="20" uuid="3bb0fa0d-d34d-4f29-8e08-91586778eb63"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Next service m. reading]]></text>
 			</staticText>
@@ -312,7 +326,7 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				<textFieldExpression><![CDATA[$F{salse_executive}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="153" width="285" height="28" isPrintWhenDetailOverflows="true" uuid="fd3371a6-524f-4d80-87db-c646753d1df2"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="153" width="271" height="28" isPrintWhenDetailOverflows="true" uuid="fd3371a6-524f-4d80-87db-c646753d1df2"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
@@ -330,10 +344,10 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{payment_term}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{service_meter_reading}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="137" width="283" height="16" isPrintWhenDetailOverflows="true" uuid="eaf93957-90b8-4d95-8eb3-65ae911a906b"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="137" width="269" height="16" isPrintWhenDetailOverflows="true" uuid="eaf93957-90b8-4d95-8eb3-65ae911a906b"/>
 				<textElement>
 					<font fontName="SansSerif"/>
 				</textElement>
@@ -342,56 +356,56 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 			<staticText>
 				<reportElement x="31" y="210" width="70" height="20" uuid="551b449e-1590-418e-8e17-9fc588186bac"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item Code]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="103" y="210" width="250" height="20" uuid="2ae6d801-8760-48de-b7f2-f23e7556efc0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Description]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="353" y="210" width="54" height="20" uuid="02a3eba4-bd21-424e-97fe-59eec908287b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Qty.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="407" y="210" width="68" height="20" uuid="d04420f5-c898-45aa-ad28-7c090241584c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Unit Price]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="475" y="210" width="76" height="20" uuid="b8a6828f-e7e0-4557-ae94-0f021f3dd26d"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Value]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="210" width="30" height="20" uuid="d7d7f0b9-ef26-4d0f-824d-b02cdeff0086"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="12"/>
+					<font fontName="Segoe UI Symbol" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="290" y="43" width="126" height="20" uuid="6377bd93-962e-46a6-ab62-d814ec3cf110"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Invoice No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="416" y="152" width="139" height="20" uuid="f4a08137-e049-4047-ab34-64673ddcfe4d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Remarks]]></text>
 			</staticText>
@@ -400,14 +414,14 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{salse_executive}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="416" y="137" width="139" height="16" uuid="c801905b-a24c-4d10-bb6c-91d8e6c9921b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{payment_term}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{next_service_meter_reading}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -465,16 +479,16 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="296">
+		<band height="243">
 			<staticText>
-				<reportElement x="6" y="78" width="466" height="14" uuid="b390fa42-80bc-4a82-9386-43a5801cd4aa"/>
+				<reportElement x="6" y="46" width="466" height="14" uuid="b390fa42-80bc-4a82-9386-43a5801cd4aa"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Grand Total :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="119" width="452" height="20" uuid="12f94260-4d36-41b0-a9b7-d00467e20a37"/>
+				<reportElement x="5" y="87" width="452" height="20" uuid="12f94260-4d36-41b0-a9b7-d00467e20a37"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
@@ -482,89 +496,60 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="142" width="452" height="35" uuid="3e601446-6f56-4ef5-885f-3e01a592e69e"/>
+				<reportElement x="5" y="110" width="549" height="35" uuid="3e601446-6f56-4ef5-885f-3e01a592e69e"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[We declare that this invoice show the actual price of the
-goods described and that all particulars are true and accurate]]></text>
+				<text><![CDATA[We declare that this invoice show the actual price of the goods described and that all particulars are true and accurate.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="178" width="452" height="35" uuid="94a92a2c-8a3f-4360-8baf-ba11f8aec713"/>
-				<textElement>
-					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cheque payments to be made in favour of
-Delanka Hotel Catering Equipments & Service Supply (Pvt) Ltd.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="5" y="239" width="452" height="19" uuid="ffb04230-f39b-4f8a-a6bb-6fb40472fb38"/>
+				<reportElement x="5" y="193" width="452" height="14" uuid="ffb04230-f39b-4f8a-a6bb-6fb40472fb38"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Delanka Hotel Catering Equipments & Service supply (Pvt) Ltd.]]></text>
+				<text><![CDATA[View Bright Service Center]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="257" width="452" height="16" uuid="d08d7bf1-5ec3-44d8-ae4b-6c85175ed60e"/>
+				<reportElement x="5" y="206" width="452" height="16" uuid="d08d7bf1-5ec3-44d8-ae4b-6c85175ed60e"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Authorised Signature]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="372" y="119" width="181" height="19" uuid="a7576d66-1838-475d-b54d-828808f62d7a"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Goods received in good condition]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="404" y="188" width="130" height="19" uuid="74c701d8-c35b-4338-890c-a4393888cd7e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Signature and Seal]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="405" y="239" width="130" height="15" uuid="ce620d20-9359-44ea-bef6-d386efec371f"/>
+				<reportElement x="405" y="193" width="130" height="15" uuid="ce620d20-9359-44ea-bef6-d386efec371f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Name ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="257" width="130" height="16" uuid="ff46d8c7-b1b2-4613-b769-f739be3b6c75"/>
+				<reportElement x="405" y="211" width="130" height="16" uuid="ff46d8c7-b1b2-4613-b769-f739be3b6c75"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Date  ]]></text>
 			</staticText>
 			<line>
-				<reportElement x="404" y="187" width="150" height="1" uuid="8097f81d-7b7d-4598-9173-14040c8b575b"/>
+				<reportElement x="441" y="206" width="114" height="1" uuid="530feb06-279c-4561-9037-922d6bf57b80"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="441" y="252" width="114" height="1" uuid="530feb06-279c-4561-9037-922d6bf57b80"/>
+				<reportElement x="441" y="225" width="113" height="1" uuid="4b4e245c-ea64-42b1-b943-50ffba8c4824"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="441" y="271" width="113" height="1" uuid="4b4e245c-ea64-42b1-b943-50ffba8c4824"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Dotted"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="5" y="238" width="199" height="1" uuid="3f7e02c4-c51f-40c7-bd45-2eb1d7f0d21c"/>
+				<reportElement x="5" y="192" width="199" height="1" uuid="3f7e02c4-c51f-40c7-bd45-2eb1d7f0d21c"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="6" y="92" width="467" height="26" uuid="c39ecfb7-04a7-4a4a-9fc5-6a80c8317a07"/>
+				<reportElement x="6" y="60" width="467" height="26" uuid="c39ecfb7-04a7-4a4a-9fc5-6a80c8317a07"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol"/>
 				</textElement>
@@ -578,21 +563,21 @@ Delanka Hotel Catering Equipments & Service Supply (Pvt) Ltd.]]></text>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="473" y="92" width="78" height="20" uuid="c0608f82-6783-40f8-a147-852403fb6a56"/>
+				<reportElement x="473" y="60" width="78" height="20" uuid="c0608f82-6783-40f8-a147-852403fb6a56"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font fontName="Segoe UI Symbol" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{net_amount}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="433" y="258" width="8" height="15" uuid="8812c7b4-da68-4113-bb35-273353f64db7"/>
+				<reportElement x="433" y="212" width="8" height="15" uuid="8812c7b4-da68-4113-bb35-273353f64db7"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="433" y="239" width="8" height="15" uuid="5dc59e2d-50cf-41bf-8198-46e13725a7f2"/>
+				<reportElement x="433" y="193" width="8" height="15" uuid="5dc59e2d-50cf-41bf-8198-46e13725a7f2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
@@ -608,7 +593,7 @@ Delanka Hotel Catering Equipments & Service Supply (Pvt) Ltd.]]></text>
 			<textField pattern="#,##0.00">
 				<reportElement x="473" y="18" width="78" height="18" uuid="e29fb52a-6edf-4545-80a4-5af68d19905a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol"/>
+					<font fontName="Segoe UI Symbol" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total_discount}]]></textFieldExpression>
 			</textField>
