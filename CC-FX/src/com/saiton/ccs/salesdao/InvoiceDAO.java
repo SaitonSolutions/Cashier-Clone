@@ -590,10 +590,7 @@ public class InvoiceDAO {
                     return false;
                 }
 
-                
-                
-               
-
+              
             } catch (SQLException e) {
 
                 if (e instanceof SQLException) {
