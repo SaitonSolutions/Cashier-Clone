@@ -428,7 +428,7 @@ CREATE TABLE `invoice` (
   KEY `invoice_fk2` (`cus_id`),
   CONSTRAINT `invoice_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`EID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `invoice_fk2` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,7 +437,7 @@ CREATE TABLE `invoice` (
 
 LOCK TABLES `invoice` WRITE;
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80,'Cash',19720,22326.98,'twenty two thousand three hundred twenty six','EM0004',0,NULL,NULL),(6,'INT0002','2015-06-08','',NULL,'CUS0001',NULL,0,'Cash',25000,28560,'twenty eight thousand five hundred sixty','EM0004',0,NULL,NULL);
+INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80,'Cash',19720,22326.98,'twenty two thousand three hundred twenty six','EM0004',0,NULL,NULL),(6,'INT0002','2015-06-08','',NULL,'CUS0001',NULL,0,'Cash',25000,28560,'twenty eight thousand five hundred sixty','EM0004',0,NULL,NULL),(7,'INT0003','2016-08-12','Saiton','Vehicle','CUS0002','WC-CAB-1215',0,'Cash',1400,1400,'one thousand four hundred','EM0004',0,'2016-08-12 09:04:47','test remarks created by saiton solutions (pvt) Ltd.');
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,7 +467,7 @@ CREATE TABLE `invoice_item` (
   KEY `invoice_item_fk2_idx` (`item_id`,`batch_no`),
   CONSTRAINT `invoice_item_fk1` FOREIGN KEY (`inv_no`) REFERENCES `invoice` (`inv_no`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `invoice_item_fk2` FOREIGN KEY (`item_id`, `batch_no`) REFERENCES `item_sub` (`item_id`, `batch_no`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -476,7 +476,37 @@ CREATE TABLE `invoice_item` (
 
 LOCK TABLES `invoice_item` WRITE;
 /*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
+INSERT INTO `invoice_item` VALUES (1,'INT0003','ITM0001','partNo','BAT0001','unit',0,'gear oil',2,700,1400,0,0);
 /*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `invoice_meater`
+--
+
+DROP TABLE IF EXISTS `invoice_meater`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_meater` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(45) DEFAULT NULL,
+  `service_meter_reading` varchar(45) DEFAULT NULL,
+  `next_service_meter_reading` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `invoice_meater_fk1_idx` (`invoice_no`),
+  CONSTRAINT `invoice_meater_fk1` FOREIGN KEY (`invoice_no`) REFERENCES `invoice` (`inv_no`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice_meater`
+--
+
+LOCK TABLES `invoice_meater` WRITE;
+/*!40000 ALTER TABLE `invoice_meater` DISABLE KEYS */;
+INSERT INTO `invoice_meater` VALUES (1,'INT0003','51246598','51248098');
+/*!40000 ALTER TABLE `invoice_meater` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -541,7 +571,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'ITM0001','gear oil',5,'EM0004','gear oil test','XC123',2,3),(2,'ITM0002','mm',6,'EM0004','ss','DF456',2,4),(4,'ITM0004','ty',6,'EM0004','rt','YSD4584',2,4);
+INSERT INTO `item` VALUES (1,'ITM0001','gear oil',3,'EM0004','gear oil test','XC123',2,3),(2,'ITM0002','mm',6,'EM0004','ss','DF456',2,4),(4,'ITM0004','ty',6,'EM0004','rt','YSD4584',2,4);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,7 +631,7 @@ CREATE TABLE `item_sub` (
 
 LOCK TABLES `item_sub` WRITE;
 /*!40000 ALTER TABLE `item_sub` DISABLE KEYS */;
-INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',5,600,10,700,1),(3,'ITM0002','BAT0001',6,500,10,600,1),(5,'ITM0004','BAT0001',6,800,10,900,1);
+INSERT INTO `item_sub` VALUES (1,'ITM0001','BAT0001',3,600,10,700,1),(3,'ITM0002','BAT0001',6,500,10,600,1),(5,'ITM0004','BAT0001',6,800,10,900,1);
 /*!40000 ALTER TABLE `item_sub` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1555,4 +1585,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-22 19:22:14
+-- Dump completed on 2016-08-14 16:52:55
