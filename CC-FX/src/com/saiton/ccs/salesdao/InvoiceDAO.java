@@ -207,6 +207,106 @@ public class InvoiceDAO {
         }
         return vehicleNoList;
     }
+    
+    public ArrayList loadDriver(String customerId) {
+
+        String driver = null;
+        ArrayList driverList = new ArrayList();
+        String encodedSearch = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                customerId);
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+
+                String query = "SELECT * FROM drivers WHERE"
+                        + " cus_id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedSearch);
+
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+
+                    driver = r.getString("driver");
+
+                    driverList.add(driver);
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return driverList;
+    }
+    
+     public String getDriverId(String driver,String customerId) {
+
+        String driverId = null;
+        ArrayList driverList = new ArrayList();
+        String encodedDriver = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                driver);
+        
+        String encodedCustomerId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                customerId);
+
+        if (star.con == null) {
+            log.error("Database connection failiure.");
+        } else {
+            try {
+
+                String query = "SELECT * FROM drivers WHERE"
+                        + " cus_id = ? AND driver = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedCustomerId);
+                  pstmt.setString(2, encodedDriver);
+
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+
+                    driverId = r.getString("id");
+
+                    return driverId;
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException |
+                    NullPointerException e) {
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+                    log.error("Exception tag --> "
+                            + "Invalid entry location for list");
+                } else if (e instanceof SQLException) {
+                    log.error("Exception tag --> " + "Invalid sql statement "
+                            + e.getMessage());
+                } else if (e instanceof NullPointerException) {
+                    log.error("Exception tag --> " + "Empty entry for list");
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Exception tag --> " + "Error");
+                return null;
+            }
+        }
+        return null;
+    }
 
     public Boolean insertInvoice(
             String invoiceNo,
@@ -361,7 +461,62 @@ public class InvoiceDAO {
 
     }
 
-    
+
+       public Boolean insertInvoiceDriver(
+            String invoiceNo,
+            String driverId
+            
+    ) {
+
+        String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                invoiceNo);
+
+        String encodedServiceMeterReading = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, driverId);
+
+       
+
+        if (star.con == null) {
+            log.error("Database Connection failure");
+            return false;
+        } else {
+
+            try {
+                PreparedStatement ps = star.con.prepareStatement(
+                        "INSERT INTO `invoice_driver` ("
+                        + "`invoice_id`,"
+                        + " `driver_id` "
+                     
+                        + " )"
+                        + " VALUES "
+                        + "(?, ?)");
+
+                ps.setString(1, encodedInvoiceNo);
+                ps.setString(2, encodedServiceMeterReading);
+                
+                
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (SQLException ex) {
+                if (ex instanceof SQLException) {
+                    log.error("Exception Tag -->" + "Invalid Sql Statement");
+                    ex.printStackTrace();
+                }
+                return false;
+            } catch (Exception e) {
+                log.error("Exception Tag -->" + "Error");
+                return false;
+            }
+        }
+
+    }
+
+      
     public ArrayList<ArrayList<String>> searchItemDetails(String search) {
 
         String encodedSearch = ESAPI.encoder().

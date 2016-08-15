@@ -248,6 +248,8 @@ public class InvoiceController implements Initializable, Validatable,
     private TextField txtNextMeterReading;
     @FXML
     private TextField txtRemarks;
+    @FXML
+    private ComboBox<String> cmbDriver;
 
 //</editor-fold>
     @Override
@@ -326,18 +328,18 @@ public class InvoiceController implements Initializable, Validatable,
 
         txtInvoiceNo.setText(invoiceDAO.generateId());
         txtDiscount.clear();
-        txtValueNBT.clear();
+
         txtItemDiscount.clear();
         txtQuantity.clear();
         txtTotalAmount.clear();
         txtAreaAmountInWrds.clear();
-        txtValueVAT.clear();
-        txtAddress.clear();
+
+
         txtItemDiscount.clear();
-        txtPONumber.clear();
-        txtBatchNo.clear();
+        
+
         txtItemCode.clear();
-        txtDescription.clear();
+
         txtUnitPrice.clear();
 //        txtWarrentyPeriod.clear();
         txtCustomerName.clear();
@@ -345,7 +347,7 @@ public class InvoiceController implements Initializable, Validatable,
         itemData.clear();
         generateId();
         resetExtraButtons();
-        disablePODetails();
+//        disablePODetails();
         btnSave.setVisible(true);
         btnCancel.setVisible(false);
         reprintAccess = false;
@@ -358,11 +360,11 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     public void resetExtraButtons() {
-        chkPODetails.setSelected(false);
+//        chkPODetails.setSelected(false);
         chkUnitPrice.setSelected(false);
 //        txtUnitPrice.setDisable(true);
 
-        chkPODetails.setDisable(false);
+//        chkPODetails.setDisable(false);
 //        chkUnitPrice.setDisable(false);
     }
 
@@ -391,6 +393,7 @@ public class InvoiceController implements Initializable, Validatable,
 
 //                        loadCustomerDetails(customerId);
                         loadVehicleToCombobox(customerId);
+                        loadDriverToCombobox(customerId);
 
                     }
                 } catch (NullPointerException n) {
@@ -561,6 +564,7 @@ public class InvoiceController implements Initializable, Validatable,
 
         boolean isInvoiceInserted = false;
         boolean isInvoiceMeteReadingInserted = false;
+        boolean isInvoiceDriverInserted = false;
         validatorInitialization();
         boolean validationSupportResult = false;
         boolean validationSupportTableResult = false;
@@ -627,6 +631,13 @@ public class InvoiceController implements Initializable, Validatable,
                             txtMeterReading.getText(),
                             txtNextMeterReading.getText());
                     
+                    if (cmbDriver.getValue() !=null) {
+                          isInvoiceDriverInserted = invoiceDAO.insertInvoiceDriver(
+                            txtInvoiceNo.getText(),
+                            invoiceDAO.getDriverId(cmbDriver.getValue(), customerId));
+                    
+                    }
+                  
                     saveTableContent();
                     updateItemTable();      
 
@@ -1043,6 +1054,25 @@ public class InvoiceController implements Initializable, Validatable,
                         vehicleNo);
                 cmbVehicleNo.setItems(List);
                 cmbVehicleNo.setValue(List.get(0));
+            } catch (Exception e) {
+
+            }
+
+        }
+
+    }
+    
+    private void loadDriverToCombobox(String customerId) {
+
+        cmbDriver.setItems(null);
+        ArrayList<String> vehicleNo = null;
+        vehicleNo = invoiceDAO.loadDriver(customerId);
+        if (vehicleNo != null) {
+            try {
+                ObservableList<String> List = FXCollections.observableArrayList(
+                        vehicleNo);
+                cmbDriver.setItems(List);
+                cmbDriver.setValue(List.get(0));
             } catch (Exception e) {
 
             }
