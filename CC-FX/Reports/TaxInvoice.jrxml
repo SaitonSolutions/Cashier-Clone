@@ -11,7 +11,7 @@ left join invoice_item i
 on i.inv_no=n.inv_no
 left join customer c
 on c.cus_id=n.cus_id
-left join invoice_meater m
+left join invoice_meter m
 on m.invoice_no=n.inv_no
 where n.inv_no=$P{inv_no}]]>
 	</queryString>

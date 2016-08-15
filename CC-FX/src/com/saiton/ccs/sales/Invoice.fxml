@@ -45,7 +45,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -138,7 +138,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <ComboBox fx:id="cmbCustomerType" prefHeight="65.0" prefWidth="210.0" />
+                              <ComboBox fx:id="cmbCustomerType" prefWidth="210.0" />
                            </children>
                            <GridPane.margin>
                               <Insets right="5.0" />
@@ -161,6 +161,9 @@
                                  </HBox.margin>
                               </Button>
                            </children>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="9" GridPane.columnSpan="5" GridPane.rowIndex="3">
                            <children>
@@ -179,7 +182,7 @@
                                  <graphic>
                                     <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../../Avanra%20Beach/IHMS-Common-AvenraBeach/src/com/kasper/ihm/res/img-add.png" />
+                                          <Image url="@../res/img-add.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -425,6 +428,19 @@
                               </Label>
                               <TextField fx:id="txtRemarks" prefHeight="25.0" prefWidth="550.0" promptText="Remarks" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="120.0" text="Driver" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <ComboBox fx:id="cmbDriver" prefWidth="210.0" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
                         </HBox>
                      </children>
                   </GridPane>
