@@ -808,10 +808,11 @@ public class InvoiceDAO {
                 encodeForSQL(ORACLE_CODEC, search);
 
         String invoiceNo = null;
-        String isTaxInvoiced = null;
+        
         String date = null;
-        String PONo = null;
-        String PODate = null;
+        String salesExecutive = null;
+        String cutomerType = null;
+        String vehicleNo = null;
 
         ArrayList<ArrayList<String>> Mainlist
                 = new ArrayList<ArrayList<String>>();
@@ -836,16 +837,16 @@ public class InvoiceDAO {
                     ArrayList<String> list = new ArrayList<String>();
 
                     invoiceNo = r.getString("inv_no");
-                    isTaxInvoiced = r.getString("is_tax_inv");
+                    salesExecutive = r.getString("salse_executive");
                     date = r.getString("date");
-                    PONo = r.getString("po_no");
-                    PODate = r.getString("po_date");
+                    cutomerType = r.getString("cus_type");
+                    vehicleNo = r.getString("vehicle_no");
 
                     list.add(invoiceNo);
-                    list.add(isTaxInvoiced);
+                    list.add(salesExecutive);
                     list.add(date);
-                    list.add(PONo);
-                    list.add(PODate);
+                    list.add(cutomerType);
+                    list.add(vehicleNo);
 
                     Mainlist.add(list);
 
@@ -857,11 +858,11 @@ public class InvoiceDAO {
                 if (e instanceof ArrayIndexOutOfBoundsException) {
 
                     log.error("Exception tag --> "
-                            + "Invalid entry location for list");
+                            + "Invalid entry location for list"+e);
 
                 } else if (e instanceof SQLException) {
 
-                    log.error("Exception tag --> " + "Invalid sql statement");
+                    log.error("Exception tag --> " + "Invalid sql statement"+e);
 
                 } else if (e instanceof NullPointerException) {
 

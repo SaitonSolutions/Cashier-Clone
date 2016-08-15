@@ -58,8 +58,8 @@ public class InvoiceDetailsPopup {
         tcInvoiceNo.setCellValueFactory(
                 new PropertyValueFactory<>("colInvoiceNo"));
 
-        TableColumn tcIsTaxInvoice = new TableColumn("IsTax Invoiced");
-        tcIsTaxInvoice.setMinWidth(100);
+        TableColumn tcIsTaxInvoice = new TableColumn("Salse Executive");
+        tcIsTaxInvoice.setMinWidth(150);
         tcIsTaxInvoice.setCellValueFactory(
                 new PropertyValueFactory<>("colIsTaxInvoiced"));
 
@@ -68,13 +68,13 @@ public class InvoiceDetailsPopup {
         tcDate.setCellValueFactory(
                 new PropertyValueFactory<>("colDate"));
 
-        TableColumn tcPoNo = new TableColumn("PO No");
-        tcPoNo.setMinWidth(100);
+        TableColumn tcPoNo = new TableColumn("Customer Type");
+        tcPoNo.setMinWidth(150);
         tcPoNo.setCellValueFactory(
                 new PropertyValueFactory<>("colPoNo"));
 
-        TableColumn tcPoDate = new TableColumn("PO Date");
-        tcPoDate.setMinWidth(100);
+        TableColumn tcPoDate = new TableColumn("Vehicle No");
+        tcPoDate.setMinWidth(150);
         tcPoDate.setCellValueFactory(
                 new PropertyValueFactory<>("colPoDate"));
 

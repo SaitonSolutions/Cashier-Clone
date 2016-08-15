@@ -467,8 +467,8 @@ public class InvoiceController implements Initializable, Validatable,
 
                     if (p.getColInvoiceNo() != null) {
                         txtInvoiceNo.setText(p.getColInvoiceNo());
-                        chkPODetails.setDisable(true);
-                        chkUnitPrice.setDisable(true);
+//                        chkPODetails.setDisable(true);
+//                        chkUnitPrice.setDisable(true);
                         txtDate.setText(p.getColDate());
                         if (p.getColPoNo() != null && p.getColPoDate() != null) {
                             enablePODetails();
