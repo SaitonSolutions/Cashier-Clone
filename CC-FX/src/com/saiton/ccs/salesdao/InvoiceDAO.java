@@ -302,6 +302,64 @@ public class InvoiceDAO {
 
     }
 
+    
+      public Boolean insertInvoiceMeterReading(
+            String invoiceNo,
+            String meterReading,
+            String nextMeterReading
+            
+    ) {
+
+        String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                invoiceNo);
+
+        String encodedServiceMeterReading = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, meterReading);
+
+        String encodedNextMeterReading = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, nextMeterReading);
+
+
+
+        if (star.con == null) {
+            log.error("Database Connection failure");
+            return false;
+        } else {
+
+            try {
+                PreparedStatement ps = star.con.prepareStatement(
+                        "INSERT INTO `invoice_meter` ("
+                        + "`invoice_no`,"
+                        + " `service_meter_reading`, "
+                        + " `next_service_meter_reading`"
+                        + " )"
+                        + " VALUES "
+                        + "(?, ?, ?)");
+
+                ps.setString(1, encodedInvoiceNo);
+                ps.setString(2, encodedServiceMeterReading);
+                ps.setString(3, encodedNextMeterReading);
+                
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (SQLException ex) {
+                if (ex instanceof SQLException) {
+                    log.error("Exception Tag -->" + "Invalid Sql Statement");
+                    ex.printStackTrace();
+                }
+                return false;
+            } catch (Exception e) {
+                log.error("Exception Tag -->" + "Error");
+                return false;
+            }
+        }
+
+    }
+
+    
     public ArrayList<ArrayList<String>> searchItemDetails(String search) {
 
         String encodedSearch = ESAPI.encoder().

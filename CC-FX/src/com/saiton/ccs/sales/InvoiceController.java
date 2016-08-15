@@ -560,6 +560,7 @@ public class InvoiceController implements Initializable, Validatable,
     private void btnSaveOnActionEvent(javafx.event.ActionEvent event) {
 
         boolean isInvoiceInserted = false;
+        boolean isInvoiceMeteReadingInserted = false;
         validatorInitialization();
         boolean validationSupportResult = false;
         boolean validationSupportTableResult = false;
@@ -619,11 +620,19 @@ public class InvoiceController implements Initializable, Validatable,
                             txtAreaAmountInWrds.getText(),
                             userId
                     );
-
+                    
+                    
+                    isInvoiceMeteReadingInserted = invoiceDAO.insertInvoiceMeterReading(
+                            txtInvoiceNo.getText(),
+                            txtMeterReading.getText(),
+                            txtNextMeterReading.getText());
+                    
                     saveTableContent();
                     updateItemTable();      
 
-                    if (isInvoiceInserted == true && isTableContentSaved == true) {
+                    if (isInvoiceInserted == true && 
+                            isTableContentSaved == true &&
+                            isInvoiceMeteReadingInserted == true) {
 
                         mb.ShowMessage(stage, ErrorMessages.SuccesfullyCreated,
                                 "Information",
