@@ -313,9 +313,11 @@ public class InvoiceDAO {
         String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 invoiceNo);
 
-        String encodedServiceMeterReading = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, meterReading);
+        String encodedServiceMeterReading = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, meterReading);
 
-        String encodedNextMeterReading = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, nextMeterReading);
+        String encodedNextMeterReading = ESAPI.encoder().
+                encodeForSQL(ORACLE_CODEC, nextMeterReading);
 
 
 
