@@ -232,6 +232,33 @@ INSERT INTO `customer_vehicle_no` VALUES (12,'CUS0001','0112506500'),(13,'CUS000
 UNLOCK TABLES;
 
 --
+-- Table structure for table `drivers`
+--
+
+DROP TABLE IF EXISTS `drivers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `drivers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `driver` varchar(100) DEFAULT NULL,
+  `cus_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `drivers_fk1_idx` (`cus_id`),
+  CONSTRAINT `drivers_fk1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `drivers`
+--
+
+LOCK TABLES `drivers` WRITE;
+/*!40000 ALTER TABLE `drivers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `drivers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `external_grn`
 --
 
@@ -442,6 +469,35 @@ INSERT INTO `invoice` VALUES (5,'INT0001','2015-04-20','',NULL,'CUS0001',NULL,80
 UNLOCK TABLES;
 
 --
+-- Table structure for table `invoice_driver`
+--
+
+DROP TABLE IF EXISTS `invoice_driver`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_driver` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_id` varchar(45) NOT NULL,
+  `driver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `invoice_driver_fk1_idx` (`invoice_id`),
+  KEY `invoice_driver_fk2_idx` (`driver_id`),
+  CONSTRAINT `invoice_driver_fk1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`inv_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `invoice_driver_fk2` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice_driver`
+--
+
+LOCK TABLES `invoice_driver` WRITE;
+/*!40000 ALTER TABLE `invoice_driver` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice_driver` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `invoice_item`
 --
 
@@ -481,13 +537,13 @@ INSERT INTO `invoice_item` VALUES (1,'INT0003','ITM0001','partNo','BAT0001','uni
 UNLOCK TABLES;
 
 --
--- Table structure for table `invoice_meater`
+-- Table structure for table `invoice_meter`
 --
 
-DROP TABLE IF EXISTS `invoice_meater`;
+DROP TABLE IF EXISTS `invoice_meter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `invoice_meater` (
+CREATE TABLE `invoice_meter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_no` varchar(45) DEFAULT NULL,
   `service_meter_reading` varchar(45) DEFAULT NULL,
@@ -500,13 +556,13 @@ CREATE TABLE `invoice_meater` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `invoice_meater`
+-- Dumping data for table `invoice_meter`
 --
 
-LOCK TABLES `invoice_meater` WRITE;
-/*!40000 ALTER TABLE `invoice_meater` DISABLE KEYS */;
-INSERT INTO `invoice_meater` VALUES (1,'INT0003','51246598','51248098');
-/*!40000 ALTER TABLE `invoice_meater` ENABLE KEYS */;
+LOCK TABLES `invoice_meter` WRITE;
+/*!40000 ALTER TABLE `invoice_meter` DISABLE KEYS */;
+INSERT INTO `invoice_meter` VALUES (1,'INT0003','51246598','51248098');
+/*!40000 ALTER TABLE `invoice_meter` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1585,4 +1641,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-14 16:52:55
+-- Dump completed on 2016-08-16  0:37:31
