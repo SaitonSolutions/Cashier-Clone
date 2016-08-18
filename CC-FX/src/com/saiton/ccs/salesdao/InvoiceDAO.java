@@ -207,7 +207,7 @@ public class InvoiceDAO {
         }
         return vehicleNoList;
     }
-    
+
     public ArrayList loadDriver(String customerId) {
 
         String driver = null;
@@ -255,14 +255,14 @@ public class InvoiceDAO {
         }
         return driverList;
     }
-    
-     public String getDriverId(String driver,String customerId) {
+
+    public String getDriverId(String driver, String customerId) {
 
         String driverId = null;
         ArrayList driverList = new ArrayList();
         String encodedDriver = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 driver);
-        
+
         String encodedCustomerId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 customerId);
 
@@ -276,7 +276,7 @@ public class InvoiceDAO {
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedCustomerId);
-                  pstmt.setString(2, encodedDriver);
+                pstmt.setString(2, encodedDriver);
 
                 ResultSet r = pstmt.executeQuery();
 
@@ -320,7 +320,8 @@ public class InvoiceDAO {
             Double total,
             Double netAmt,
             String amountInWords,
-            String userID
+            String userID,
+            String remarks
     ) {
 
         String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
@@ -363,10 +364,11 @@ public class InvoiceDAO {
                         + " `total`,"
                         + "`net_amount`,"
                         + " `net_amount_word`,"
-                        + " `user_id` "
+                        + " `user_id`,"
+                        + " `remarks` "
                         + " )"
                         + " VALUES "
-                        + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
                 ps.setString(1, encodedInvoiceNo);
                 ps.setString(2, encodedDate);
@@ -380,6 +382,7 @@ public class InvoiceDAO {
                 ps.setDouble(10, netAmt);
                 ps.setString(11, amountInWords);
                 ps.setString(12, userID);
+                ps.setString(13, remarks);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {
@@ -402,12 +405,10 @@ public class InvoiceDAO {
 
     }
 
-    
-      public Boolean insertInvoiceMeterReading(
+    public Boolean insertInvoiceMeterReading(
             String invoiceNo,
             String meterReading,
             String nextMeterReading
-            
     ) {
 
         String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
@@ -418,8 +419,6 @@ public class InvoiceDAO {
 
         String encodedNextMeterReading = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, nextMeterReading);
-
-
 
         if (star.con == null) {
             log.error("Database Connection failure");
@@ -439,7 +438,7 @@ public class InvoiceDAO {
                 ps.setString(1, encodedInvoiceNo);
                 ps.setString(2, encodedServiceMeterReading);
                 ps.setString(3, encodedNextMeterReading);
-                
+
                 int val = ps.executeUpdate();
                 if (val == 1) {
                     return true;
@@ -461,11 +460,9 @@ public class InvoiceDAO {
 
     }
 
-
-       public Boolean insertInvoiceDriver(
+    public Boolean insertInvoiceDriver(
             String invoiceNo,
             String driverId
-            
     ) {
 
         String encodedInvoiceNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
@@ -473,8 +470,6 @@ public class InvoiceDAO {
 
         String encodedServiceMeterReading = ESAPI.encoder().
                 encodeForSQL(ORACLE_CODEC, driverId);
-
-       
 
         if (star.con == null) {
             log.error("Database Connection failure");
@@ -486,15 +481,13 @@ public class InvoiceDAO {
                         "INSERT INTO `invoice_driver` ("
                         + "`invoice_id`,"
                         + " `driver_id` "
-                     
                         + " )"
                         + " VALUES "
                         + "(?, ?)");
 
                 ps.setString(1, encodedInvoiceNo);
                 ps.setString(2, encodedServiceMeterReading);
-                
-                
+
                 int val = ps.executeUpdate();
                 if (val == 1) {
                     return true;
@@ -516,7 +509,6 @@ public class InvoiceDAO {
 
     }
 
-      
     public ArrayList<ArrayList<String>> searchItemDetails(String search) {
 
         String encodedSearch = ESAPI.encoder().
@@ -747,17 +739,7 @@ public class InvoiceDAO {
         String encodedBatchNo = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
                 batchNo);
 
-        System.out.println(" Values "
-                + "-"+invoiceNo
-                        + "-"+itemCode
-                        + "-"+description
-                        + "-"+batchNo
-                        + "-"+qty
-                        + "-"+discountRate
-                        + "-"+discount     
-                        + "-"+price
-                + "-"+netPrice
-        );
+        
         if (star.con == null) {
             log.error("Databse connection failiure.");
             return false;
@@ -794,18 +776,14 @@ public class InvoiceDAO {
                 ps.setString(10, "partNo");
                 ps.setString(11, "unit");
                 ps.setInt(12, 00);
-                
-                
-                
-                
-              int val = ps.executeUpdate();
+
+                int val = ps.executeUpdate();
                 if (val == 1) {
                     return true;
                 } else {
                     return false;
                 }
 
-              
             } catch (SQLException e) {
 
                 if (e instanceof SQLException) {
@@ -855,54 +833,70 @@ public class InvoiceDAO {
 
         ArrayList newList = new ArrayList();
         String InvoiceNo = null;
-        String IsTaxInviced = null;
-        String Date = null;
-        String PONo = null;
-        String PODate = null;
+
+        String date = null;
+
         String total = null;
-        String nbt = null;
-        String vat = null;
         String netAmount = null;
         String discount = null;
         String amountInWords = null;
+        String remarks = null;
+        String cus_type = null;
+        String vehicleNo = null;
+        String driver = null;
+        String customerId = null;
+        String meterReading = null;
+        String nextMeterReading = null;
+
         if (star.con == null) {
             log.error("Database Connection Failure");
         } else {
             PreparedStatement ps;
             try {
                 ps = star.con.prepareStatement(
-                        "SELECT * FROM invoice WHERE inv_no LIKE ?");
+                        "SELECT * FROM invoice i join invoice_driver d ON "
+                        + " i.inv_no = d.invoice_id JOIN "
+                        + " drivers dv ON "
+                        + " d.driver_id = dv.id JOIN "
+                        + " invoice_meter m ON "
+                        + " i.inv_no = m.invoice_no "
+                        + " WHERE i.inv_no LIKE ?");
                 ps.setString(1, EncodedInvoiceID);
                 ResultSet r = ps.executeQuery();
 
                 while (r.next()) {
-//     InvoiceNo = r.getString("inv_no");
-                    IsTaxInviced = r.getString("is_tax_inv");
-                    Date = r.getString("date");
-                    PONo = r.getString("po_no");
-                    PODate = r.getString("po_date");
-                    total = r.getString("total");
-                    nbt = r.getString("nbt");
-                    vat = r.getString("vat");
-                    netAmount = r.getString("net_amount");
-                    discount = r.getString("total_discount");
-                    amountInWords = r.getString("net_amount_word");
 
-                    newList.add(IsTaxInviced);
-                    newList.add(Date);
-                    newList.add(PONo);
-                    newList.add(PODate);
+                    date = r.getString("i.date");
+                    total = r.getString("i.total");
+                    netAmount = r.getString("i.net_amount");
+                    discount = r.getString("i.total_discount");
+                    amountInWords = r.getString("i.net_amount_word");
+                    remarks = r.getString("i.remarks");
+                    cus_type = r.getString("i.cus_type");
+                    vehicleNo = r.getString("i.vehicle_no");
+                    driver = r.getString("dv.driver");
+                    customerId = r.getString("i.cus_id");
+                    meterReading = r.getString("m.service_meter_reading");
+                    nextMeterReading = r.getString(
+                            "m.next_service_meter_reading");
+
+                    newList.add(date);
                     newList.add(total);
-                    newList.add(nbt);
-                    newList.add(vat);
                     newList.add(netAmount);
                     newList.add(discount);
                     newList.add(amountInWords);
+                    newList.add(remarks);
+                    newList.add(cus_type);
+                    newList.add(vehicleNo);
+                    newList.add(driver);
+                    newList.add(customerId);
+                    newList.add(meterReading);
+                    newList.add(nextMeterReading);
+
                 }
 
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(InvoiceDAO.class.getName()).
-                        log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
 
         }
@@ -934,17 +928,11 @@ public class InvoiceDAO {
                 while (r.next()) {
 
                     cusName = r.getString("cus_name");
-                    cusAddress = r.getString("cus_address");
                     salesExecutive = r.getString("salse_executive");
-                    warrentyPeriod = r.getString("warrenty_period");
-                    warrenty_month_year = r.getString("warrenty_month_year");
                     paymentTerms = r.getString("payment_term");
 
                     newList.add(cusName);
-                    newList.add(cusAddress);
                     newList.add(salesExecutive);
-                    newList.add(warrentyPeriod);
-                    newList.add(warrenty_month_year);
                     newList.add(paymentTerms);
                 }
 
@@ -963,7 +951,7 @@ public class InvoiceDAO {
                 encodeForSQL(ORACLE_CODEC, search);
 
         String invoiceNo = null;
-        
+
         String date = null;
         String salesExecutive = null;
         String cutomerType = null;
@@ -980,7 +968,7 @@ public class InvoiceDAO {
         } else {
             try {
 
-                String query = "SELECT * FROM invoice WHERE inv_no LIKE ?";
+                String query = "SELECT * FROM invoice WHERE inv_no LIKE ? AND status = 0 ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedSearch + "%");
@@ -1013,11 +1001,13 @@ public class InvoiceDAO {
                 if (e instanceof ArrayIndexOutOfBoundsException) {
 
                     log.error("Exception tag --> "
-                            + "Invalid entry location for list"+e);
+                            + "Invalid entry location for list" + e);
 
                 } else if (e instanceof SQLException) {
 
-                    log.error("Exception tag --> " + "Invalid sql statement"+e);
+                    log.
+                            error("Exception tag --> " + "Invalid sql statement"
+                                    + e);
 
                 } else if (e instanceof NullPointerException) {
 
@@ -1398,4 +1388,57 @@ public class InvoiceDAO {
         }
         return available;
     }
+    
+    public Boolean insertVehicle(String customerId,
+            String vehicleNo) {
+        
+        String encodedCustomerId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC,
+                customerId);
+        
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Database connection failiure. ");
+            return null;
+
+        } else {
+            try {
+
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + " customer_vehicle_no ("
+                        + " cus_id, "
+                        + " vehicle_no "
+                        + ") VALUES(?,? )");
+                ps.setString(1, customerId);
+                ps.setString(2, vehicleNo);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement "+e);
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+     
+    
 }

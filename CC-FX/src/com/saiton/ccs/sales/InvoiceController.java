@@ -19,6 +19,7 @@ import com.saiton.ccs.uihandle.ReportGenerator;
 import com.saiton.ccs.uihandle.StagePassable;
 import com.saiton.ccs.uihandle.UiMode;
 import com.saiton.ccs.util.EnglishNumberToWords;
+import com.saiton.ccs.util.InputDialog;
 import com.saiton.ccs.validations.CustomDatePickerValidationImpl;
 import com.saiton.ccs.validations.CustomTableViewValidationImpl;
 import com.saiton.ccs.validations.CustomTextFieldValidationImpl;
@@ -61,14 +62,13 @@ import org.controlsfx.control.PopOver;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 
-/**
- *
- * @author nadeesha
- */
 public class InvoiceController implements Initializable, Validatable,
         StagePassable {
 
     private String customerId = null;
+    private String itemDesc = null;
+    private Boolean itemDescCache = false;
+    
     private String invoiceNo = null;
 
     private final ValidationSupport validationSupport = new ValidationSupport();
@@ -145,23 +145,152 @@ public class InvoiceController implements Initializable, Validatable,
 //    private InvoiceDAO invoiceDAO = new InvoiceDAO();
 
     double discountAmount = 0.0;
+    
+    private ObservableList<String> vehicleData;
+    
     //<editor-fold defaultstate="collapsed" desc="InitComponents">
+//    @FXML
+//    private TextField txtInvoiceNo;
+//    @FXML
+//    private Button btnInvoiceNoSearch;
+//    @FXML
+//    private TextField txtDate;
+//    private TextField txtPONumber;
+//    @FXML
+//    private TextField txtCustomerName;
+//    private TextField txtAddress;
+////    private ComboBox<String> cmbPaymentType;
+//    @FXML
+//    private TextField txtItemCode;
+//    private TextField txtDescription;
+//    @FXML
+//    private TextField txtUnitPrice;
+//    @FXML
+//    private TableView<Item> tableInvoice;
+//    @FXML
+//    private TableColumn<Item, String> tcItemCode;
+//    @FXML
+//    private TableColumn<Item, String> tcDescription;
+//    @FXML
+//    private TableColumn<Item, String> tcBatchNo;
+//    @FXML
+//    private TableColumn<Item, String> tcQuantity;
+//    @FXML
+//    private TableColumn<Item, String> tcUnitPrice;
+//    @FXML
+//    private TableColumn<Item, String> tcValue;
+//    @FXML
+//    private TableColumn<Item, String> tcDiscountPercentage;
+//    @FXML
+//    private TableColumn<Item, String> tcDiscountAmount;
+//    @FXML
+//    private TextField txtQuantity;
+//    @FXML
+//    private Button btnSave;
+//    @FXML
+//    private Button btnCancel;
+//    @FXML
+//    private TextField txtTotalAmount;
+//    @FXML
+//    private TextArea txtAreaAmountInWrds;
+//    @FXML
+//    private Button btnNameSearch;
+//    private DatePicker dtpPODate;
+//    @FXML
+//    private TextField txtSalesExecutive;
+//    private TextField txtNBT;
+//    private TextField txtVAT;
+//    private TextField txtValueNBT;
+//    private TextField txtValueVAT;
+//    @FXML
+//    private TextField txtNetTotal;
+//    @FXML
+//    private Button btnItemCodeSearch;
+//    @FXML
+//    private TextField txtDiscount;
+////    private ComboBox<String> cmbWarrentyPeriods;
+////    private TextField txtWarrentyPeriod;
+//    @FXML
+//    private TextField txtItemDiscount;
+//    @FXML
+//    private Label lblBachNo;
+//    private TextField txtBatchNo;
+//    @FXML
+//    private Label lblInvoiceNo;
+//    private CheckBox chkPODetails;
+//    @FXML
+//    private CheckBox chkUnitPrice;
+//
+//    @FXML
+//    private Button btnRefresh;
+//    @FXML
+//    private Button btnClose;
+//    @FXML
+//    private ComboBox<String> cmbCustomerType;
+//    @FXML
+//    private TextField txtItemSearch;
+//    @FXML
+//    private Button btnRefresh1;
+//    @FXML
+//    private ComboBox<String> cmbBatchNo;
+//    @FXML
+//    private ComboBox<String> cmbUnit;
+//    @FXML
+//    private ComboBox<String> cmbUnitQty;
+//    @FXML
+//    private ComboBox<String> cmbPaymentType;
+//    @FXML
+//    private TextField txtPartNo;
+//    @FXML
+//    private ComboBox<String> cmbVehicleNo;
+//    @FXML
+//    private Button btnVehicle;
+//    @FXML
+//    private TextField txtMeterReading;
+//    @FXML
+//    private TextField txtNextMeterReading;
+//    @FXML
+//    private TextField txtRemarks;
+//    @FXML
+//    private ComboBox<String> cmbDriver;
+    @FXML
+    private Label lblInvoiceNo;
     @FXML
     private TextField txtInvoiceNo;
     @FXML
     private Button btnInvoiceNoSearch;
     @FXML
+    private Button btnRefresh;
+    @FXML
     private TextField txtDate;
-    private TextField txtPONumber;
+    @FXML
+    private ComboBox<String> cmbCustomerType;
     @FXML
     private TextField txtCustomerName;
-    private TextField txtAddress;
-//    private ComboBox<String> cmbPaymentType;
+    @FXML
+    private Button btnNameSearch;
+    @FXML
+    private TextField txtSalesExecutive;
+    @FXML
+    private ComboBox<String> cmbVehicleNo;
+    @FXML
+    private Button btnVehicle;
     @FXML
     private TextField txtItemCode;
-    private TextField txtDescription;
+    @FXML
+    private TextField txtItemSearch;
+    @FXML
+    private Button btnItemCodeSearch;
+    @FXML
+    private Button btnRefresh1;
+    @FXML
+    private CheckBox chkUnitPrice;
     @FXML
     private TextField txtUnitPrice;
+    @FXML
+    private TextField txtItemDiscount;
+    @FXML
+    private TextField txtQuantity;
     @FXML
     private TableView<Item> tableInvoice;
     @FXML
@@ -173,61 +302,29 @@ public class InvoiceController implements Initializable, Validatable,
     @FXML
     private TableColumn<Item, String> tcQuantity;
     @FXML
-    private TableColumn<Item, String> tcUnitPrice;
-    @FXML
-    private TableColumn<Item, String> tcValue;
-    @FXML
     private TableColumn<Item, String> tcDiscountPercentage;
     @FXML
     private TableColumn<Item, String> tcDiscountAmount;
     @FXML
-    private TextField txtQuantity;
+    private TableColumn<Item, String> tcUnitPrice;
     @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnCancel;
+    private TableColumn<Item, String> tcValue;
     @FXML
     private TextField txtTotalAmount;
     @FXML
+    private TextField txtDiscount;
+    @FXML
     private TextArea txtAreaAmountInWrds;
-    @FXML
-    private Button btnNameSearch;
-    private DatePicker dtpPODate;
-    @FXML
-    private TextField txtSalesExecutive;
-    private TextField txtNBT;
-    private TextField txtVAT;
-    private TextField txtValueNBT;
-    private TextField txtValueVAT;
     @FXML
     private TextField txtNetTotal;
     @FXML
-    private Button btnItemCodeSearch;
+    private Button btnCancel;
     @FXML
-    private TextField txtDiscount;
-//    private ComboBox<String> cmbWarrentyPeriods;
-//    private TextField txtWarrentyPeriod;
-    @FXML
-    private TextField txtItemDiscount;
-    @FXML
-    private Label lblBachNo;
-    private TextField txtBatchNo;
-    @FXML
-    private Label lblInvoiceNo;
-    private CheckBox chkPODetails;
-    @FXML
-    private CheckBox chkUnitPrice;
-
-    @FXML
-    private Button btnRefresh;
+    private Button btnSave;
     @FXML
     private Button btnClose;
     @FXML
-    private ComboBox<String> cmbCustomerType;
-    @FXML
-    private TextField txtItemSearch;
-    @FXML
-    private Button btnRefresh1;
+    private Label lblBachNo;
     @FXML
     private ComboBox<String> cmbBatchNo;
     @FXML
@@ -238,10 +335,6 @@ public class InvoiceController implements Initializable, Validatable,
     private ComboBox<String> cmbPaymentType;
     @FXML
     private TextField txtPartNo;
-    @FXML
-    private ComboBox<String> cmbVehicleNo;
-    @FXML
-    private Button btnVehicle;
     @FXML
     private TextField txtMeterReading;
     @FXML
@@ -326,6 +419,7 @@ public class InvoiceController implements Initializable, Validatable,
     @Override
     public void clearInput() {
 
+        itemDescCache = false;
         txtInvoiceNo.setText(invoiceDAO.generateId());
         txtDiscount.clear();
 
@@ -334,13 +428,20 @@ public class InvoiceController implements Initializable, Validatable,
         txtTotalAmount.clear();
         txtAreaAmountInWrds.clear();
 
-
         txtItemDiscount.clear();
-        
 
         txtItemCode.clear();
-
+        txtMeterReading.clear();
+        cmbVehicleNo.setValue(null);
+        txtNextMeterReading.clear();
+        txtRemarks.clear();
         txtUnitPrice.clear();
+        cmbPaymentType.getSelectionModel().selectFirst();
+        cmbDriver.setValue(null);
+        cmbCustomerType.getSelectionModel().selectFirst();
+        txtPartNo.clear();
+        cmbUnitQty.setValue(null);
+        cmbBatchNo.setValue(null);
 //        txtWarrentyPeriod.clear();
         txtCustomerName.clear();
         txtNetTotal.clear();
@@ -352,6 +453,7 @@ public class InvoiceController implements Initializable, Validatable,
         btnCancel.setVisible(false);
         reprintAccess = false;
         btnSave.setText("Save");
+        customerId = null;
     }
 
     @Override
@@ -424,12 +526,13 @@ public class InvoiceController implements Initializable, Validatable,
             if (e.getClickCount() == 2) {
                 try {
 
+                    itemDescCache = false;
                     ItemInvoicePopup itemInvoicePopup = null;
                     itemInvoicePopup = (ItemInvoicePopup) itemTable.
                             getSelectionModel().
                             getSelectedItem();
                     if (itemInvoicePopup.getColItemID() != null) {
-
+                        
                         txtItemCode.setText(itemInvoicePopup.getColItemID());
                         txtPartNo.setText(itemInvoicePopup.getColUnit());
                         searchControl(false, itemInvoicePopup.getColItemName());
@@ -470,17 +573,8 @@ public class InvoiceController implements Initializable, Validatable,
 
                     if (p.getColInvoiceNo() != null) {
                         txtInvoiceNo.setText(p.getColInvoiceNo());
-//                        chkPODetails.setDisable(true);
-//                        chkUnitPrice.setDisable(true);
+
                         txtDate.setText(p.getColDate());
-                        if (p.getColPoNo() != null && p.getColPoDate() != null) {
-                            enablePODetails();
-                            txtPONumber.setText(p.getColPoNo());
-                            dtpPODate.
-                                    setValue(LocalDate.parse(p.getColPoDate()));
-                        } else {
-                            disablePODetails();
-                        }
 
                         loadInvoiceDetails(p.getColInvoiceNo());
                         loadItemsToTable(txtInvoiceNo.getText());
@@ -491,12 +585,14 @@ public class InvoiceController implements Initializable, Validatable,
                             btnSave.setVisible(true);
                             btnSave.setDisable(false);
                             btnSave.setText("print");
-
+                            
                             reprintAccess = true;
                         }
                         validatorInitialization();
                     }
                 } catch (Exception e2) {
+
+                    e2.printStackTrace();
 
                 }
             }
@@ -525,15 +621,62 @@ public class InvoiceController implements Initializable, Validatable,
 
         });
 
+         vehicleData = cmbVehicleNo.getItems();
+        
+        
         validatorInitialization();
 
     }
 
     //<editor-fold defaultstate="collapsed" desc="ActionEvent">
-    
        @FXML
     private void btnVehicleOnAction(ActionEvent event) {
+        
+        String vehicle = InputDialog.inputForAddNew("Vehicle No");
+        boolean isSaved = false;
+        if (vehicle == null) {
+            return;
+        }
+        if (!fav.validName(vehicle)) {
+            mb.ShowMessage(stage, "Invalid Vehicle No.", "Vehicle No",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        if (vehicleData.contains(vehicle)) {
+            mb.ShowMessage(stage, "Duplicate Vehicle No.", "Vehicle No",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+        
+         if (customerId == null) {
+            mb.ShowMessage(stage, "Customer Not selected.", "Vehicle No",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        isSaved = invoiceDAO.insertVehicle(customerId,vehicle);
+        
+
+        if (isSaved == false) {
+            mb.ShowMessage(stage, "Data not saved.", "Unit",
+                    MessageBox.MessageIcon.MSG_ICON_FAIL,
+                    MessageBox.MessageType.MSG_OK);
+            return;
+        }
+
+        //success
+        vehicleData.add(vehicle);
+        loadVehicleToCombobox(customerId);
+        cmbVehicleNo.getSelectionModel().select(vehicle);
+
+        validatorInitialization();
+        
     }
+
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
         clearInput();
@@ -622,28 +765,30 @@ public class InvoiceController implements Initializable, Validatable,
                             Double.parseDouble(txtTotalAmount.getText()),
                             Double.parseDouble(txtNetTotal.getText()),
                             txtAreaAmountInWrds.getText(),
-                            userId
+                            userId,
+                            txtRemarks.getText()
                     );
-                    
-                    
-                    isInvoiceMeteReadingInserted = invoiceDAO.insertInvoiceMeterReading(
-                            txtInvoiceNo.getText(),
-                            txtMeterReading.getText(),
-                            txtNextMeterReading.getText());
-                    
-                    if (cmbDriver.getValue() !=null) {
-                          isInvoiceDriverInserted = invoiceDAO.insertInvoiceDriver(
-                            txtInvoiceNo.getText(),
-                            invoiceDAO.getDriverId(cmbDriver.getValue(), customerId));
-                    
-                    }
-                  
-                    saveTableContent();
-                    updateItemTable();      
 
-                    if (isInvoiceInserted == true && 
-                            isTableContentSaved == true &&
-                            isInvoiceMeteReadingInserted == true) {
+                    isInvoiceMeteReadingInserted = invoiceDAO.
+                            insertInvoiceMeterReading(
+                                    txtInvoiceNo.getText(),
+                                    txtMeterReading.getText(),
+                                    txtNextMeterReading.getText());
+
+                    if (cmbDriver.getValue() != null) {
+                        isInvoiceDriverInserted = invoiceDAO.
+                                insertInvoiceDriver(
+                                        txtInvoiceNo.getText(),
+                                        invoiceDAO.getDriverId(cmbDriver.
+                                                getValue(), customerId));
+
+                    }
+
+                    saveTableContent();
+                    updateItemTable();
+
+                    if (isInvoiceInserted == true && isTableContentSaved == true
+                            && isInvoiceMeteReadingInserted == true) {
 
                         mb.ShowMessage(stage, ErrorMessages.SuccesfullyCreated,
                                 "Information",
@@ -683,13 +828,13 @@ public class InvoiceController implements Initializable, Validatable,
     }
 
     private void chkPODetailsOnAction(ActionEvent event) {
-        if (chkPODetails.isSelected() == false) {
-            txtPONumber.setDisable(true);
-            dtpPODate.setDisable(true);
-        } else if (chkPODetails.isSelected() == true) {
-            txtPONumber.setDisable(false);
-            dtpPODate.setDisable(false);
-        }
+//        if (chkPODetails.isSelected() == false) {
+//            txtPONumber.setDisable(true);
+//            dtpPODate.setDisable(true);
+//        } else if (chkPODetails.isSelected() == true) {
+//            txtPONumber.setDisable(false);
+//            dtpPODate.setDisable(false);
+//        }
     }
 
     @FXML
@@ -768,8 +913,7 @@ public class InvoiceController implements Initializable, Validatable,
 
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="KeyEvents">
-    
-      @FXML
+    @FXML
     private void txtItemSearchOnKeyReleased(KeyEvent event) {
     }
 
@@ -777,7 +921,6 @@ public class InvoiceController implements Initializable, Validatable,
     private void txtPartNoOnKeyReleased(KeyEvent event) {
     }
 
-    
     @FXML
     private void txtDiscountOnKeyReleased(KeyEvent event) {
     }
@@ -915,12 +1058,14 @@ public class InvoiceController implements Initializable, Validatable,
             String itemCode = itemTblData.colItemCode.get();
 
             if (itemCode != null) {
-                txtDescription.setText(itemTblData.colDescription.get());
+//                txtDescription.setText(itemTblData.colDescription.get());
                 txtItemCode.setText(itemCode);
-                txtBatchNo.setText(itemTblData.colBatchNo.get());
+                cmbBatchNo.setValue(itemTblData.colBatchNo.get());
                 txtUnitPrice.setText(itemTblData.colUnitPrice.get());
                 txtItemDiscount.setText(itemTblData.colDiscountPercentage.get());
                 txtQuantity.setText(itemTblData.colQuantity.get());
+                itemDesc = itemTblData.colDescription.get();
+                itemDescCache = true;
             }
             validatorInitialization();
             calculateNetTotal();
@@ -973,6 +1118,15 @@ public class InvoiceController implements Initializable, Validatable,
                                     getText())) - discountAmount;
 
                     item = new Item();
+                    
+                    if (itemDescCache == false) {
+                         itemDesc = txtItemSearch.getText();
+                         
+                    }else{
+                    itemDescCache = false;
+                    }
+                   
+                    
                     item.colItemCode.setValue(txtItemCode.
                             getText());
                     item.colUnitPrice.setValue(txtUnitPrice.
@@ -981,7 +1135,7 @@ public class InvoiceController implements Initializable, Validatable,
                             getValue());
                     item.colQuantity.setValue(txtQuantity.
                             getText());
-                    item.colDescription.setValue(txtItemSearch.getText());
+                    item.colDescription.setValue(itemDesc);
 
                     item.colDiscountPercentage.setValue(txtItemDiscount.
                             getText());
@@ -1061,7 +1215,7 @@ public class InvoiceController implements Initializable, Validatable,
         }
 
     }
-    
+
     private void loadDriverToCombobox(String customerId) {
 
         cmbDriver.setItems(null);
@@ -1124,6 +1278,11 @@ public class InvoiceController implements Initializable, Validatable,
         txtQuantity.clear();
         cmbBatchNo.getSelectionModel().selectFirst();
         txtItemDiscount.clear();
+        cmbUnitQty.setValue(null);
+        itemDesc = null;
+        itemDescCache = false;
+        txtPartNo.clear();
+        cmbUnit.getSelectionModel().selectFirst();
         generateId();
 
     }
@@ -1168,24 +1327,19 @@ public class InvoiceController implements Initializable, Validatable,
         if (invoiceDataList != null) {
             if (!invoiceDataList.isEmpty()) {
 
-                txtDate.setText(invoiceDataList.get(1).toString());
-//                txtPONumber.setText(invoiceDataList.get(2).toString());
-//                dtpPODate.setValue(LocalDate.parse(invoiceDataList.get(3)));
-                txtTotalAmount.setText(invoiceDataList.get(4));
-                txtValueNBT.setText(invoiceDataList.get(5));
-                txtValueVAT.setText(invoiceDataList.get(6));
-                txtNetTotal.setText(invoiceDataList.get(7));
-                txtDiscount.setText(invoiceDataList.get(8));
-                txtAreaAmountInWrds.setText(invoiceDataList.get(9));
+                txtDate.setText(invoiceDataList.get(0).toString());
+                txtTotalAmount.setText(invoiceDataList.get(1));
+                txtNetTotal.setText(invoiceDataList.get(2));
+                txtDiscount.setText(invoiceDataList.get(3));
+                txtAreaAmountInWrds.setText(invoiceDataList.get(4));
+                txtRemarks.setText(invoiceDataList.get(5));
+                cmbCustomerType.setValue(invoiceDataList.get(6));
+                cmbVehicleNo.setValue(invoiceDataList.get(7));
+                cmbDriver.setValue(invoiceDataList.get(8));
+                customerId = invoiceDataList.get(9);
+                txtMeterReading.setText(invoiceDataList.get(10));
+                txtNextMeterReading.setText(invoiceDataList.get(11));
 
-//                3456   int isTaxInvoiced = Integer.parseInt(invoiceDataList.get(0));
-//                if (isTaxInvoiced == 1) {
-//                    radioTax.setSelected(true);
-//                    radioNonTax.setSelected(false);
-//                } else {
-//                    radioNonTax.setSelected(true);
-//                    radioTax.setSelected(false);
-//                }
             }
         }
     }
@@ -1209,6 +1363,7 @@ public class InvoiceController implements Initializable, Validatable,
         if (itemDetails != null && itemDetails.size() > 0) {
 
             for (int i = 0; i < itemDetails.size(); i++) {
+
                 Item item = new Item();
                 item.colItemCode.setValue(itemDetails.get(i).get(0));
                 item.colDescription.setValue(itemDetails.get(i).get(1));
@@ -1239,11 +1394,8 @@ public class InvoiceController implements Initializable, Validatable,
             if (!cusDataList.isEmpty()) {
 
                 txtCustomerName.setText(cusDataList.get(0).toString());
-                txtAddress.setText(cusDataList.get(1).toString());
-                txtSalesExecutive.setText(cusDataList.get(2).toString());
-//                txtWarrentyPeriod.setText(cusDataList.get(3).toString());
-//                cmbWarrentyPeriods.setValue(cusDataList.get(4).toString());
-//                cmbPaymentType.setValue(cusDataList.get(5).toString());
+                txtSalesExecutive.setText(cusDataList.get(1).toString());
+                cmbPaymentType.setValue(cusDataList.get(2).toString());
 
             }
         }
@@ -1687,7 +1839,7 @@ public class InvoiceController implements Initializable, Validatable,
         userCategory = UserSession.getInstance().getUserInfo().getCategory();
         txtSalesExecutive.setText(userName);
         String title = stage.getTitle();
-        /*
+        
          if (!title.isEmpty()) {
 
          UserPermission userPermission = UserSession.getInstance().
@@ -1814,7 +1966,7 @@ public class InvoiceController implements Initializable, Validatable,
          setUiMode(UiMode.NO_ACCESS);
 
          }
-         */
+         
     }
 
     private void disableUi(boolean state) {
@@ -1874,7 +2026,6 @@ public class InvoiceController implements Initializable, Validatable,
 //        txtAreaAmountInWrds.setVisible(!state);
 //        txtAreaAmountInWrds.setDisable(state);
     }
-
 
 //</editor-fold>    
     //<editor-fold defaultstate="collapsed" desc="Class">

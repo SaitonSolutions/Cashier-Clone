@@ -398,7 +398,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="700.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
                            <children>
-                              <Label contentDisplay="RIGHT" prefWidth="250.0" text="Meater Reading at service" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
+                              <Label contentDisplay="RIGHT" prefWidth="250.0" text="Meter Reading at service" GridPane.columnIndex="1" GridPane.rowIndex="2" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
