@@ -13,6 +13,10 @@ left join customer c
 on c.cus_id=n.cus_id
 left join invoice_meter m
 on m.invoice_no=n.inv_no
+left join invoice_driver d
+on d.invoice_id=n.inv_no
+left join drivers dr
+on d.driver_id=d.driver_id
 where n.inv_no=$P{inv_no}]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
@@ -114,6 +118,15 @@ where n.inv_no=$P{inv_no}]]>
 	<field name="next_service_meter_reading" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="invoice_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="driver_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="driver" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<variable name="no" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[1+$V{no}]]></variableExpression>
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
@@ -177,7 +190,7 @@ where n.inv_no=$P{inv_no}]]>
 				<text><![CDATA[Invoice]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="39" width="291" height="57" forecolor="#0099CC" uuid="e767dc37-65a3-4bf7-9caf-e17723ecb771"/>
+				<reportElement x="3" y="39" width="291" height="57" forecolor="#000000" uuid="e767dc37-65a3-4bf7-9caf-e17723ecb771"/>
 				<textElement>
 					<font fontName="Segoe UI Symbol" size="16" isBold="true" isItalic="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -517,27 +530,14 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				<text><![CDATA[Authorised Signature]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="193" width="130" height="15" uuid="ce620d20-9359-44ea-bef6-d386efec371f"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="311" y="193" width="69" height="15" uuid="ce620d20-9359-44ea-bef6-d386efec371f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Name ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="405" y="211" width="130" height="16" uuid="ff46d8c7-b1b2-4613-b769-f739be3b6c75"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Date  ]]></text>
+				<text><![CDATA[Drivers Name ]]></text>
 			</staticText>
 			<line>
-				<reportElement x="441" y="206" width="114" height="1" uuid="530feb06-279c-4561-9037-922d6bf57b80"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Dotted"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="441" y="225" width="113" height="1" uuid="4b4e245c-ea64-42b1-b943-50ffba8c4824"/>
+				<reportElement x="389" y="206" width="162" height="1" uuid="530feb06-279c-4561-9037-922d6bf57b80"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
@@ -570,14 +570,7 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				<textFieldExpression><![CDATA[$F{net_amount}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="433" y="212" width="8" height="15" uuid="8812c7b4-da68-4113-bb35-273353f64db7"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="433" y="193" width="8" height="15" uuid="5dc59e2d-50cf-41bf-8198-46e13725a7f2"/>
+				<reportElement x="381" y="193" width="8" height="15" uuid="5dc59e2d-50cf-41bf-8198-46e13725a7f2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Segoe UI Symbol" size="10" isBold="false"/>
 				</textElement>
@@ -604,6 +597,13 @@ Tel : 077 - 239 2522 / 077 - 6191522]]></text>
 				</textElement>
 				<text><![CDATA[Sub Total :]]></text>
 			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="389" y="190" width="162" height="20" uuid="cbc77493-9624-4077-8e38-b8d450df385c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI Symbol" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{driver}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 </jasperReport>
