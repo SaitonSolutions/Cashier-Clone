@@ -391,6 +391,7 @@
                                                 </AnchorPane>
                                                 <HBox prefHeight="49.0" prefWidth="178.0" spacing="3.0">
                                                    <children>
+                                                      <TextField fx:id="txtDriver" onKeyReleased="#txtDriverOnKeyReleased" prefWidth="91.0" promptText="Driver Name" HBox.hgrow="ALWAYS" />
                                                       <Button id="btnSearch" fx:id="btnAddDrivers" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#btnAddDriversNoOnAction" prefHeight="24.0" prefWidth="24.0" text="">
                                                          <graphic>
                                                             <ImageView fitHeight="10.000000178813929" fitWidth="13.333333969116211" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
@@ -400,7 +401,6 @@
                                                             </ImageView>
                                                          </graphic>
                                                       </Button>
-                                                      <TextField fx:id="txtDriver" onKeyReleased="#txtDriverOnKeyReleased" prefWidth="91.0" promptText="Vehicle No" HBox.hgrow="ALWAYS" />
                                                    </children>
                                                    <padding>
                                                       <Insets top="10.0" />
@@ -479,6 +479,7 @@
                   </Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="29.0" prefHeight="31.0" prefWidth="950.0" styleClass="header-label" text="Customer Registration" />
                   <AnchorPane layoutX="27.0" layoutY="78.0" prefHeight="38.0" prefWidth="67.0" />
+                  <Pane layoutX="26.0" layoutY="76.0" prefHeight="38.0" prefWidth="278.0" />
           </children>
           <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

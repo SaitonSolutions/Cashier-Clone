@@ -1827,7 +1827,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         this.hidePrinterRemark();
 
         stage.setHeight(575.0);
-        stage.setWidth(907.0);
+        stage.setWidth(1015.0);
 
         setUserAccessLevel();
 //        customerTypeData.clear();
