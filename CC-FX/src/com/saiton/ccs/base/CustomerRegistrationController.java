@@ -155,6 +155,19 @@ public class CustomerRegistrationController extends AnchorPane implements
     private TextField txtSearch;
 
     @FXML
+    private Button btnRefresh;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private ListView<String> lstDrivers;
+    @FXML
+    private Button btnRemoveDrivers;
+    @FXML
+    private TextField txtDriver;
+    @FXML
+    private Button btnAddDrivers;
+
+    @FXML
     private TextField txtTelephone;
     @FXML
     private Insets x1;
@@ -218,6 +231,7 @@ public class CustomerRegistrationController extends AnchorPane implements
     private final ValidationSupport validateMobile = new ValidationSupport();
     private ValidationSupport validateEmail = new ValidationSupport();
     private final ValidationSupport validateFax = new ValidationSupport();
+    private final ValidationSupport validateDriver = new ValidationSupport();
 
     private final CustomerRegistrationDAO customerRegistrationDAO
             = new CustomerRegistrationDAO();
@@ -232,15 +246,15 @@ public class CustomerRegistrationController extends AnchorPane implements
     boolean isMobileNoSaved = false;
     boolean isEmailSaved = false;
     boolean isFaxNoSaved = false;
+    boolean isDriverSaved = false;
 
     private ComponentControl componentControl = new ComponentControl();
 
     LocalDate date = null;
-    
+
     //<editor-fold defaultstate="collapsed" desc="ObservableList">
-    
     private ObservableList<String> customerTypeData;
-    
+
     ObservableList<String> idTypesList = FXCollections.observableArrayList(
             "NIC", "Passport"
     );
@@ -297,11 +311,6 @@ public class CustomerRegistrationController extends AnchorPane implements
             "Zambians", "Zimbabweans"
     );
 //</editor-fold>
-    
-    @FXML
-    private Button btnRefresh;
-    @FXML
-    private Button btnAdd;
 
     // initialize-------------------------------------------------------------------------------------------------------------------------------------------------------
     @Override
@@ -364,6 +373,53 @@ public class CustomerRegistrationController extends AnchorPane implements
 //  Button events ----------------------------------------------
 
     @FXML
+    private void btnRemoveDriversOnAction(ActionEvent event) {
+
+        try {
+            validatorInitialization();
+            boolean model = lstDrivers.getSelectionModel().isEmpty();
+            if (model == false) {
+
+                int removeIndex = lstDrivers.getSelectionModel().
+                        getSelectedIndex();
+                lstDrivers.getItems().remove(removeIndex);
+            }
+
+        } catch (Exception e) {
+        }
+    }
+
+    @FXML
+    private void btnAddDriversNoOnAction(ActionEvent event) {
+
+        validateDriver.registerValidator(txtDriver,
+                new CustomTextFieldValidationImpl(
+                        txtDriver,
+                        !fav.isValidVehicleNo(lstDrivers, txtDriver.getText().
+                                trim()), ErrorMessages.InvalidDriverName));
+
+        boolean validationSupportResult = false;
+        ValidationResult v = validateDriver.getValidationResult();
+
+        if (v != null) {
+            validationSupportResult = validateDriver.isInvalid();
+
+            if (validationSupportResult == true) {
+
+            } else if (validationSupportResult == false) {
+
+                ObservableList<String> driverList = lstDrivers.getItems();
+                driverList.add(txtDriver.getText());
+                lstDrivers.setItems(FXCollections.observableList(driverList));
+                txtDriver.clear();
+
+            }
+            //           validatorInitialization();
+        }
+
+    }
+
+    @FXML
     private void btnRefreshOnAction(ActionEvent event) {
         hidePrinterRemark();
         reloadCustomerID();
@@ -422,10 +478,12 @@ public class CustomerRegistrationController extends AnchorPane implements
     @FXML
     private void btnAddVehicleNoOnAction(ActionEvent event) {
 
-        validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
-                txtVehicleNo,
-                !fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.getText().
-                        trim()), ErrorMessages.InvalidVehicleNo));
+        validateFax.registerValidator(txtVehicleNo,
+                new CustomTextFieldValidationImpl(
+                        txtVehicleNo,
+                        !fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.
+                                getText().
+                                trim()), ErrorMessages.InvalidVehicleNo));
 
         boolean validationSupportResult = false;
         ValidationResult v = validateFax.getValidationResult();
@@ -858,6 +916,11 @@ public class CustomerRegistrationController extends AnchorPane implements
                                         = customerRegistrationDAO.
                                         deleteCustomerFaxForUpdate(
                                                 txtCustomerId.getText());
+                                
+                                boolean isDriverDeleted
+                                        = customerRegistrationDAO.
+                                        deleteCustomerDriverForUpdate(
+                                                txtCustomerId.getText());
 
                                 saveContactInformation();
 
@@ -1024,7 +1087,8 @@ public class CustomerRegistrationController extends AnchorPane implements
             boolean model = lstVehicleNo.getSelectionModel().isEmpty();
             if (model == false) {
 
-                int removeIndex = lstVehicleNo.getSelectionModel().getSelectedIndex();
+                int removeIndex = lstVehicleNo.getSelectionModel().
+                        getSelectedIndex();
                 lstVehicleNo.getItems().remove(removeIndex);
             }
 
@@ -1220,10 +1284,12 @@ public class CustomerRegistrationController extends AnchorPane implements
     private void txtVehicleNoOnKeyReleased(KeyEvent event
     ) {
 
-        validateFax.registerValidator(txtVehicleNo, new CustomTextFieldValidationImpl(
-                txtVehicleNo,
-                !fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.getText().
-                        trim()), ErrorMessages.InvalidVehicleNo));
+        validateFax.registerValidator(txtVehicleNo,
+                new CustomTextFieldValidationImpl(
+                        txtVehicleNo,
+                        fav.isValidVehicleNo(lstVehicleNo, txtVehicleNo.
+                                getText().
+                                trim()), ErrorMessages.InvalidVehicleNo));
 
     }
 
@@ -1383,7 +1449,8 @@ public class CustomerRegistrationController extends AnchorPane implements
                 boolean model = lstVehicleNo.getSelectionModel().isEmpty();
                 if (model == false) {
 
-                    txtVehicleNo.setText(lstVehicleNo.getSelectionModel().getSelectedItem());
+                    txtVehicleNo.setText(lstVehicleNo.getSelectionModel().
+                            getSelectedItem());
                     int removeIndex = lstVehicleNo.getSelectionModel().
                             getSelectedIndex();
                     lstVehicleNo.getItems().remove(removeIndex);
@@ -1443,6 +1510,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         lstVehicleNo.getItems().removeAll(lstVehicleNo.getItems());
         lstMobile.getItems().removeAll(lstMobile.getItems());
         lstTelephone.getItems().removeAll(lstTelephone.getItems());
+        lstDrivers.getItems().removeAll(lstDrivers.getItems());
         validatorInitialization();
         tableDataLoader(txtSearch.getText().trim());
 
@@ -1553,6 +1621,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         ArrayList<String> customerMobileList = null;
         ArrayList<String> customerEmailList = null;
         ArrayList<String> customerFaxList = null;
+        ArrayList<String> customerDriverList = null;
         ArrayList<String> customerVatList = null;
 
         if (customerId != null) {
@@ -1568,17 +1637,17 @@ public class CustomerRegistrationController extends AnchorPane implements
             customerFaxList = customerRegistrationDAO.customerFaxLoading(
                     customerId);
 
+            customerDriverList = customerRegistrationDAO.customerDriverLoading(
+                    customerId);
+
             if (customerDataList != null) {
 
                 txtCustomerId.setText(customerId);
                 cmbTitle.setValue(customerDataList.get(1));
                 txtName.setText(customerDataList.get(2));
-                //cmbCustomerIdType.setValue(customerDataList.get(3));
-                //txtIdentification.setText(customerDataList.get(4));
+
                 txtAddress.setText(customerDataList.get(3));
-                //cmbNationality.setValue(customerDataList.get(6));
-                //dtpDateOfBirth.setValue(LocalDate.parse(customerDataList.get(7)));
-                //cmbProfession.setValue(customerDataList.get(8));
+
                 cmbCusType.setValue(customerDataList.get(4));
 
                 if (customerTelephoneList != null) {
@@ -1597,6 +1666,10 @@ public class CustomerRegistrationController extends AnchorPane implements
                     lstVehicleNo.setItems(FXCollections.
                             observableList(customerFaxList));
                 }
+                if (customerDriverList != null) {
+                    lstDrivers.setItems(FXCollections.
+                            observableList(customerDriverList));
+                }
 
                 validatorInitialization();
 
@@ -1611,6 +1684,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         ObservableList<String> listMobile = lstMobile.getItems();
         ObservableList<String> listEmail = lstEmail.getItems();
         ObservableList<String> listFax = lstVehicleNo.getItems();
+        ObservableList<String> listDriver = lstDrivers.getItems();
 
 //// Loading to db
 ////=============================================================================================================== 
@@ -1647,6 +1721,15 @@ public class CustomerRegistrationController extends AnchorPane implements
             }
         } else if (listFax.size() == 0) {
             isFaxNoSaved = true;
+        }
+
+        if (listDriver.size() != 0) {
+            for (int i = 0; i < listDriver.size(); i++) {
+                isDriverSaved = customerRegistrationDAO.insertDriverDetails(
+                        txtCustomerId.getText(), listDriver.get(i).toString());
+            }
+        } else if (listDriver.size() == 0) {
+            isDriverSaved = true;
         }
 
     }
@@ -1736,8 +1819,6 @@ public class CustomerRegistrationController extends AnchorPane implements
                         !fav.validListView(lstEmail),
                         ErrorMessages.EmptyListView));
     }
-    
-    
 
     @Override
     public void setStage(Stage stage, Object[] obj) {
@@ -1747,12 +1828,12 @@ public class CustomerRegistrationController extends AnchorPane implements
 
         stage.setHeight(575.0);
         stage.setWidth(907.0);
-        
+
         setUserAccessLevel();
 //        customerTypeData.clear();
         customerTypeData = cmbCusType.getItems();
         loadCustomerTypeToCombobox();
-        
+
     }
 
     @FXML
@@ -1761,9 +1842,9 @@ public class CustomerRegistrationController extends AnchorPane implements
 
     @FXML
     private void btnAddOnAction(ActionEvent event) {
-        
-          String customerType = InputDialog.inputForAddNew("Customer Type");
-          boolean isSaved = false;
+
+        String customerType = InputDialog.inputForAddNew("Customer Type");
+        boolean isSaved = false;
         if (customerType == null) {
             return;
         }
@@ -1780,54 +1861,70 @@ public class CustomerRegistrationController extends AnchorPane implements
                     MessageBox.MessageType.MSG_OK);
             return;
         }
-        
+
         isSaved = customerRegistrationDAO.insertCustomerType(customerType);
-        
+
         if (isSaved == false) {
             mb.ShowMessage(stage, "Data not saved.", "Customer",
                     MessageBox.MessageIcon.MSG_ICON_FAIL,
                     MessageBox.MessageType.MSG_OK);
             return;
         }
-        
+
         //success
         customerTypeData.add(customerType);
         loadCustomerTypeToCombobox();
         cmbCusType.getSelectionModel().select(customerType);
-        
+
         validatorInitialization();
-        
+
     }
 
     @FXML
     private void cmbCusTypeOnKeyReleased(KeyEvent event) {
-        
-        if (event.getCode() == KeyCode.DELETE | event.getCode() == KeyCode.BACK_SPACE) {
-            
-         if (cmbCusType.getValue() != null) {
-            MessageBox.MessageOutput option = mb.ShowMessage(stage,
-                   "Are you sure you want \nto remove the customer type ? ",
-                   "Customer Type",
-                    MessageBox.MessageIcon.MSG_ICON_NONE,
-                    MessageBox.MessageType.MSG_YESNO);
-            if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
-                
-                boolean isRemoved = customerRegistrationDAO.deleteCustomerType(
-                        cmbCusType.getValue());
-                
-                if (isRemoved == true) {
-                    loadCustomerTypeToCombobox();
-                } else {
-                    mb.ShowMessage(stage, ErrorMessages.NotSuccesfullyDeleted,
-                            "Error",
-                            MessageBox.MessageIcon.MSG_ICON_FAIL,
-                            MessageBox.MessageType.MSG_OK);
+
+        if (event.getCode() == KeyCode.DELETE | event.getCode()
+                == KeyCode.BACK_SPACE) {
+
+            if (cmbCusType.getValue() != null) {
+                MessageBox.MessageOutput option = mb.ShowMessage(stage,
+                        "Are you sure you want \nto remove the customer type ? ",
+                        "Customer Type",
+                        MessageBox.MessageIcon.MSG_ICON_NONE,
+                        MessageBox.MessageType.MSG_YESNO);
+                if (option.equals(MessageBox.MessageOutput.MSG_YES)) {
+
+                    boolean isRemoved = customerRegistrationDAO.
+                            deleteCustomerType(
+                                    cmbCusType.getValue());
+
+                    if (isRemoved == true) {
+                        loadCustomerTypeToCombobox();
+                    } else {
+                        mb.ShowMessage(stage,
+                                ErrorMessages.NotSuccesfullyDeleted,
+                                "Error",
+                                MessageBox.MessageIcon.MSG_ICON_FAIL,
+                                MessageBox.MessageType.MSG_OK);
+                    }
                 }
             }
+            loadCustomerTypeToCombobox();
+            validatorInitialization();
         }
-        loadCustomerTypeToCombobox();
-        validatorInitialization();
-        }
+    }
+
+    @FXML
+    private void txtDriverOnKeyReleased(KeyEvent event) {
+        
+//            validatorInitialization();
+        validateDriver.registerValidator(txtDriver,
+                new CustomTextFieldValidationImpl(
+                        txtDriver,
+                        fav.isValidVehicleNo(lstDrivers, txtDriver.
+                                getText().
+                                trim()), ErrorMessages.InvalidDriverName));
+        
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
@@ -1874,7 +1971,6 @@ public class CustomerRegistrationController extends AnchorPane implements
 
 //----------------------------------------------------------------------------------------------------------------------    
 //<editor-fold defaultstate="collapsed" desc="Methods">
-    
     private void loadCustomerTypeToCombobox() {
 
         cmbCusType.setItems(null);
@@ -1893,7 +1989,7 @@ public class CustomerRegistrationController extends AnchorPane implements
         }
 
     }
-    
+
     private void setUiMode(UiMode uiMode) {
 
         switch (uiMode) {

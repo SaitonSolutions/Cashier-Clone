@@ -474,6 +474,54 @@ public class CustomerRegistrationDAO {
             }
         }
     }
+    
+    public Boolean insertDriverDetails(
+            String cus_id,
+            String driver) {
+        Integer id = null;
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Databse connection failiure. ");
+            return null;
+        } else {
+            try {
+                PreparedStatement ps = star.con.prepareStatement("INSERT INTO "
+                        + " drivers ("
+                        + " cus_id, "
+                        + "driver "
+                        + ") VALUES "
+                        + " (?,?)");
+                ps.setString(1, cus_id);
+                ps.setString(2, driver);
+
+                int val = ps.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
 
     public ArrayList customerTelephoneLoading(String cus_id) {
 
@@ -693,6 +741,60 @@ public class CustomerRegistrationDAO {
         }
         return list;
     }
+    
+    public ArrayList customerDriverLoading(String cus_id) {
+
+        String encodedCusId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, cus_id);
+        String driver = null;
+        ArrayList list = new ArrayList();
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Databse connection failiure. ");
+            return null;
+        } else {
+            try {
+                String query = "SELECT * FROM drivers WHERE cus_id = ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedCusId);
+
+                ResultSet r = pstmt.executeQuery();
+
+                while (r.next()) {
+
+                    driver = r.getString("driver");
+
+                    list.add(driver);
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException | SQLException | NullPointerException e) {
+
+                if (e instanceof ArrayIndexOutOfBoundsException) {
+
+                    log.error("Exception tag --> " + "Invalid entry location for list");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                } else if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry for list");
+
+                }
+                return null;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return null;
+            }
+
+        }
+        return list;
+    }
 
     public Boolean deleteCustomerInfoForUpdate(String cus_id) {
         String encodedCusId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, cus_id);
@@ -882,6 +984,50 @@ public class CustomerRegistrationDAO {
             try {
 
                 String query = "DELETE FROM customer_vehicle_no WHERE cus_id= ? ";
+
+                PreparedStatement pstmt = star.con.prepareStatement(query);
+                pstmt.setString(1, encodedCusId);
+
+                int val = pstmt.executeUpdate();
+                if (val == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (NullPointerException | SQLException e) {
+
+                if (e instanceof NullPointerException) {
+
+                    log.error("Exception tag --> " + "Empty entry passed");
+
+                } else if (e instanceof SQLException) {
+
+                    log.error("Exception tag --> " + "Invalid sql statement");
+
+                }
+                return false;
+            } catch (Exception e) {
+
+                log.error("Exception tag --> " + "Error");
+
+                return false;
+            }
+        }
+    }
+    
+    public Boolean deleteCustomerDriverForUpdate(String cus_id) {
+
+        String encodedCusId = ESAPI.encoder().encodeForSQL(ORACLE_CODEC, cus_id);
+
+        if (star.con == null) {
+
+            log.error("Exception tag --> " + "Databse connection failiure. ");
+            return null;
+        } else {
+            try {
+
+                String query = "DELETE FROM drivers WHERE cus_id= ? ";
 
                 PreparedStatement pstmt = star.con.prepareStatement(query);
                 pstmt.setString(1, encodedCusId);

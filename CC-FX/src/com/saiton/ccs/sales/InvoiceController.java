@@ -81,7 +81,6 @@ public class InvoiceController implements Initializable, Validatable,
     private final FormatAndValidate fav = new FormatAndValidate();
     private final ValidationSupport validationSupportTable
             = new ValidationSupport();
-
     private final ValidationSupport validationSupportItem
             = new ValidationSupport();
 
