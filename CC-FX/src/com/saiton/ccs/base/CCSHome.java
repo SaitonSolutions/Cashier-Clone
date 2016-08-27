@@ -144,6 +144,7 @@ public class CCSHome extends Application implements HomeCallback {
                     = new File(".//Reports//Stock.jasper");
             String img = fil.getAbsolutePath();
             ReportGenerator r = new ReportGenerator(img, param);
+            r.setVisible(true);
         });
 
 //         home.createTileButton("Printer\nRegistration",
