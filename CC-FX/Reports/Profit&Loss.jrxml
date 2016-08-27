@@ -6,7 +6,7 @@
 	<parameter name="fromDate" class="java.lang.String"/>
 	<parameter name="toDate" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select it.inv_no,it.item_id,it.description,it.qty,it.price-it.discount as sold_price,its.buying_price
+		<![CDATA[select it.inv_no,it.item_id,it.description,it.qty,(it.price*it.qty)-it.discount as sold_price,its.buying_price*it.qty as buying_price
 from invoice i
 inner join invoice_item it
 on it.inv_no=i.inv_no
