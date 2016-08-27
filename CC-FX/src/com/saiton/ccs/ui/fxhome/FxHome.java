@@ -40,7 +40,7 @@ public class FxHome extends AnchorPane {
     public static final String ALACARTE_PAGE = "alacarte";
     public static final String STOCK_PAGE = "stock";
     public static final String NOTIFICATION_PAGE = "notification";
-    public static final String REPORT_PAGE = "report";
+//    public static final String REPORT_PAGE = "report";
     //-----------------------------------------------------------
     private final AnchorPane centerPane;
     private final AnchorPane leftPane;

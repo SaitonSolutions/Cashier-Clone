@@ -113,7 +113,7 @@ public class CCSHome extends Application implements HomeCallback {
 
         //<editor-fold defaultstate="collapsed" desc="Home">
         home.createTileButton("Customer \nRegistration",
-                TileColors.TILE_COLOR_AQUAMARINE,
+                TileColors.TILE_COLOR_CORAL,
                 "/com/saiton/ccs/res/img-customer.png", FxHome.HOME_PAGE,
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/base/CustomerRegistration.fxml",
@@ -133,6 +133,18 @@ public class CCSHome extends Application implements HomeCallback {
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/report/ReportGenerator.fxml",
                         "Report Generator"));
+        
+        home.createTileButton("Stock Report",
+                TileColors.TILE_COLOR_AQUAMARINE,
+                "/com/saiton/ccs/res/img-hall.png",
+                FxHome.HOME_PAGE,
+                e -> {
+            HashMap param = new HashMap();
+            File fil
+                    = new File(".//Reports//Stock.jasper");
+            String img = fil.getAbsolutePath();
+            ReportGenerator r = new ReportGenerator(img, param);
+        });
 
 //         home.createTileButton("Printer\nRegistration",
 //         TileColors.TILE_COLOR_CORAL,
@@ -470,22 +482,9 @@ public class CCSHome extends Application implements HomeCallback {
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Reports">
     
+          
 
-        home.createTileButton("report" ,
-                TileColors.TILE_COLOR_TURQUOISE,
-                "/com/saiton/ccs/img-room-sales-report.png",
-                FxHome.REPORT_PAGE,
-                e -> FxmlUiLauncher.launchOnNewStage(
-                        "/com/saiton/ccs/room/RoomSales.fxml",
-                        "Room Sales Report"));
 
-//        home.createTileButton("Report \nGenerator" ,
-//                TileColors.TILE_COLOR_DARKCYAN,
-//                "/com/saiton/ccs/res/img-function-sheet.png",
-//                FxHome.REPORT_PAGE,
-//                e -> FxmlUiLauncher.launchOnNewStage(
-//                        "/com/saiton/ccs/report/ReportGenerator.fxml",
-//                        "Report Generator"));
 
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Left Bar">
@@ -514,10 +513,10 @@ public class CCSHome extends Application implements HomeCallback {
             fxHome.getPageManager().navigateTo(FxHome.STOCK_PAGE);
         }));
         
-        links.add(UiLinkFactory.createUiLink("Reports",
-                "/com/saiton/ccs/res/img-report.png", fxHome -> {
-            fxHome.getPageManager().navigateTo(FxHome.REPORT_PAGE);
-        }));
+//        links.add(UiLinkFactory.createUiLink("Reports",
+//                "/com/saiton/ccs/res/img-report.png", fxHome -> {
+//            fxHome.getPageManager().navigateTo(FxHome.REPORT_PAGE);
+//        }));
 
         links.add(UiLinkFactory.createUiLink("Notifications",
                 "/com/saiton/ccs/res/img-leftnav-notifications.png", fxHome
