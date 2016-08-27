@@ -65,55 +65,6 @@ public class ReportGeneratorController extends AnchorPane implements
         Initializable, Validatable, StagePassable {
 
     //<editor-fold defaultstate="collapsed" desc="initcomponents">
-    @FXML
-    private TextField txtReportName;
-
-    @FXML
-    private Button btnSearchReport;
-
-    @FXML
-    private DatePicker dtFromDate;
-
-    @FXML
-    private DatePicker dtToDate;
-
-    @FXML
-    private Label lblReportID;
-
-    @FXML
-    private TextField txtReportId;
-
-    @FXML
-    private Button btnSave;
-
-    @FXML
-    private Button btnCancel;
-
-    @FXML
-    private CheckBox chkPrint;
-
-    @FXML
-    private CheckBox chkPreview;
-
-    @FXML
-    private ComboBox<String> cmbToHour;
-    @FXML
-    private ComboBox<String> cmbToMin;
-    @FXML
-    private ComboBox<String> cmbToSec;
-    @FXML
-    private Label lblReportID11;
-    @FXML
-    private ComboBox<String> cmbFromHour;
-    @FXML
-    private ComboBox<String> cmbFromMin;
-    @FXML
-    private ComboBox<String> cmbFromSec;
-
-    @FXML
-    private Label lblReportID1;
-//</editor-fold>
-
     ReportDAO reportDAO = new ReportDAO();
     private final ValidationSupport validationSupport = new ValidationSupport();
     private final FormatAndValidate fav = new FormatAndValidate();
@@ -162,6 +113,14 @@ public class ReportGeneratorController extends AnchorPane implements
     Date currentDate = new Date();
     DateFormat time = new SimpleDateFormat("HH:mm");
     Calendar cal = Calendar.getInstance();
+    @FXML
+    private DatePicker dtFromDate;
+    @FXML
+    private DatePicker dtToDate;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnCancel;
 
     /**
      * Initializes the controller class.
@@ -169,125 +128,88 @@ public class ReportGeneratorController extends AnchorPane implements
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mb = SimpleMessageBoxFactory.createMessageBox();
-        chkPreview.setSelected(true);
 
         dateFormatterToDate("yyyy-MM-dd");
         dateFormatterFromDate("yyyy-MM-dd");
         dtFromDate.setValue(LocalDate.now());
         dtToDate.setValue(LocalDate.now());
 
-        cmbFromHour.setItems(HoursList);
-        cmbFromHour.setValue("01");
-        
-        cmbToHour.setItems(HoursList);
-        cmbToHour.setValue("01");
-
-        cmbFromMin.setItems(MinuitsList);
-        cmbFromMin.setValue("00");
-        
-        cmbToMin.setItems(MinuitsList);
-        cmbToMin.setValue("00");
-
-        cmbFromSec.setItems(AMPM);
-        cmbFromSec.setValue("AM");
-        
-        cmbToSec.setItems(AMPM);
-        cmbToSec.setValue("AM");
-
     }
 
-    @FXML
     private void txtReportNameOnKeyReleased(KeyEvent event) {
-        loadReports(txtReportName.getText());
-        reportTable.setItems(reportData);
-        if (!reportData.isEmpty()) {
-            reportPop.show(btnSearchReport);
-        } else if (reportData.isEmpty()) {
 
-            reportPop.hide();
-        }
-        validatorInitialization();
     }
 
-    @FXML
     private void btnSearchReportOnAction(ActionEvent event) {
 
-        loadReports(txtReportName.getText());
-        reportTable.setItems(reportData);
-        if (!reportData.isEmpty()) {
-            reportPop.show(btnSearchReport);
-        } else if (reportData.isEmpty()) {
-
-            reportPop.hide();
-        }
-        validatorInitialization();
     }
 
     private void loadReports(String keyword) {
         reportData.clear();
         ArrayList<ArrayList<String>> reportInfo
                 = new ArrayList<ArrayList<String>>();
-        
-        ArrayList<ArrayList<String>> list ;
-        
+
+        ArrayList<ArrayList<String>> list;
+
         if (delete == true) {
-            list = reportDAO.loadeReports(keyword,"");
-            
+            list = reportDAO.loadeReports(keyword, "");
+
             if (list != null) {
 
-            for (int i = 0; i < list.size(); i++) {
+                for (int i = 0; i < list.size(); i++) {
 
-                reportInfo.add(list.get(i));
-            }
-
-            if (reportInfo != null && reportInfo.size() > 0) {
-                for (int i = 0; i < reportInfo.size(); i++) {
-
-                    reportPopup = new ReportPopup();
-
-                    reportPopup.colReportID.setValue(reportInfo.get(i).get(0));
-                    reportPopup.colReportName.setValue(reportInfo.get(i).get(1));
-
-                    reportData.add(reportPopup);
+                    reportInfo.add(list.get(i));
                 }
-            }
 
-        }
-        }else{
-        
-         list = reportDAO.loadeReports(keyword," AND is_delete_privilege = '0' ");
-            
+                if (reportInfo != null && reportInfo.size() > 0) {
+                    for (int i = 0; i < reportInfo.size(); i++) {
+
+                        reportPopup = new ReportPopup();
+
+                        reportPopup.colReportID.setValue(reportInfo.get(i).
+                                get(0));
+                        reportPopup.colReportName.setValue(reportInfo.get(i).
+                                get(1));
+
+                        reportData.add(reportPopup);
+                    }
+                }
+
+            }
+        } else {
+
+            list = reportDAO.loadeReports(keyword,
+                    " AND is_delete_privilege = '0' ");
+
             if (list != null) {
 
-            for (int i = 0; i < list.size(); i++) {
+                for (int i = 0; i < list.size(); i++) {
 
-                reportInfo.add(list.get(i));
-            }
-
-            if (reportInfo != null && reportInfo.size() > 0) {
-                for (int i = 0; i < reportInfo.size(); i++) {
-
-                    reportPopup = new ReportPopup();
-
-                    reportPopup.colReportID.setValue(reportInfo.get(i).get(0));
-                    reportPopup.colReportName.setValue(reportInfo.get(i).get(1));
-
-                    reportData.add(reportPopup);
+                    reportInfo.add(list.get(i));
                 }
+
+                if (reportInfo != null && reportInfo.size() > 0) {
+                    for (int i = 0; i < reportInfo.size(); i++) {
+
+                        reportPopup = new ReportPopup();
+
+                        reportPopup.colReportID.setValue(reportInfo.get(i).
+                                get(0));
+                        reportPopup.colReportName.setValue(reportInfo.get(i).
+                                get(1));
+
+                        reportData.add(reportPopup);
+                    }
+                }
+
             }
 
         }
-        
-        }
-        
-
-        
 
     }
 
     private void gerReportURL() {
-        String reportID = txtReportId.getText();
-        url = reportDAO.getReportURL(reportID);
+
     }
 
     @FXML
@@ -299,65 +221,26 @@ public class ReportGeneratorController extends AnchorPane implements
     private void dtToDateOnAction(ActionEvent event) {
         validatorInitialization();
     }
-    
+
     public String getTime(String hours, String minuits, String time) {
         return String.format("%s:%s%s", hours, minuits, time);
     }
 
     @FXML
     private void btnSaveOnAction(ActionEvent event) {
-        boolean validationSupportResult = false;
-        validatorInitialization();
-        ValidationResult v1 = validationSupport.getValidationResult();
-        
-        String timeHour = cmbFromHour.getValue();
-        String timeMin = cmbFromMin.getValue();
-        String timeSec = cmbFromSec.getValue();
-        String fromTime = timeConvert.convertTo24HoursFormat(getTime(timeHour,timeMin,timeSec));
-        
-        String toTimeHour = cmbToHour.getValue();
-        String toTimeMin = cmbToMin.getValue();
-        String tiTimeSec = cmbToSec.getValue();
-        String toTime = timeConvert.convertTo24HoursFormat(getTime(toTimeHour,toTimeMin,tiTimeSec));
-        
 
-        if (v1 != null) {
+        //=====================Print out===============================
+        HashMap param = new HashMap();
+        param.put("fromDate", dtFromDate.getValue().toString());
+        param.put("toDate", dtToDate.getValue().toString());
 
-            validationSupportResult = validationSupport.isInvalid();
+        File fil = new File(".//Reports//Profit&Loss.jasper");
+        String img = fil.getAbsolutePath();
+        com.saiton.ccs.uihandle.ReportGenerator r
+                = new com.saiton.ccs.uihandle.ReportGenerator(img, param);
+        r.setVisible(true);
+        //=============================================================
 
-            if (validationSupportResult == true) {
-                mb.ShowMessage(stage, ErrorMessages.MandatoryError, MessageBoxTitle.ERROR.toString(),
-                        MessageBox.MessageIcon.MSG_ICON_FAIL,
-                        MessageBox.MessageType.MSG_OK);
-
-            } else if (validationSupportResult == false) {
-                gerReportURL();
-                String reportName = txtReportName.getText();
-
-                HashMap param = new HashMap();
-                param.put("FromDate", dtFromDate.getValue().toString()+" "+fromTime);
-                param.put("ToDate", dtToDate.getValue().toString()+" "+toTime);
-                param.put("userName", userName);
-
-                if (chkPrint.isSelected() == true) {
-//                    printerRegistry.
-//                            createPrinterTaskForReport(reportName, param,
-//                                    userId);
-                    
-                    System.out.println("Log@Light - Network print not disabled for this version of CCS...");
-                }
-
-                if (chkPreview.isSelected() == true) {
-                    String reportID = txtReportId.getText();
-                    url = new File(reportDAO.getReportURL(reportID)).
-                            getAbsolutePath();
-                    ReportGenerator r = new ReportGenerator(url, param);
-                    r.setVisible(true);
-
-                }
-                clearInput();
-            }
-        }
     }
 
     @FXML
@@ -373,8 +256,7 @@ public class ReportGeneratorController extends AnchorPane implements
 
     @Override
     public void clearInput() {
-        txtReportId.clear();
-        txtReportName.clear();
+
         dtFromDate.setValue(LocalDate.now());
         dtToDate.setValue(LocalDate.now());
         dateFormatterToDate("yyyy-MM-dd");
@@ -402,8 +284,6 @@ public class ReportGeneratorController extends AnchorPane implements
                 try {
                     ReportPopup p = (ReportPopup) reportTable.
                             getSelectionModel().getSelectedItem();
-                    txtReportId.setText(p.getColReportID());
-                    txtReportName.setText(p.getColReportName());
 
                 } catch (NullPointerException n) {
 
@@ -485,12 +365,6 @@ public class ReportGeneratorController extends AnchorPane implements
 
         btnCancel.setDisable(state);
         btnCancel.setVisible(!state);
-
-        txtReportId.setDisable(state);
-        txtReportId.setVisible(!state);
-
-        txtReportName.setDisable(state);
-        txtReportName.setVisible(!state);
 
         dtFromDate.setDisable(state);
         dtFromDate.setVisible(!state);
@@ -621,16 +495,6 @@ public class ReportGeneratorController extends AnchorPane implements
     }
 
     private void validatorInitialization() {
-
-        validationSupport.registerValidator(txtReportId,
-                new CustomTextFieldValidationImpl(txtReportId,
-                        !fav.validName(txtReportId.getText()),
-                        ErrorMessages.InvalidId));
-
-        validationSupport.registerValidator(txtReportName,
-                new CustomTextFieldValidationImpl(txtReportName,
-                        !fav.validName(txtReportName.getText()),
-                        ErrorMessages.InvalidName));
 
         try {
 
