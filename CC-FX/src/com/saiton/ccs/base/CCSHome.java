@@ -468,6 +468,26 @@ public class CCSHome extends Application implements HomeCallback {
 
 
         //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Reports">
+    
+
+        home.createTileButton("report" ,
+                TileColors.TILE_COLOR_TURQUOISE,
+                "/com/saiton/ccs/img-room-sales-report.png",
+                FxHome.REPORT_PAGE,
+                e -> FxmlUiLauncher.launchOnNewStage(
+                        "/com/saiton/ccs/room/RoomSales.fxml",
+                        "Room Sales Report"));
+
+//        home.createTileButton("Report \nGenerator" ,
+//                TileColors.TILE_COLOR_DARKCYAN,
+//                "/com/saiton/ccs/res/img-function-sheet.png",
+//                FxHome.REPORT_PAGE,
+//                e -> FxmlUiLauncher.launchOnNewStage(
+//                        "/com/saiton/ccs/report/ReportGenerator.fxml",
+//                        "Report Generator"));
+
+//</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Left Bar">
         UiPageManager manager = home.getPageManager();
         manager.registerUiPage(ConcreteUiPageManager.buildUiPage(FxmlUiLauncher.
@@ -492,6 +512,11 @@ public class CCSHome extends Application implements HomeCallback {
         links.add(UiLinkFactory.createUiLink("Stock",
                 "/com/saiton/ccs/res/img-stock-navi.png", fxHome -> {
             fxHome.getPageManager().navigateTo(FxHome.STOCK_PAGE);
+        }));
+        
+        links.add(UiLinkFactory.createUiLink("Reports",
+                "/com/saiton/ccs/res/img-report.png", fxHome -> {
+            fxHome.getPageManager().navigateTo(FxHome.REPORT_PAGE);
         }));
 
         links.add(UiLinkFactory.createUiLink("Notifications",
