@@ -128,7 +128,7 @@ public class CCSHome extends Application implements HomeCallback {
         
         home.createTileButton("Report \nGenerator" ,
                 TileColors.TILE_COLOR_DARKCYAN,
-                "/com/saiton/ccs/res/img-user.png",
+                "/com/saiton/ccs/res/img-external-return-note.png",
                 FxHome.HOME_PAGE,
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/report/ReportGenerator.fxml",
@@ -136,7 +136,7 @@ public class CCSHome extends Application implements HomeCallback {
         
         home.createTileButton("Stock Report",
                 TileColors.TILE_COLOR_AQUAMARINE,
-                "/com/saiton/ccs/res/img-hall.png",
+                "/com/saiton/ccs/res/img-external-grn.png",
                 FxHome.HOME_PAGE,
                 e -> {
             HashMap param = new HashMap();
@@ -340,7 +340,7 @@ public class CCSHome extends Application implements HomeCallback {
         //<editor-fold defaultstate="collapsed" desc="Sales">
         home.createTileButton("Invoice",
                 TileColors.TILE_COLOR_AQUAMARINE,
-                "/com/saiton/ccs/res/img-hall.png", FxHome.SALES,
+                "/com/saiton/ccs/res/img-external-return-note-overview.png", FxHome.SALES,
                 e -> FxmlUiLauncher.launchOnNewStage(
                         "/com/saiton/ccs/sales/Invoice.fxml",
                         "Invoice"));
