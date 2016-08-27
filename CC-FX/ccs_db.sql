@@ -1544,7 +1544,7 @@ CREATE TABLE `user_permission_type` (
   `type` varchar(45) NOT NULL,
   PRIMARY KEY (`type`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1553,7 +1553,7 @@ CREATE TABLE `user_permission_type` (
 
 LOCK TABLES `user_permission_type` WRITE;
 /*!40000 ALTER TABLE `user_permission_type` DISABLE KEYS */;
-INSERT INTO `user_permission_type` VALUES (72,'Customer Registration'),(73,'User Registration'),(78,'Invoice'),(112,'Item Registration'),(115,'Supplier Registration'),(118,'External GRN'),(119,'External GRN Overview'),(120,'External Return Note'),(121,'External Return Note Overview'),(122,'Purchase Order'),(126,'Invoice Settings'),(127,'Purchase Order Overview'),(128,'Service Registration'),(129,'Report Generator'),(130,'Report Registration'),(131,'Report Settings'),(132,'Printer Registration');
+INSERT INTO `user_permission_type` VALUES (72,'Customer Registration'),(73,'User Registration'),(78,'Invoice'),(112,'Item Registration'),(115,'Supplier Registration'),(118,'External GRN'),(119,'External GRN Overview'),(120,'External Return Note'),(121,'External Return Note Overview'),(122,'Purchase Order'),(126,'Invoice Settings'),(127,'Purchase Order Overview'),(128,'Service Registration'),(129,'Report Generator'),(130,'Report Registration'),(131,'Report Settings'),(132,'Printer Registration'),(133,'Stock Report');
 /*!40000 ALTER TABLE `user_permission_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1584,7 +1584,7 @@ CREATE TABLE `user_permissions` (
 
 LOCK TABLES `user_permissions` WRITE;
 /*!40000 ALTER TABLE `user_permissions` DISABLE KEYS */;
-INSERT INTO `user_permissions` VALUES ('EM0004','Customer Registration',1,1,1,1),('EM0004','External GRN',1,1,1,1),('EM0004','External GRN Overview',1,1,1,1),('EM0004','External Return Note',1,1,1,1),('EM0004','External Return Note Overview',1,1,1,1),('EM0004','Invoice',1,1,1,1),('EM0004','Invoice Settings',1,1,1,1),('EM0004','Item Registration',1,1,1,1),('EM0004','Printer Registration',1,1,1,1),('EM0004','Purchase Order',1,1,1,1),('EM0004','Purchase Order Overview',1,1,1,1),('EM0004','Report Generator',1,1,1,1),('EM0004','Report Registration',1,1,1,1),('EM0004','Report Settings',1,1,1,1),('EM0004','Service Registration',1,1,1,1),('EM0004','Supplier Registration',1,1,1,1),('EM0004','User Registration',1,1,1,1),('EM0005','Customer Registration',1,1,1,1),('EM0005','External GRN',0,0,0,0),('EM0005','External GRN Overview',0,0,0,0),('EM0005','External Return Note',0,0,0,0),('EM0005','External Return Note Overview',0,0,0,0),('EM0005','Invoice',1,1,1,1),('EM0005','Invoice Settings',1,1,1,1),('EM0005','Item Registration',1,1,1,1),('EM0005','Printer Registration',1,1,1,1),('EM0005','Purchase Order',0,0,0,0),('EM0005','Purchase Order Overview',0,0,0,0),('EM0005','Report Generator',1,1,1,1),('EM0005','Report Registration',1,1,1,1),('EM0005','Report Settings',1,1,1,1),('EM0005','Service Registration',1,1,1,1),('EM0005','Supplier Registration',0,0,0,0),('EM0005','User Registration',1,1,1,1);
+INSERT INTO `user_permissions` VALUES ('EM0004','Customer Registration',1,1,1,1),('EM0004','External GRN',1,1,1,1),('EM0004','External GRN Overview',1,1,1,1),('EM0004','External Return Note',1,1,1,1),('EM0004','External Return Note Overview',1,1,1,1),('EM0004','Invoice',1,1,1,1),('EM0004','Invoice Settings',1,1,1,1),('EM0004','Item Registration',1,1,1,1),('EM0004','Printer Registration',1,1,1,1),('EM0004','Purchase Order',1,1,1,1),('EM0004','Purchase Order Overview',1,1,1,1),('EM0004','Report Generator',1,1,1,1),('EM0004','Report Registration',1,1,1,1),('EM0004','Report Settings',1,1,1,1),('EM0004','Service Registration',1,1,1,1),('EM0004','Stock Report',1,1,1,1),('EM0004','Supplier Registration',1,1,1,1),('EM0004','User Registration',1,1,1,1),('EM0005','Customer Registration',1,1,1,1),('EM0005','External GRN',0,0,0,0),('EM0005','External GRN Overview',0,0,0,0),('EM0005','External Return Note',0,0,0,0),('EM0005','External Return Note Overview',0,0,0,0),('EM0005','Invoice',1,1,1,1),('EM0005','Invoice Settings',1,1,1,1),('EM0005','Item Registration',1,1,1,1),('EM0005','Printer Registration',1,1,1,1),('EM0005','Purchase Order',0,0,0,0),('EM0005','Purchase Order Overview',0,0,0,0),('EM0005','Report Generator',1,1,1,1),('EM0005','Report Registration',1,1,1,1),('EM0005','Report Settings',1,1,1,1),('EM0005','Service Registration',1,1,1,1),('EM0005','Supplier Registration',0,0,0,0),('EM0005','User Registration',1,1,1,1);
 /*!40000 ALTER TABLE `user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1647,4 +1647,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-27 11:57:30
+-- Dump completed on 2016-08-27 12:42:37
