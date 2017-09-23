@@ -757,8 +757,8 @@ public class InvoiceDAO {
                         + " `discount`,"
                         + " `price`,"
                         + " `net_price`, "
-                        + " `part_no`,"
-                        + " `unit`,"
+                       // + " `part_no`,"
+                       // + " `unit`,"
                         + " `unit_qty`"
                         + " )"
                         + " VALUES "
@@ -773,9 +773,9 @@ public class InvoiceDAO {
                 ps.setDouble(7, discount);
                 ps.setDouble(8, price);
                 ps.setDouble(9, netPrice);
-                ps.setString(10, "partNo");
-                ps.setString(11, "unit");
-                ps.setInt(12, 00);
+               // ps.setString(10, "partNo");
+               // ps.setString(11, "unit");
+                ps.setInt(10, 00);
 
                 int val = ps.executeUpdate();
                 if (val == 1) {
